@@ -35,16 +35,20 @@ public class PlayerController_infiniteTrack : MonoBehaviour
 
 	void Update ()
 	{
+
+		// make sure rotation angle is 0
+		transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+
 		distanceTraveled = transform.position.z - initialPosition;
 
 		// move player based on optical mouse input
 		// for now, only move in a straight line
 		// float moveHorizontal = Input.GetAxis ("Mouse X");
-		float moveVertical = Input.GetAxis ("Mouse Y");
-		Vector3 movement = new Vector3 (0.0f, 0.0f, moveVertical);
-		transform.position = transform.position + movement * speed * Time.deltaTime;
+		// float moveVertical = Input.GetAxis ("Mouse Y");
+		// Vector3 movement = new Vector3 (0.0f, 0.0f, moveVertical);
+		// transform.position = transform.position + movement * speed;
 
-		if (distanceTraveled > numRewards_towers * 50 + 25) 
+		if (distanceTraveled > numRewards_towers * 100 + 25) 
 		{
 			numRewards_towers += 1;
 			Debug.Log (numRewards_towers);

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Scenes/TrainingTrack.unity
+- path: Assets/_Scenes/track13_self_motion.unity
   isLoaded: 1
   isActive: 1

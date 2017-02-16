@@ -4,7 +4,7 @@ using Uniduino;
 using System;
 using System.IO;
 
-public class SynchronizeComputers_track5 : MonoBehaviour {
+public class SynchronizeComputers_threeScreens : MonoBehaviour {
 	
 	public Arduino arduino;
 	private int startPin = 11;
@@ -14,6 +14,7 @@ public class SynchronizeComputers_track5 : MonoBehaviour {
 	private int syncPinValue;
 	private int syncPinValue_last;
 	public bool recordingStarted = false;
+//	private Camera mainCam;
 
 	// for saving data
 	private SessionParams paramsScript;
@@ -24,6 +25,10 @@ public class SynchronizeComputers_track5 : MonoBehaviour {
 	private string serverTimesyncFile;
 	
 	void Start () {
+		// set screen to black and pause game
+//		mainCam = Camera.main;
+		// mainCam.enabled = false;
+		//Time.timeScale = 0;
 
 		// initialize arduino
 		arduino = Arduino.global;
@@ -48,7 +53,6 @@ public class SynchronizeComputers_track5 : MonoBehaviour {
 		arduino.pinMode (syncPin, PinMode.INPUT);
 		arduino.reportDigital ((byte)(startPin/8),1);
 		arduino.reportDigital ((byte)(syncPin/8),1);
-		Debug.Log ("Pins configured (synchronize computers script)");
 	}
 
 	void Update () {
@@ -64,7 +68,10 @@ public class SynchronizeComputers_track5 : MonoBehaviour {
 					sw.Write (Time.realtimeSinceStartup + "\n");
 					sw.Close ();
 				}
+
 				// start game
+//				mainCam.enabled = true;
+				//Time.timeScale = 1;
 				recordingStarted = true;
 			}
 			startPinValue_last = startPinValue;

@@ -49,22 +49,18 @@ public class PlayerController_track11 : MonoBehaviour
 	public Light light2;
 	private Color initialBackgroundColor;
 	private Color initialAmbientLight;
-	private Camera mainCam;
 
 	void Start ()
 	{	
 		initialPosition = new Vector3 (0f, 0.5f, -32.25f);
 		distanceTraveled = transform.position.z - initialPosition.z;
 
-		// camera
-		mainCam = Camera.main;
-		initialBackgroundColor = mainCam.backgroundColor;
-		initialAmbientLight = RenderSettings.ambientLight;
-
 		// initialize arduino
 		arduino = Arduino.global;
-		Debug.Log ("Got here");
 		arduino.Setup(ConfigurePins);
+
+		// turn off lights
+		StartCoroutine (LightsOff());
 
 		// for saving data
 		GameObject player = GameObject.Find ("Player");
@@ -81,11 +77,15 @@ public class PlayerController_track11 : MonoBehaviour
 	void ConfigurePins () 
 	{
 		arduino.pinMode (12, PinMode.OUTPUT);
-		Debug.Log ("Pins configured");
+		Debug.Log ("Pins configured (player controller script)");
 	}
 
 	void Update ()
 	{
+
+		// make sure rotation angle is 0
+		transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+
 		distanceTraveled = 430 * numTraversals + (transform.position.z - initialPosition.z);
 
 		if (Input.GetKeyDown (KeyCode.Space)) 
@@ -100,7 +100,6 @@ public class PlayerController_track11 : MonoBehaviour
 	void OnTriggerEnter (Collider other)
 	{
 		if (other.tag == "Landmark 1" && landmarkFlag == 0) {
-			// landmarkFlag = 1;
 			if (!GetComponent<AudioSource>().isPlaying) {
 				GetComponent<AudioSource>().Play ();
 			}
@@ -110,7 +109,7 @@ public class PlayerController_track11 : MonoBehaviour
 		else if (other.tag == "Reward" && rewardFlag == 0) {
 			numRewards += 1;
 			rewardFlag = 1;
-			// Debug.Log ("Rewards: " + numRewards);
+			Debug.Log ("Rewards: " + numRewards);
 			if (Random.Range (1,100) > percentOfTrialsRewardOmitted) {
 				StartCoroutine (Reward ());
 			}
@@ -153,8 +152,6 @@ public class PlayerController_track11 : MonoBehaviour
 	{
 		light1.enabled = false;
 		light2.enabled = false;
-		mainCam.clearFlags = CameraClearFlags.SolidColor;
-		mainCam.backgroundColor = Color.black;
 		RenderSettings.ambientLight = Color.black;
 		yield return null;
 	}
@@ -163,8 +160,6 @@ public class PlayerController_track11 : MonoBehaviour
 	{
 		light1.enabled = true;
 		light2.enabled = true;
-		mainCam.clearFlags = CameraClearFlags.Skybox;
-		mainCam.backgroundColor = initialBackgroundColor;
 		RenderSettings.ambientLight = initialAmbientLight;
 		yield return null;
 	}
