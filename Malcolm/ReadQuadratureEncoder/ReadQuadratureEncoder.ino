@@ -29,7 +29,8 @@
      } else {
        encoder0Pos++;
      }
-     //Serial.print(encoder0Pos);
+     Serial.println(encoder0Pos);
+     encoder0Pos = 0;
    }
    
    if (Serial.available()>0)
