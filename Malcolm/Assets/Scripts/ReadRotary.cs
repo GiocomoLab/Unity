@@ -1,68 +1,138 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.IO;
-using Uniduino;
+using System.IO.Ports;
+using System.Threading;
 
 public class ReadRotary : MonoBehaviour {
-
-	public Arduino arduino;
-	public int pinA = 2;
-	public int pinB = 3;
-	private int pinA_value = 1;
-	private int last_pinA_value = 1;
-	private int pinB_value = 1;
-	private int pulses = 0;
-	private int pulses_last = 0;
-	public float speed;
 	
+	public float speed = 1;
+	private float realSpeed;
+	public string port = "/dev/tty.usbmodem1441";
+	private int pulses;
+	private SerialPort _serialPort;
+	private int delay;
+	private bool manipTrial_local = false;
+	private SessionParams paramsScript;
+	private float speedGain;
+	private SynchronizeComputers syncScript;
+	private bool recordingStarted_local = false;
+	private PlayerController playerScript;
+
 	void Start()
 	{
-		arduino = Arduino.global;
-		arduino.Setup(ConfigurePins);
-		ReadEncoder ();
+		// connect to Arduino uno serial port
+		connect (port, 57600, true, 3);
+		Debug.Log ("Connected to rotary encoder serial port");
+
+		// set speed
+		realSpeed = 0;
+
+		// connect to playerController script
+		GameObject player = GameObject.Find ("Player");
+		playerScript = player.GetComponent<PlayerController> ();
+		paramsScript = player.GetComponent<SessionParams> ();
+		speedGain = paramsScript.speedGain;
+
+		GameObject gameControl = GameObject.Find ("Game Control");
+		syncScript = gameControl.GetComponent<SynchronizeComputers> ();
 	}
 
-	void ConfigurePins()
-	{
-		arduino.pinMode (pinA, PinMode.INPUT);
-		arduino.pinMode (pinB, PinMode.INPUT);
-		arduino.reportDigital ((byte)(pinA/8), 1);
-		arduino.reportDigital ((byte)(pinB/8), 1);
-	}
-	
 	void Update() 
 	{
+		if (syncScript.recordingStarted & !recordingStarted_local) 
+		{
+			realSpeed = speed * 0.0447f; // makes 1 VR unit = 1 cm for 18 inch circumference cylinder
+			recordingStarted_local = true;
+		}
+
 		if (Input.GetKeyDown (KeyCode.UpArrow)) 
 		{
 			speed = speed*2;
+			realSpeed = realSpeed*2;
 		}
 		if (Input.GetKeyDown (KeyCode.DownArrow)) 
 		{
-			speed = speed/2;	
+			speed = speed/2;
+			realSpeed = realSpeed/2;	
 		}
-		float delta_z = (pulses - pulses_last) * speed;
+
+		// read quadrature encoder and move player accordingly
+		_serialPort.Write("\n");
+		pulses = int.Parse (_serialPort.ReadLine ());
+		float delta_z = -1f * pulses * realSpeed;
 		Vector3 movement = new Vector3 (0.0f, 0.0f, delta_z);
-		transform.position = transform.position-movement;
-		pulses_last = pulses;
+		transform.position = transform.position+movement;
+
+		// change speed if manip trial
+		if (paramsScript.manipSession)
+		{
+			if(playerScript.manipTrial & !manipTrial_local)
+			{
+				realSpeed = realSpeed * speedGain;
+				speed = speed * speedGain;
+				manipTrial_local = playerScript.manipTrial;
+			}
+			else if(!playerScript.manipTrial & manipTrial_local)
+			{
+				realSpeed = realSpeed / speedGain;
+				speed = speed / speedGain;
+				manipTrial_local = playerScript.manipTrial;
+			}
+		}
+
 	}
 
-	private void ReadEncoder()
+	private void connect(string serialPortName, Int32 baudRate, bool autoStart, int delay)
 	{
-		arduino.DigitalDataReceived += delegate(int portNumber, int portData) 					
+		_serialPort = new SerialPort(serialPortName, baudRate);
+		//_serialPort = Win32SerialPort.CreateInstance();
+		
+		_serialPort.DtrEnable = true; // win32 hack to try to get DataReceived event to fire
+		_serialPort.RtsEnable = true; 
+		_serialPort.PortName = serialPortName;
+		_serialPort.BaudRate = baudRate;
+		
+		_serialPort.DataBits = 8;
+		_serialPort.Parity = Parity.None;
+		_serialPort.StopBits = StopBits.One;
+		_serialPort.ReadTimeout = 5; // since on windows we *cannot* have a separate read thread
+		_serialPort.WriteTimeout = 1000;
+
+		
+		if (autoStart)
 		{
-			pinA_value = arduino.digitalRead (pinA);
-			pinB_value = arduino.digitalRead (pinB);
-			if (pinA_value == 0 & last_pinA_value == 1) {
-				if (pinB_value == 1) { pulses ++; }
-				else { pulses --; }
-			}
-			else if (pinA_value == 1 & last_pinA_value == 0) {
-				if (pinB_value == 0) { pulses ++; }
-				else { pulses --; }
-			}
-			last_pinA_value = pinA_value;						
-		};
+			this.delay = delay;
+			this.Open();
+		}
+	}
+
+	private void Open()
+	{
+		_serialPort.Open();
+		
+		if (_serialPort.IsOpen)
+		{
+			Thread.Sleep(delay);
+		}
+	}
+		
+	private void Close()
+	{		
+		if (_serialPort != null)
+			_serialPort.Close();
+	}
+
+	private void Disconnect()
+	{
+		Close ();		
+	}
+	
+	void OnDestroy()
+	{				
+		Disconnect();
 	}
 
 }
