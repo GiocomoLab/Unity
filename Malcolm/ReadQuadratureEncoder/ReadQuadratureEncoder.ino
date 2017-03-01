@@ -30,12 +30,13 @@
        encoder0Pos++;
      }
      Serial.println(encoder0Pos);
-     encoder0Pos = 0;
-   }
+     //encoder0Pos = 0;
+     //Serial.println(encoder0Pos);
+   //}
    
    if (Serial.available()>0)
    {
-     // read the incoming byte:
+     //read the incoming byte:
      incomingByte = Serial.read();
      //Serial.println(incomingByte);
      //Stream.flush();
@@ -44,5 +45,6 @@
    }
    
    //Serial.println(encoder0Pos);
-   encoder0PinALast = n;
+   //encoder0PinALast = n;
+ }
  }
