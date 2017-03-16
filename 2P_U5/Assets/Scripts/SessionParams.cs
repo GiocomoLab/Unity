@@ -11,8 +11,8 @@ public class SessionParams : MonoBehaviour {
 	private ReadRotary rotaryScript;
 
 	// for saving data
-	public string localDirectory = "/Users/2prig/Data/VR_data";
-	public string serverDirectory = "/Volumes/data/Projects/2P_VR_Projects/VR_data";
+	public string localDirectory = "C:/Users/2PRig/VR_Data";
+	public string serverDirectory = "C:/Users/2PRig/VR_Data";
 	private string paramsFile;
 	private string serverParamsFile;
 

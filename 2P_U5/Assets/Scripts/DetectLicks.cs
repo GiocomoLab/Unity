@@ -26,7 +26,9 @@ public class DetectLicks : MonoBehaviour {
 	void Start( )
 	{
 
-		arduino = Arduino.global;
+       
+        arduino = Arduino.global;
+         
 		arduino.Setup(ConfigurePins);
 
 		// for saving data

@@ -8,15 +8,15 @@ using System.Threading;
 
 public class ReadRotary : MonoBehaviour {
 	
-	public float speed = 1;
+	public float speed = 2;
 	private float realSpeed;
-	public string port = "/dev/cu.usbmodem1461";
+	public string port = "COM4";
 	private int pulses;
 	private SerialPort _serialPort;
 	private int delay;
 	//private bool manipTrial_local = false;
-	//private SessionParams paramsScript;
-	//private float speedGain;
+	private SessionParams paramsScript;
+	private float speedGain;
 	//private SynchronizeComputers syncScript;
 	//private bool recordingStarted_local = false;
 	private PlayerController playerScript;
@@ -33,8 +33,8 @@ public class ReadRotary : MonoBehaviour {
 		// connect to playerController script
 		GameObject player = GameObject.Find ("Player");
 		playerScript = player.GetComponent<PlayerController> ();
-		//paramsScript = player.GetComponent<SessionParams> ();
-		//speedGain = paramsScript.speedGain;
+		paramsScript = player.GetComponent<SessionParams> ();
+		speedGain = paramsScript.speedGain;
 
 		//GameObject gameControl = GameObject.Find ("Game Control");
 		//syncScript = gameControl.GetComponent<SynchronizeComputers> ();
@@ -60,7 +60,7 @@ public class ReadRotary : MonoBehaviour {
 //		}
 
 		// read quadrature encoder and move player accordingly
-		realSpeed = speed*0.0447f;
+		realSpeed = speedGain*0.0447f;
 		_serialPort.Write("\n");
 		try {
 		pulses = int.Parse (_serialPort.ReadLine ());
@@ -103,7 +103,7 @@ public class ReadRotary : MonoBehaviour {
 		_serialPort.DataBits = 8;
 		_serialPort.Parity = Parity.None;
 		_serialPort.StopBits = StopBits.One;
-		_serialPort.ReadTimeout = 100; // since on windows we *cannot* have a separate read thread
+		_serialPort.ReadTimeout = 1000; // since on windows we *cannot* have a separate read thread
 		_serialPort.WriteTimeout = 1000;
 
 		

@@ -19,17 +19,10 @@ public class PlayerController : MonoBehaviour
 	private int numRewards_manual = 0;
 	private int rewardFlag = 0;
 	private int landmarkFlag = 0;
-	private static int numTraversals = 0;
+	public int numTraversals = 0;
 	private int percentOfTrialsRewardOmitted = 0;
-	private int numTrialsTotal;
+	public int numTrialsTotal;
 
-	// for manipulation sessions
-//	private bool manipSession;
-//	private bool cueRemovalSession;
-//	private int numTrialsA;
-//	private int numTrialsB;
-//	private float speedGain;
-//	public bool manipTrial = false;
 
 	// for saving data
 	private string localDirectory;
@@ -38,44 +31,53 @@ public class PlayerController : MonoBehaviour
 	private string mouse;
 	private string session;
 	private bool saveData;
-	//private string manipFile;
-	//private string serverManipFile;
-
+	
 	// lights, for visual landmarks
 	public Light light1;
 	public Light light2;
 	private Color initialBackgroundColor;
 	private Color initialAmbientLight;
 
-	void Start ()
+    private Vector3 movement;
+
+    private GameObject player;
+    private GameObject reward;
+    private GameObject teleport;
+    private GameObject panoCam;
+    private GameObject blackCam;
+
+    void Start ()
 	{	
 		initialPosition = new Vector3 (0f, 0.5f, -30f);
+        
 
-		// initialize arduino
-		arduino = Arduino.global;
+        // initialize arduino
+        arduino = Arduino.global;
 		arduino.Setup(ConfigurePins);
 
-		// turn off lights
-		StartCoroutine (LightsOff());
+        // turn off lights
+        panoCam = GameObject.Find("panoCamera");
+        blackCam = GameObject.Find("Black Camera");
+        
+        StartCoroutine (LightsOff());
 
 		// get session parameters from SessionParams script
 		GameObject player = GameObject.Find ("Player");
 		paramsScript = player.GetComponent<SessionParams> ();
-//		manipSession = paramsScript.manipSession;
 		numTrialsTotal = paramsScript.numTrialsTotal;
-//		cueRemovalSession = paramsScript.cueRemovalSession;
-//		numTrialsA = paramsScript.numTrialsA;
-//		numTrialsB = paramsScript.numTrialsB;
+        
 
-		// for saving data
+        // find reward and teleport objects
+        reward = GameObject.Find("Reward");
+        teleport = GameObject.Find("Teleport");
+        
 
-		mouse = paramsScript.mouse;
-		session = paramsScript.session;
-		saveData = paramsScript.saveData;
-		localDirectory = paramsScript.localDirectory;
-		serverDirectory = paramsScript.serverDirectory;
-//		manipFile = localDirectory + "/" + mouse + "/" + session + "_manip_times.txt";
-//		serverManipFile = serverDirectory + "/" + mouse + "/VR/" + session + "_manip_times.txt";
+        // for saving data
+        //mouse = paramsScript.mouse;
+		//session = paramsScript.session;
+		//saveData = paramsScript.saveData;
+		//localDirectory = paramsScript.localDirectory;
+		//serverDirectory = paramsScript.serverDirectory;
 	}
 
 	void ConfigurePins () 
@@ -89,7 +91,7 @@ public class PlayerController : MonoBehaviour
 	{
 
 		// make sure rotation angle is 0
-		transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+		transform.eulerAngles = new Vector3(0.0f, 90.0f, 0.0f);
 
 		if (Input.GetKeyDown (KeyCode.Space)) 
 		{
@@ -98,6 +100,10 @@ public class PlayerController : MonoBehaviour
 			StartCoroutine( Reward ());
 		}
 
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            StartCoroutine(Punish());
+        }
 		// end game after appropriate number of trials
 		if (transform.position.z <=0 & numTraversals == numTrialsTotal)
 		{
@@ -109,6 +115,7 @@ public class PlayerController : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
+        Debug.Log(other.tag);
 		if (other.tag == "Start" && landmarkFlag == 0) {
 			if (!GetComponent<AudioSource>().isPlaying) {
 				GetComponent<AudioSource>().Play ();
@@ -116,55 +123,41 @@ public class PlayerController : MonoBehaviour
 			StartCoroutine (LightsOn());
 
 		}
-		else if (other.tag == "Reward" && rewardFlag == 0) {
-			numRewards += 1;
-			rewardFlag = 1;
+		else if (other.tag == "Reward") {
+            StartCoroutine(Reward());
+
+            movement = new Vector3(0.0f, 0.0f, UnityEngine.Random.Range (5,20));
+            reward.transform.position = reward.transform.position + movement;
+            teleport.transform.position = teleport.transform.position + movement;
+            numRewards += 1;
 			Debug.Log ("Rewards: " + numRewards);
-			if (UnityEngine.Random.Range (1,100) > percentOfTrialsRewardOmitted) {
-				StartCoroutine (Reward ());
-			}
+			
 		}
 		else if (other.tag == "Teleport") {
 			numTraversals += 1;
-			rewardFlag = 0;
-			landmarkFlag = 0;
 			StartCoroutine (LightsOff ());
 			transform.position = initialPosition;
-
-			// DO TRIAL TYPE MANIPULATION
-//			if (manipSession) {
-//				if (numTraversals == numTrialsA) {
-//
-//					manipTrial = true;
-//
-//					// write time to file
-//					var sw = new StreamWriter (manipFile, true);
-//					sw.Write (Time.realtimeSinceStartup + "\n");
-//					sw.Close ();
-//				} else if (numTraversals == numTrialsA + numTrialsB) {
-//
-//					manipTrial = false;
-//
-//					// write time to file
-//					var sw = new StreamWriter (manipFile, true);
-//					sw.Write (Time.realtimeSinceStartup + "\n");
-//					sw.Close ();
-//				}
-//			}
+            reward.transform.position = new Vector3(0.0f, 0.0f, UnityEngine.Random.Range(5, 20));
+            teleport.transform.position = reward.transform.position + new Vector3(0.0f, 0.0f, 10.0f);
 		}
 
 	}
 
 	IEnumerator LightsOff ()
 	{
-		light1.enabled = false;
-		light2.enabled = false;
-		RenderSettings.ambientLight = Color.black;
+
+        blackCam.SetActive(true);
+        panoCam.SetActive(false);
+        //light1.enabled = false;
+		//light2.enabled = false;
+		//RenderSettings.ambientLight = Color.black;
 		yield return null;
 	}
 
 	IEnumerator LightsOn ()
 	{
+        panoCam.SetActive(true);
+        blackCam.SetActive(false);
 		light1.enabled = true;
 		light2.enabled = true;
 		RenderSettings.ambientLight = initialAmbientLight;
@@ -173,10 +166,17 @@ public class PlayerController : MonoBehaviour
 
 	IEnumerator Reward ()
 	{
-		arduino.digitalWrite (13, Arduino.HIGH);
+		arduino.digitalWrite (12, Arduino.HIGH);
 		yield return new WaitForSeconds (0.1f);
-		arduino.digitalWrite (13, Arduino.LOW);
+		arduino.digitalWrite (12, Arduino.LOW);
 	}
+
+    IEnumerator Punish ()
+    {
+        arduino.digitalWrite(11, Arduino.HIGH);
+        yield return new WaitForSeconds(0.1f);
+        arduino.digitalWrite(11, Arduino.LOW);
+    }
 
 //	IEnumerator sendEmail()
 //	{
