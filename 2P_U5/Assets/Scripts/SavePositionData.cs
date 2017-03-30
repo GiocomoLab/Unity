@@ -14,7 +14,23 @@ public class SavePositionData : MonoBehaviour {
 	private string localDirectory;
 	private string serverDirectory;
 
-	void Start()
+    private static bool created = false;
+    public void Awake()
+    {
+        if (!created)
+        {
+            // this is the first instance - make it persist
+            DontDestroyOnLoad(this);
+            created = true;
+        }
+        else
+        {
+            // this must be a duplicate from a scene reload - DESTROY!
+            Destroy(this);
+        }
+    }
+
+    void Start()
 	{
 		GameObject player = GameObject.Find ("Player");
 		paramsScript = player.GetComponent<SessionParams> ();
@@ -24,7 +40,7 @@ public class SavePositionData : MonoBehaviour {
 		localDirectory = paramsScript.localDirectory;
 		serverDirectory = paramsScript.serverDirectory;
 		positionFile = localDirectory + "/" + mouse + "/" + session + "_position.txt";
-		serverPositionFile = serverDirectory + "/" + mouse + "/VR/" + session + "_position.txt";
+		serverPositionFile = serverDirectory + "/" + mouse + "/" + session + "_position.txt";
 	}
 
 	void Update () 

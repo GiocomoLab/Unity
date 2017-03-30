@@ -14,14 +14,29 @@ public class ReadRotary : MonoBehaviour {
 	private int pulses;
 	private SerialPort _serialPort;
 	private int delay;
-	//private bool manipTrial_local = false;
 	private SessionParams paramsScript;
 	private float speedGain;
-	//private SynchronizeComputers syncScript;
-	//private bool recordingStarted_local = false;
+	private SynchronizeComputers syncScript;
+	private bool recordingStarted_local = false;
 	private PlayerController playerScript;
 
-	void Start()
+    private static bool created = false;
+    public void Awake()
+    {
+        if (!created)
+        {
+            // this is the first instance - make it persist
+            DontDestroyOnLoad(this);
+            created = true;
+        }
+        else
+        {
+            // this must be a duplicate from a scene reload - DESTROY!
+            Destroy(this);
+        }
+    }
+
+    void Start()
 	{
 		// connect to Arduino uno serial port
 		connect (port, 57600, true, 3);
@@ -36,64 +51,38 @@ public class ReadRotary : MonoBehaviour {
 		paramsScript = player.GetComponent<SessionParams> ();
 		speedGain = paramsScript.speedGain;
 
-		//GameObject gameControl = GameObject.Find ("Game Control");
-		//syncScript = gameControl.GetComponent<SynchronizeComputers> ();
+		GameObject gameControl = GameObject.Find ("GameControl");
+		syncScript = gameControl.GetComponent<SynchronizeComputers> ();
 	}
 
 	void Update() 
 	{
-//		if (syncScript.recordingStarted & !recordingStarted_local) 
-//		{
-//			realSpeed = speed * 0.0447f; // makes 1 VR unit = 1 cm for 18 inch circumference cylinder
-//			recordingStarted_local = true;
-//		}
-//
-//		if (Input.GetKeyDown (KeyCode.UpArrow)) 
-//		{
-//			speed = speed*2;
-//			realSpeed = realSpeed*2;
-//		}
-//		if (Input.GetKeyDown (KeyCode.DownArrow)) 
-//		{
-//			speed = speed/2;
-//			realSpeed = realSpeed/2;	
-//		}
+        if (syncScript.recordingStarted & syncScript.sync_pins & playerScript.pcntrl_pins & !recordingStarted_local)
+        {
+            realSpeed = speedGain * 0.0447f;
+            recordingStarted_local = true;
+        }        
+
 
 		// read quadrature encoder and move player accordingly
-		realSpeed = speedGain*0.0447f;
+		//realSpeed = speedGain*0.0447f;
 		_serialPort.Write("\n");
 		try {
 		pulses = int.Parse (_serialPort.ReadLine ());
-		Debug.Log (pulses);
+		//Debug.Log (pulses);
 		float delta_z = -1f * pulses * realSpeed;
 		Vector3 movement = new Vector3 (0.0f, 0.0f, delta_z);
 		transform.position = transform.position+movement;
 		} catch(TimeoutException) {
 			Debug.Log ("timeout");
 		}
-		// change speed if manip trial
-//		if (paramsScript.manipSession)
-//		{
-//			if(playerScript.manipTrial & !manipTrial_local)
-//			{
-//				realSpeed = realSpeed * speedGain;
-//				speed = speed * speedGain;
-//				manipTrial_local = playerScript.manipTrial;
-//			}
-//			else if(!playerScript.manipTrial & manipTrial_local)
-//			{
-//				realSpeed = realSpeed / speedGain;
-//				speed = speed / speedGain;
-//				manipTrial_local = playerScript.manipTrial;
-//			}
-//		}
+		
 
 	}
 
 	private void connect(string serialPortName, Int32 baudRate, bool autoStart, int delay)
 	{
 		_serialPort = new SerialPort(serialPortName, baudRate);
-		//_serialPort = Win32SerialPort.CreateInstance();
 		
 		_serialPort.DtrEnable = true; // win32 hack to try to get DataReceived event to fire
 		_serialPort.RtsEnable = true; 

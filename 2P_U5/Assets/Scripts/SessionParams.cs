@@ -12,7 +12,7 @@ public class SessionParams : MonoBehaviour {
 
 	// for saving data
 	public string localDirectory = "C:/Users/2PRig/VR_Data";
-	public string serverDirectory = "C:/Users/2PRig/VR_Data";
+	public string serverDirectory = "Z:/VR";
 	private string paramsFile;
 	private string serverParamsFile;
 
@@ -24,15 +24,31 @@ public class SessionParams : MonoBehaviour {
 //	public int numTrialsB = 10;
 	public float speedGain = 1.0f;
 
+    private static bool created = false;
 
-	void Start () 
+    public void Awake()
+    {
+        if (!created)
+        {
+            // this is the first instance - make it persist
+            DontDestroyOnLoad(this);
+            created = true;
+        }
+        else
+        {
+            // this must be a duplicate from a scene reload - DESTROY!
+            Destroy(this);
+        }
+    }
+
+    void Start () 
 	{
 
 		GameObject player = GameObject.Find ("Player");
 		rotaryScript = player.GetComponent<ReadRotary> ();
 		speedVR = rotaryScript.speed;
 		paramsFile = localDirectory + "/" + mouse + "/" + session + "_params.txt";
-		serverParamsFile = serverDirectory + "/" + mouse + "/VR/" + session + "_params.txt";
+		serverParamsFile = serverDirectory + "/" + mouse + "/" + session + "_params.txt";
 
 		if (saveData) 
 		{

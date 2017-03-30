@@ -29,29 +29,41 @@ namespace Uniduino
 				
 		private static Arduino instance = null;		
 		public static Arduino global { get { return instance; } } // conveniently expose the singleton for the common case where only one arduino is connected
-				
-		/// <summary>
-		/// Automatically connect to the arduino if properly configured.
-		/// </summary>
+
+        /// <summary>
+        /// Automatically connect to the arduino if properly configured.
+        /// </summary>
+        private static bool created = false;
 		void Awake () {		
 					
 			Log("Arduino awake");
-			if (instance == null) instance = this; // track the first instance that was created as a convenience, but dont preclude multiple uniduino's coexisting
-	
-			DontDestroyOnLoad(this);
-			
-			if (AutoConnect)
-			{
-				Log("AutoConnecting...");
-				if (PortName == null || PortName.Length == 0 && Arduino.guessPortName().Length > 0)
-				{
-					PortName = Arduino.guessPortName();
-				}
-				
-				Connect();								
-			}
+            //if (instance == null && !created) // added by MP for debugging 3/29/17
+            if (!created)
+            {
+                DontDestroyOnLoad(this);
+                created = true;
+                instance = this; // track the first instance that was created as a convenience, but dont preclude multiple uniduino's coexisting
+                if (AutoConnect)
+                {
+                    Log("AutoConnecting...");
+                    if (PortName == null || PortName.Length == 0 && Arduino.guessPortName().Length > 0)
+                    {
+                        PortName = Arduino.guessPortName();
+                    }
 
-		}
+                    Connect();
+                }
+            }
+            else // added by MP for debugging 3/29/17
+            {
+                Destroy(this);
+            }
+
+
+            
+
+
+        }
 		
 		/// <summary>
 		/// Runs the default serial input processing loop

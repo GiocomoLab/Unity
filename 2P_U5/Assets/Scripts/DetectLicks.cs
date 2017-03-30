@@ -9,7 +9,8 @@ public class DetectLicks : MonoBehaviour {
 	public Arduino arduino;
 
 	public int pin = 0;
-	public int pinValue;
+    //public int pinValue;
+    private int pinValue;
 	private int numLicks = 0;
 	private int lickFlag = 0;
 
@@ -23,12 +24,29 @@ public class DetectLicks : MonoBehaviour {
 	private string lickFile;
 	private string serverLickFile;
 
-	void Start( )
+    private static bool created = false;
+
+    public void Awake()
+    {
+        if (!created)
+        {
+            // this is the first instance - make it persist
+            DontDestroyOnLoad(this.gameObject);
+            created = true;
+        }
+        else
+        {
+            // this must be a duplicate from a scene reload - DESTROY!
+            Destroy(this.gameObject);
+        }
+    }
+
+    void Start( )
 	{
 
        
         arduino = Arduino.global;
-         
+        //arduino.Connect();
 		arduino.Setup(ConfigurePins);
 
 		// for saving data
@@ -40,7 +58,7 @@ public class DetectLicks : MonoBehaviour {
 		localDirectory = paramsScript.localDirectory;
 		serverDirectory = paramsScript.serverDirectory;
 		lickFile = localDirectory + "/" + mouse + "/" + session + "_licks.txt";
-		serverLickFile = serverDirectory + "/" + mouse + "/VR/" + session + "_licks.txt";
+		serverLickFile = serverDirectory + "/" + mouse + "/" + session + "_licks.txt";
 	}
 
 	void ConfigurePins( )
@@ -55,8 +73,8 @@ public class DetectLicks : MonoBehaviour {
 
 		// check for licks every frame
 		pinValue = arduino.analogRead(pin);
-
-		if (pinValue > 500 & lickFlag == 1) 
+        //Debug.Log(pinValue);
+		if (pinValue >= 500 & lickFlag == 1) 
 		{
 			lickFlag = 0;
 		}
@@ -69,6 +87,7 @@ public class DetectLicks : MonoBehaviour {
 				var sw = new StreamWriter (lickFile, true);
 				sw.Write (transform.position.z + "\t" + Time.realtimeSinceStartup + "\n");
 				sw.Close ();
+                //Debug.Log(numLicks);
 			}
 		}
 	}

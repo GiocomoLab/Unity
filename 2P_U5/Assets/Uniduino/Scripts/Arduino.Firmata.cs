@@ -173,7 +173,10 @@ namespace Uniduino
         /// </summary>
         protected void Open()
         {
-            _serialPort.Open();
+            if (!_serialPort.IsOpen) // MP 3/29/17 debugging
+            {
+                _serialPort.Open();
+            }
 			
 			if (_serialPort.IsOpen)
 			{
