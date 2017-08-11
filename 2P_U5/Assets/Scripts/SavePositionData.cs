@@ -5,7 +5,7 @@ using System.IO;
 
 public class SavePositionData : MonoBehaviour {
 
-	private SessionParams paramsScript;
+	private SessionParams_2AFC paramsScript;
 	private string mouse;
 	private string session;
 	private bool saveData;
@@ -33,7 +33,7 @@ public class SavePositionData : MonoBehaviour {
     void Start()
 	{
 		GameObject player = GameObject.Find ("Player");
-		paramsScript = player.GetComponent<SessionParams> ();
+		paramsScript = player.GetComponent<SessionParams_2AFC> ();
 		mouse = paramsScript.mouse;
 		session = paramsScript.session;
 		saveData = paramsScript.saveData;
@@ -49,7 +49,7 @@ public class SavePositionData : MonoBehaviour {
 		if (saveData)
 		{
 			var sw = new StreamWriter (positionFile, true);
-			sw.Write (transform.position.z + "\t" + Time.realtimeSinceStartup + "\n");
+			sw.Write (transform.position.z + "\t" + Time.realtimeSinceStartup + "\r\n");
 			sw.Close ();
 		}
 	}

@@ -87,7 +87,7 @@ public class DetectLicks : MonoBehaviour {
 				var sw = new StreamWriter (lickFile, true);
 				sw.Write (transform.position.z + "\t" + Time.realtimeSinceStartup + "\n");
 				sw.Close ();
-                //Debug.Log(numLicks);
+                Debug.Log(numLicks);
 			}
 		}
 	}

@@ -4,7 +4,7 @@ using System.IO;
 
 public class SessionParams : MonoBehaviour {
 
-	public bool saveData = false;
+	public bool saveData = true;
 	public string mouse;
 	public string session;
 	private float speedVR;
@@ -16,7 +16,8 @@ public class SessionParams : MonoBehaviour {
 	private string paramsFile;
 	private string serverParamsFile;
 
-	// more session params
+    // more session params
+    public float morph = 1;
 	public int numTrialsTotal = 100;
 //	public bool manipSession = false;
 //	public bool cueRemovalSession = false;

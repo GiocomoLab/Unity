@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private int rewardFlag = 0;
     private int landmarkFlag = 0;
     public int numTraversals = 0;
-    private int percentOfTrialsRewardOmitted = 0;
+
     public int numTrialsTotal;
 
 
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        initialPosition = new Vector3(0f, 0.5f, -5.0f);
+        initialPosition = new Vector3(0f, 0.5f, -25.0f);
 
 
         // initialize arduino
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
         curr_scene = SceneManager.GetActiveScene();
         Debug.Log(curr_scene.name);
-        move_rewards = curr_scene.name == "visualFlow" ? true : false;
+        move_rewards = false; //curr_scene.name == "visualFlow" ? true : false;
 
         //sound = GameObject.Find("basic_maze").GetComponent<AudioSource>();
         // for saving data
@@ -194,13 +194,15 @@ public class PlayerController : MonoBehaviour
 
             if (move_rewards)
             {
-                reward.transform.position = new Vector3(0.0f, 0.0f, 5.0f);
-                teleport.transform.position = reward.transform.position + new Vector3(0.0f, 0.0f, 10.0f);
+                // get componenet reward, then move
+                
+                rewards[0].transform.position = new Vector3(0.0f, 0.0f, 45.0f);
+                teleport.transform.position = rewards[0].transform.position + new Vector3(0.0f, 0.0f, 10.0f);
             } else
             {
                 // enable all rewards
                 StartCoroutine(EnableAllRewards());
-                SceneManager.LoadScene("CueRich2"); // for debugging, 
+                //SceneManager.LoadScene("CueRich2"); // for debugging, 
                 
             }
             //other.enabled = true;

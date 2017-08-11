@@ -8,7 +8,7 @@ using System.Threading;
 
 public class ReadRotary : MonoBehaviour {
 	
-	public float speed = 2;
+	public float speed = 1;
 	private float realSpeed;
 	public string port = "COM4";
 	private int pulses;
@@ -19,6 +19,7 @@ public class ReadRotary : MonoBehaviour {
 	private SynchronizeComputers syncScript;
 	private bool recordingStarted_local = false;
 	private PlayerController playerScript;
+    //private BlankLaser laserControl;
 
     private static bool created = false;
     public void Awake()
@@ -60,19 +61,22 @@ public class ReadRotary : MonoBehaviour {
         if (syncScript.recordingStarted & syncScript.sync_pins & playerScript.pcntrl_pins & !recordingStarted_local)
         {
             realSpeed = speedGain * 0.0447f;
+            
+
             recordingStarted_local = true;
-        }        
+        }
 
 
-		// read quadrature encoder and move player accordingly
-		//realSpeed = speedGain*0.0447f;
+        // read quadrature encoder and move player accordingly
+        
 		_serialPort.Write("\n");
 		try {
-		pulses = int.Parse (_serialPort.ReadLine ());
+		    pulses = int.Parse (_serialPort.ReadLine ());
 		//Debug.Log (pulses);
-		float delta_z = -1f * pulses * realSpeed;
-		Vector3 movement = new Vector3 (0.0f, 0.0f, delta_z);
-		transform.position = transform.position+movement;
+		    float delta_z = -1f * pulses * realSpeed;
+		    Vector3 movement = new Vector3 (0.0f, 0.0f, delta_z);
+		    transform.position = transform.position+movement;
+            
 		} catch(TimeoutException) {
 			Debug.Log ("timeout");
 		}

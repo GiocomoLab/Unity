@@ -4,22 +4,29 @@ using UnityEngine;
 
 public class SetBackgroundColor : MonoBehaviour {
 
-    private Color purple;
+    private SessionParams_2AFC paramsScript;
+    private float morph;
+
+    private Color bkgnd;
     //private Camera cam;
 
     // Use this for initialization
     void Start()
     {
-        Texture2D texture = new Texture2D(1, 1);
+        GameObject player = GameObject.Find("Player");
+        paramsScript = player.GetComponent<SessionParams_2AFC>();
+        morph = paramsScript.morph;
+
+
         Camera[] cameras = GetComponentsInChildren<Camera>();
-        float i = Random.Range(0.0f, 1.0f);
-        purple.r = 1.0f; purple.b = 1.0f; purple.g = 0.0f; purple.a = 0.0f;
+        //float i = Random.Range(0.0f, 1.0f);
+        bkgnd.r = morph; bkgnd.b = morph; bkgnd.g = morph; bkgnd.a = 0.0f;
 
         foreach (var cam in cameras)
         {
            
             cam.clearFlags = CameraClearFlags.SolidColor;
-            cam.backgroundColor = Color.Lerp(purple, Color.black,i);
+            cam.backgroundColor = bkgnd;
         }
         
     }

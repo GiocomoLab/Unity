@@ -19,7 +19,7 @@ public class SinusoidalPattern_onChildren : MonoBehaviour {
     // Use this for initialization
     void Start () {
         // find walls
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+
 
         //GameObject EastWall = GameObject.Find("East Wall");
         //eastRenderer = EastWall.GetComponent<Renderer>();

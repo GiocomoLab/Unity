@@ -14,7 +14,7 @@ public class BlankLaser : MonoBehaviour {
 
     // prefs 
     private string IP;  // define in init
-    public int port;  // define in init
+    private int port;  // define in init
 
     // "connection" things
     IPEndPoint remoteEndPoint;
@@ -24,10 +24,13 @@ public class BlankLaser : MonoBehaviour {
     private string L0 = "L0";
     private string L1 = "L1";
     private bool LOn = true;
+    private string GO = "G";
+    private string STOP = "S";
+    public static bool LStart = false;
     //
     
     
-    private int numTraversals_local = 0;
+
     private GameObject player;
 
     
@@ -54,6 +57,8 @@ public class BlankLaser : MonoBehaviour {
         player = GameObject.Find("Player");
         
         init();
+        //StartCoroutine(StartLaser());
+        
     }
     
     void Update()
@@ -112,7 +117,20 @@ public class BlankLaser : MonoBehaviour {
         }
     }
 
+    IEnumerator StartLaser ()
+    {
+        sendString(GO);
+        //yield return new WaitForSeconds(1.5f);
 
-   
+        Debug.Log("Laser Start");
+        LStart = true;
+        yield return null;
+    }
 
+
+    void OnApplicationQuit()
+    {
+        sendString(STOP);
+        LStart = false;
+    }
 }
