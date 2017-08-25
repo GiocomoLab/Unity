@@ -62,7 +62,7 @@ public class ReadRotaryLicks_2AFC : MonoBehaviour {
 		GameObject player = GameObject.Find ("Player");
 		playerScript = player.GetComponent<PC_2AFC> ();
 		paramsScript = player.GetComponent<SessionParams_2AFC> ();
-		speedGain = paramsScript.speedGain;
+        speedGain = 1.0f; //paramsScript.speedGain;
 
 		GameObject gameControl = GameObject.Find ("GameControl");
 		syncScript = gameControl.GetComponent<SynchronizeComputers_2AFC> ();

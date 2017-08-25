@@ -6,7 +6,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Threading;
 
-public class DetectLicks_2Port : MonoBehaviour {
+public class DetectLicks_2Port_LickReq : MonoBehaviour {
 
 	
     public string port = "COM5";
@@ -19,7 +19,6 @@ public class DetectLicks_2Port : MonoBehaviour {
     private int pinValue;
     public int c_1;
     public int c_2;
-    private int r; 
 
 	// for saving data
 	private string localDirectory;
@@ -30,6 +29,9 @@ public class DetectLicks_2Port : MonoBehaviour {
 	private bool saveData=true;
 	private string lickFile;
 	private string serverLickFile;
+
+    public int r;
+    private PC_2AFC_LickReq pc;
 
     private static bool created = false;
 
@@ -58,6 +60,7 @@ public class DetectLicks_2Port : MonoBehaviour {
 		// for saving data
 		GameObject player = GameObject.Find ("Player");
 		paramsScript = player.GetComponent<SessionParams_2AFC> ();
+        pc = player.GetComponent<PC_2AFC_LickReq>();
 		mouse = paramsScript.mouse;
 		session = paramsScript.session;
 		//saveData = paramsScript.saveData;
@@ -70,9 +73,10 @@ public class DetectLicks_2Port : MonoBehaviour {
 	
 	void Update () 
 	{
-        
 
-        _serialPort.Write("\n");
+        
+        //Debug.Log(pc.cmd.ToString());
+        _serialPort.Write(pc.cmd.ToString());
         try
         {
             lick_raw = _serialPort.ReadLine();
@@ -93,8 +97,7 @@ public class DetectLicks_2Port : MonoBehaviour {
 			if (saveData)
 			{
 				var sw = new StreamWriter (lickFile, true);
-                sw.Write(c_1 + "\t" + c_2 + "\t" + transform.position.z + "\t" + r + "\t" + Time.realtimeSinceStartup + "\t" + paramsScript.morph + "\r\n");
-
+				sw.Write (c_1 + "\t" + c_2 + "\t" + transform.position.z + "\t" + r + "\t" + Time.realtimeSinceStartup + "\t" + paramsScript.morph + "\r\n");
 				sw.Close ();
                
 			}

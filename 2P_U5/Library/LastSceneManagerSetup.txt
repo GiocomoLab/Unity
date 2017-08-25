@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/MorphedScenes/2AFC_morph.unity
+- path: Assets/Scenes/MorphedScenes/NeutralHallway.unity
   isLoaded: 1
   isActive: 1

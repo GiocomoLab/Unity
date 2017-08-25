@@ -6,7 +6,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Threading;
 
-public class ReadRotary_2AFC : MonoBehaviour {
+public class ReadRotary_2AFC_LickReq : MonoBehaviour {
 	
 	public float speed = 1;
 	private float realSpeed;
@@ -16,9 +16,9 @@ public class ReadRotary_2AFC : MonoBehaviour {
 	private int delay;
 	private SessionParams_2AFC paramsScript;
 	private float speedGain;
-	private SynchronizeComputers_2AFC syncScript;
+	private SynchronizeComputers_2AFC_LickReq syncScript;
 	private bool recordingStarted_local = false;
-	private PC_2AFC playerScript;
+	private PC_2AFC_LickReq playerScript;
     //private BlankLaser laserControl;
 
     private static bool created = false;
@@ -48,12 +48,12 @@ public class ReadRotary_2AFC : MonoBehaviour {
 
 		// connect to playerController script
 		GameObject player = GameObject.Find ("Player");
-		playerScript = player.GetComponent<PC_2AFC> ();
+		playerScript = player.GetComponent<PC_2AFC_LickReq> ();
 		paramsScript = player.GetComponent<SessionParams_2AFC> ();
         speedGain = 1.0f; // paramsScript.speedGain;
 
 		GameObject gameControl = GameObject.Find ("GameControl");
-		syncScript = gameControl.GetComponent<SynchronizeComputers_2AFC> ();
+		syncScript = gameControl.GetComponent<SynchronizeComputers_2AFC_LickReq> ();
 	}
 
 	void Update() 
