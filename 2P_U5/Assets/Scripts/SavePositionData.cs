@@ -39,8 +39,8 @@ public class SavePositionData : MonoBehaviour {
 		saveData = paramsScript.saveData;
 		localDirectory = paramsScript.localDirectory;
 		serverDirectory = paramsScript.serverDirectory;
-		positionFile = localDirectory + "/" + mouse + "/" + session + "_position.txt";
-		serverPositionFile = serverDirectory + "/" + mouse + "/" + session + "_position.txt";
+		positionFile = localDirectory + "/" + mouse + "/" + session + "_" + paramsScript.sessionType + "_position.txt";
+		serverPositionFile = serverDirectory + "/" + mouse + "/" + session + "_" + paramsScript.sessionType + "_position.txt";
 	}
 
 	void Update () 

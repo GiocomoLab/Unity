@@ -105,8 +105,8 @@ public class PC_2AFC : MonoBehaviour
 
         localDirectory = paramsScript.localDirectory;
         serverDirectory = paramsScript.serverDirectory;
-        rewardFile = localDirectory + "/" + paramsScript.mouse + "/" + paramsScript.session + "_rewards.txt";
-        serverRewardFile = serverDirectory + "/" + paramsScript.mouse + "/" + paramsScript.session + "_rewards.txt";
+        rewardFile = localDirectory + "/" + paramsScript.mouse + "/" + paramsScript.session + "_" + paramsScript.sessionType + "_rewards.txt";
+        serverRewardFile = serverDirectory + "/" + paramsScript.mouse + "/" + paramsScript.session + "_" + paramsScript.sessionType + "_rewards.txt";
 
         // find reward and teleport objects
         rewards = GameObject.FindGameObjectsWithTag("Reward");

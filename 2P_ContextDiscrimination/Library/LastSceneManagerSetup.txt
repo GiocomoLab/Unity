@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Scenes/LED_Cue.unity
+  isLoaded: 1
+  isActive: 1

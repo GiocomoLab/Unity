@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Checkerboard_OnChildren : MonoBehaviour {
 
-    private int dim1 = 400;
-    private int dim2 = 400;
+    private int dim1 = 5;
+    private int dim2 = 5;
     
 
     private SessionParams_2AFC paramsScript;

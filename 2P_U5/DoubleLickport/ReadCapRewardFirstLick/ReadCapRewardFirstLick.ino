@@ -7,7 +7,7 @@ int trial_begin = 0; // flag for start of trial
 int rflag = 0; // flag to avoid multiple rewards
 int r = 0; // tell unity whether to deliver reward (1 = left, 2 = right)
 
-long th = 1000; // threshold
+long th = 500; // threshold
 long lc = 0; // left lick count
 long rc = 0; // right lick count
 
@@ -16,6 +16,10 @@ long rrc = 0; // cumulative right lick count during trial
  
 long timer = 0; // to make sure mouse doesn't get rewarded for licking randomly during running
 long start = 0;
+
+int lflag = 0;
+int lstart = 0;
+int rstart = 0;
 
 int incomingByte = 0;  // cmd coming in from Unity
 
@@ -52,7 +56,7 @@ void loop()
           start = millis();
         } 
         timer = millis()-start;
-        if ((timer >= 50) & (llc + rrc == 0) & (rflag == 0))
+        if ((timer >= 5) & (llc + rrc == 0) & (rflag == 0))
         { // if past 50 milliseconds, no licks yet, and reward not dispensed
           if (lc > 0 & rc < 1)  { // if first lick is left
             rflag = 1;
@@ -75,7 +79,7 @@ void loop()
         } 
         timer = millis()-start;
         
-        if ((timer >= 50) & (llc + rrc == 0) & (rflag == 0))
+        if ((timer >= 5) & (llc + rrc == 0) & (rflag == 0))
         { // if past 50 milliseconds, no licks yet, and reward not dispensed
           if (rc > 0 & lc < 1) { // if first lick is right
             rflag = 1;
@@ -101,19 +105,23 @@ void loop()
 
       case 4: // reward licks that are more than .5 sec apart
 
-        if (lc>0 & rflag == 0) { // if lick left
+        if (lc>0 & rc < 1 & rflag == 0) { // if lick left
           rflag  = 1;
           r = 1;
           start = millis();
-        } else if ( rc > 0 & rflag == 0) { // if lick right
+        } else if ( rc > 0 & lc<1 & rflag == 0) { // if lick right
           rflag = 1;
           r = 2;
           start = millis();
-        } 
+        } else {
+          r = 0;
+        }
 
-        if (millis()-start > 500) { // reset flag if its been more than 1 sec
+        if (millis()-start > 3000) { // reset flag if its been more than 1 sec
           rflag = 0;
         }
+        
+        break;
 
       case 5: // reward a lick left even if its not first
         if (trial_begin == 0) { // if first frame  of reward trial
@@ -122,7 +130,7 @@ void loop()
         } 
         
         timer = millis()-start;
-        if ((timer >= 50) & (rflag == 0))
+        if ((timer >= 5) & (rflag == 0))
         { // if past 50 milliseconds, no licks yet, and reward not dispensed
           if (lc > 0 & rc < 1)  { // if first lick is left
             rflag = 1;
@@ -140,7 +148,7 @@ void loop()
         } 
         
         timer = millis()-start;
-        if ((timer >= 50) & (rflag == 0))
+        if ((timer >= 5) & (rflag == 0))
         { // if past 50 milliseconds, no licks yet, and reward not dispensed
           if (rc > 0 & lc < 1)  { // if first lick is left
             rflag = 1;
@@ -148,6 +156,29 @@ void loop()
           }
          
         }
+        break;
+
+      case 7: // reward first lick regardless of side
+        if (trial_begin == 0) { // if first frame  of reward trial
+          trial_begin++;
+          start = millis();
+        } 
+        timer = millis()-start;
+        
+        if ((timer >= 5) & (llc + rrc == 0) & (rflag == 0))
+        { // if past 50 milliseconds, no licks yet, and reward not dispensed
+          if (rc > 0 & lc < 1) { // if first lick is right
+            rflag = 1;
+            r = 2; // reward right
+          }
+          if (lc > 0 & rc < 1) // if first lick is left
+          { 
+            rflag = 2;
+            r = 1;} // reward left
+        }
+        
+        llc += lc;
+        rrc += rc;    
         break;
     }
     Serial.print(lc);                  // print sensor output 1

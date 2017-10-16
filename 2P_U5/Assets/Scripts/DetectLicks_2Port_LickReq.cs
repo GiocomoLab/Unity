@@ -31,6 +31,7 @@ public class DetectLicks_2Port_LickReq : MonoBehaviour {
 	private string serverLickFile;
 
     public int r;
+    public int rflag = 0;
     private PC_2AFC_LickReq pc;
 
     private static bool created = false;
@@ -66,14 +67,14 @@ public class DetectLicks_2Port_LickReq : MonoBehaviour {
 		//saveData = paramsScript.saveData;
 		localDirectory = paramsScript.localDirectory;
 		serverDirectory = paramsScript.serverDirectory;
-		lickFile = localDirectory + "/" + mouse + "/" + session + "_licks.txt";
-		serverLickFile = serverDirectory + "/" + mouse + "/" + session + "_licks.txt";
-	}
+        lickFile = localDirectory + "/" + mouse + "/" + session + "_" + paramsScript.sessionType + "_licks.txt";
+        serverLickFile = serverDirectory + "/" + mouse + "/" + session + "_" + paramsScript.sessionType + "_licks.txt";
+    }
 
 	
 	void Update () 
 	{
-
+        rflag = 0;
         
         //Debug.Log(pc.cmd.ToString());
         _serialPort.Write(pc.cmd.ToString());

@@ -31,6 +31,7 @@ public class DetectLicks_2Port_FCT : MonoBehaviour {
 	private string serverLickFile;
 
     public int r;
+    public int rflag=1;
     private FixCrossController pc;
 
     private static bool created = false;
@@ -66,14 +67,14 @@ public class DetectLicks_2Port_FCT : MonoBehaviour {
 		//saveData = paramsScript.saveData;
 		localDirectory = paramsScript.localDirectory;
 		serverDirectory = paramsScript.serverDirectory;
-		lickFile = localDirectory + "/" + mouse + "/" + session + "_licks.txt";
-		serverLickFile = serverDirectory + "/" + mouse + "/" + session + "_licks.txt";
+		lickFile = localDirectory + "/" + mouse + "/" + paramsScript.session + "_" + paramsScript.sessionType + "_licks.txt";
+		serverLickFile = serverDirectory + "/" + mouse + "/" + session + "_" + paramsScript.sessionType + "_licks.txt";
 	}
 
 	
 	void Update () 
 	{
-
+        rflag = 0;
         
         //Debug.Log(pc.cmd.ToString());
         _serialPort.Write(pc.cmd.ToString());
@@ -84,6 +85,7 @@ public class DetectLicks_2Port_FCT : MonoBehaviour {
             c_1 = int.Parse(lick_list[0]);
             c_2 = int.Parse(lick_list[1]);
             r = int.Parse(lick_list[2]);
+            //rflag = 1;
             //Debug.Log(lick_raw);
 
         }

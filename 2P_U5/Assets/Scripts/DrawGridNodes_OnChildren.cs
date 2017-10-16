@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DrawGridNodes_OnChildren : MonoBehaviour {
 
-    private int dim1 = 1200;
+    private int dim1 = 600;
     private int dim2 = 600;
     private float f2 = 1;
     private float f1 = 5;

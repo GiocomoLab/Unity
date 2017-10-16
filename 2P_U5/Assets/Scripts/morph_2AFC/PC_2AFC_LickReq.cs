@@ -31,6 +31,8 @@ public class PC_2AFC_LickReq : MonoBehaviour
     private string session;
     private string rewardFile;
     private string serverRewardFile;
+    private string mRewardFile;
+    private string serverMRewardFile;
     //private string lickFile;
     //private string serverLickFile;
     private bool saveData;
@@ -122,10 +124,14 @@ public class PC_2AFC_LickReq : MonoBehaviour
         // setup file names
         localDirectory = paramsScript.localDirectory;
         serverDirectory = paramsScript.serverDirectory;
-        rewardFile = localDirectory + "/" + paramsScript.mouse + "/" + paramsScript.session + "_rewards.txt";
-        serverRewardFile = serverDirectory + "/" + paramsScript.mouse + "/" + paramsScript.session + "_rewards.txt";
-        
+        rewardFile = localDirectory + "/" + paramsScript.mouse + "/" + paramsScript.session + "_" + paramsScript.sessionType + "_rewards.txt";
+        serverRewardFile = serverDirectory + "/" + paramsScript.mouse + "/" + paramsScript.session + "_" + paramsScript.sessionType + "_rewards.txt";
 
+        mRewardFile = localDirectory + "/" + paramsScript.mouse + "/" + paramsScript.session + "_" + paramsScript.sessionType + "_MRewards.txt";
+        serverMRewardFile = serverDirectory + "/" + paramsScript.mouse + "/" + paramsScript.session + "_" + paramsScript.sessionType + "_MRewards.txt";
+        var sw = new StreamWriter(mRewardFile, true);
+        sw.Write("");
+        sw.Close();
         // find reward and teleport objects
         rewards = GameObject.FindGameObjectsWithTag("Reward");
         sound = GameObject.Find("basic_maze").GetComponent<AudioSource>();
@@ -156,21 +162,29 @@ public class PC_2AFC_LickReq : MonoBehaviour
         // make sure rotation angle is 0
         transform.eulerAngles = new Vector3(0.0f, 90.0f, 0.0f);
 
-        if (dl.r > 0) { StartCoroutine(DeliverReward(dl.r)); }; // deliver appropriate reward 
+        if (dl.r > 0 & dl.rflag < 1) { StartCoroutine(DeliverReward(dl.r)); dl.rflag = 1; };
 
-            // manual rewards and punishments
-        if (Input.GetKeyDown(KeyCode.Q)) // reward left
+        // manual rewards and punishments
+        if (Input.GetKeyDown(KeyCode.Q) | Input.GetMouseButtonDown(0)) // reward left
         {
             numRewards_manual += 1;
             Debug.Log(numRewards_manual);
             StartCoroutine(DeliverReward(1));
+
+            var sw = new StreamWriter(mRewardFile, true);
+            sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\t" + -1.0f + "\t" + 1f + "\r\n");
+            sw.Close();
         }
 
-        if (Input.GetKeyDown(KeyCode.P)) // reward right
+        if (Input.GetKeyDown(KeyCode.P) | Input.GetMouseButtonDown(1)) // reward right
         {
             numRewards_manual += 1;
             Debug.Log(numRewards_manual);
-            StartCoroutine(DeliverReward(0));
+            StartCoroutine(DeliverReward(2));
+
+            var sw = new StreamWriter(mRewardFile, true);
+            sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\t" + -1.0f + "\t" + 2f + "\r\n");
+            sw.Close();
         }
 
         if (Input.GetKeyDown(KeyCode.Backspace)) // punish
@@ -192,6 +206,7 @@ public class PC_2AFC_LickReq : MonoBehaviour
     {
         
         File.Copy(rewardFile, serverRewardFile);
+        File.Copy(mRewardFile, serverMRewardFile);
         
         blackCam.SetActive(true);
     }

@@ -40,14 +40,14 @@ public class SessionParams_2AFC : MonoBehaviour {
 
     void Start () 
 	{
-		paramsFile = localDirectory + "/" + mouse + "/" + session + "_params.txt";
-		serverParamsFile = serverDirectory + "/" + mouse + "/" + session + "_params.txt";
+		//paramsFile = localDirectory + "/" + mouse + "/" + session + "_params.txt";
+		//serverParamsFile = serverDirectory + "/" + mouse + "/" + session + "_params.txt";
 
 		if (saveData) 
 		{
-            var sw = new StreamWriter(paramsFile, true);
-			sw.WriteLine ("normal");
-			sw.Close ();
+            //var sw = new StreamWriter(paramsFile, true);
+			//sw.WriteLine ("normal");
+			//sw.Close ();
 		}
 	}
 
@@ -55,7 +55,7 @@ public class SessionParams_2AFC : MonoBehaviour {
 	{
 		if (saveData) 
 		{
-			File.Copy(paramsFile, serverParamsFile);
+			//File.Copy(paramsFile, serverParamsFile);
 		}
 	}
 }

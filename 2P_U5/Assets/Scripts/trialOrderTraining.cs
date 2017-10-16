@@ -5,7 +5,7 @@ using UnityEngine;
 public class trialOrderTraining : MonoBehaviour {
 
     private SessionParams_2AFC paramsScript;
-    private PC_2AFC playerController;
+    private PC_2AFC_LickReq playerController;
     private GameObject player;
     private int switchFlag = 0;
 
@@ -13,7 +13,8 @@ public class trialOrderTraining : MonoBehaviour {
     void Start () {
         player = GameObject.Find("Player");
         paramsScript = player.GetComponent<SessionParams_2AFC>();
-        playerController = player.GetComponent<PC_2AFC>();
+        playerController = player.GetComponent<PC_2AFC_LickReq>();
+        paramsScript.morph = Mathf.Round(UnityEngine.Random.value);
     }
 	
 	// Update is called once per frame
