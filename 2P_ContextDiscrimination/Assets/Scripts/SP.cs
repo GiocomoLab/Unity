@@ -28,7 +28,10 @@ public class SP : MonoBehaviour
     public string lickFile;
     public string serverLickFile;
 
-    public string 
+    public string posFile;
+    public string serverPosFile;
+
+    private NameCheck nc;
 
     private static bool created = false;
 
@@ -47,10 +50,8 @@ public class SP : MonoBehaviour
             // this must be a duplicate from a scene reload - DESTROY!
             Destroy(this);
         }
-    }
 
-    void Start()
-    {
+        nc = GameObject(this).GetComponent<NameCheck>();
         sceneName = SceneManager.GetActiveScene().name;
 
         localDirectory = localDirectory_pre + mouse;
@@ -64,19 +65,42 @@ public class SP : MonoBehaviour
         {
             Directory.CreateDirectory(serverDirectory);
         }
-        
+
 
         localPrefix = localDirectory + "/" + sceneName + "_" + session + "_";
         serverPrefix = serverDirectory + "/" + sceneName + "_" + session + "_";
 
-        
+        rewardFile = nc.Recurse(localPrefix + "_Rewards") + ".txt";
+        serverRewardFile = nc.Recurse(serverPrefix + "_Rewards") + ".txt";
 
-        dirCheck = 1;
+        rf = new StreamWriter(rewardFile,true);
+        rf.Write(); rf.Close();
+
+        lickFile = localPrefix + "_Licks.txt";
+        serverLickFile = serverPrefix + "_Licks.txt";
+        lf = new StreamWriter(lickFile,true);
+        lf.Write(); lf.Close();
+
+        posFile = localPrefix + "_Pos.txt";
+        serverPosFile = serverPrefix + "_Pos.txt";
+        pf = new StreamWriter(posFile,true);
+        pf.Write(); pf.Close();
+
+        //dirCheck = 1;
 
     }
 
-    void OnApplicationQuit()
-    {
+    //void Start()
+    //{   // to debug pasted all contents to awake (beginning line 54)
+
+    //}
+
+    void OnApplicationQuit() {
+        if (saveData) {
+            File.Copy(rewardFile, serverRewardFile,true);
+            File.Copy(lickFile, serverLickFile,true);
+            File.Copy(posFile, serverPosFile,true);
+          }
     }
+
 }
-

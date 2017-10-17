@@ -22,7 +22,7 @@ public class PC : MonoBehaviour
     // for saving data
     private string localDirectory;
     private string serverDirectory;
-    private SP paramsScript;
+    private SP sp;
     private string mouse;
     private string session;
     private string rewardFile;
@@ -35,8 +35,14 @@ public class PC : MonoBehaviour
     private LinAct actuator;
     private NameCheck nc;
 
-    public bool pcntrl_pins = false;
     private bool reward_dir;
+
+
+    public int numTraversals = 0;
+    public int numTrialsTotal;
+    public float mrd = 50.0f; // minimum reward distance
+    public float ard = 150.0f; // additional reward distance
+    public bool punish = false;
 
     private static bool created = false;
     private int r;
@@ -58,38 +64,20 @@ public class PC : MonoBehaviour
             // this must be a duplicate from a scene reload - DESTROY!
             Destroy(this);
         }
-    }
-
-    void Start()
-    {
-
 
         // initialize arduino
         arduino = Arduino.global;
         arduino.Setup(ConfigurePins);
+    }
 
-        // get game objects 
+    void Start()
+    {
+        // get game objects
         GameObject player = GameObject.Find("Player");
-        paramsScript = player.GetComponent<SP>();
+        sp = player.GetComponent<SP>();
         rotary = player.GetComponent<ReadRotary>();
         dl = player.GetComponent<DetectLicks_2Port>();
         actuator = player.GetComponent<LinAct>();
-        nc = player.GetComponent<NameCheck>();
-
-        // setup file names
-        // wait for session params script to check for directory
-        string rewardFile_pre = paramsScript.localPrefix + "_MRewards";
-        string serverRewardFile_pre = paramsScript.serverPrefix + "_MRewards";
-
-        if (paramsScript.saveData)
-        {
-            while (paramsScript.dirCheck < 1) { }
-            // check if file exists
-            rewardFile = nc.Recurse(rewardFile_pre) + ".txt";
-            serverRewardFile = nc.Recurse(serverRewardFile_pre) + ".txt";
-            
-        }
-
 
 
     }
@@ -97,10 +85,9 @@ public class PC : MonoBehaviour
     void ConfigurePins()
     {   // lickports
         arduino.pinMode(11, PinMode.OUTPUT); // R
-        arduino.pinMode(10, PinMode.OUTPUT); // L        
+        arduino.pinMode(10, PinMode.OUTPUT); // L
         arduino.pinMode(9, PinMode.OUTPUT); // airpuff
         arduino.pinMode(3, PinMode.PWM); // LED
-
 
         Debug.Log("Pins configured (player controller)");
         pcntrl_pins = true;
@@ -109,14 +96,14 @@ public class PC : MonoBehaviour
     void Update()
     {
 
-        if (!flashFlag)
+        if (!flashFlag & sp.sceneName.Equals("Flash_LED_Cue",StringComparison.Ordinal))
         {
             StartCoroutine(FlashLED());
             flashFlag = true;
         }
 
-        //arduino.analogWrite(3, 20);
-        if (dl.r > 0 & dl.rflag < 1) { StartCoroutine(DeliverReward(dl.r)); dl.rflag = 1; }; // deliver appropriate reward 
+
+        if (dl.r > 0 & dl.rflag < 1) { StartCoroutine(DeliverReward(dl.r)); dl.rflag = 1; }; // deliver appropriate reward
 
         // manual rewards and punishments
         if (Input.GetKeyDown(KeyCode.Q) | Input.GetMouseButtonDown(0)) // reward left
@@ -125,9 +112,9 @@ public class PC : MonoBehaviour
             Debug.Log(numRewards_manual);
             StartCoroutine(DeliverReward(1));
 
-            if (paramsScript.saveData)
+            if (sp.saveData)
             {
-                var sw = new StreamWriter(rewardFile, true);
+                var sw = new StreamWriter(sp.rewardFile, true);
                 sw.Write(rotary.delta_z + "\t" + Time.realtimeSinceStartup + "\t" + -1.0f + "\t" + 0f + "\r\n");
                 sw.Close();
             }
@@ -141,7 +128,7 @@ public class PC : MonoBehaviour
 
             if (paramsScript.saveData)
             {
-                var sw = new StreamWriter(rewardFile, true);
+                var sw = new StreamWriter(sp.rewardFile, true);
                 sw.Write(rotary.delta_z + "\t" + Time.realtimeSinceStartup + "\t" + -1.0f + "\t" + 2f + "\r\n");
                 sw.Close();
             }
@@ -152,12 +139,66 @@ public class PC : MonoBehaviour
             StartCoroutine(Punish());
         }
 
-        r_last = dl.r;
-
 
     }
 
-    // save manipulation data to server
+    void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.tag);
+        if (other.tag == "Start")
+        {
+            sound.Play();
+            StartCoroutine(LightsOn());
+        }
+
+        else if (other.tag == "Reward")
+        {
+            int side = Convert.ToInt32(UnityEngine.Random.value <= sp.morph) + 1;
+            var sw = new StreamWriter(sp.rewardFile, true);
+            sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\t" + sp.morph + "\t" + side + "\r\n");
+            sw.Close();
+
+            StartCoroutine(RewardSequence(side));
+            numRewards += 1;
+
+
+            movement = new Vector3(0.0f, 0.0f, mrd + UnityEngine.Random.value * ard);
+            other.gameObject.transform.position = other.gameObject.transform.position + movement;
+
+
+        }
+        else if (other.tag == "Teleport")
+        {
+            numTraversals += 1;
+            StartCoroutine(LightsOff());
+            sound.Stop();
+            transform.position = initialPosition;
+
+            rewards[0].transform.position = new Vector3(0.0f, 0.0f, 50.0f);
+
+        }
+
+    }
+
+    IEnumerator RewardSequence(int side)
+    {   // water reward
+        arduino.analogWrite(3,20); // turn LED on
+        actuator.actuatorPort.Write("1"); // move forward
+        if (side == 1)
+        { cmd = 1; }
+        else if (side == 2)
+        { cmd = 2; };
+        yield return new WaitForSeconds(rDur);
+        arduino.analogWrite(3,0); // turn LED off
+        actuator.actuatorPort.Write("2"); // move port back
+        yield return new WaitForSeconds(.05f);
+        cmd = 3;
+        yield return new WaitForSeconds(.5f);
+        cmd = 0;
+
+    }
+
+
     void OnApplicationQuit()
     {
         arduino.analogWrite(3, 0);
@@ -192,7 +233,7 @@ public class PC : MonoBehaviour
     }
 
     IEnumerator DeliverReward(int r)
-    { // deliver 
+    { // deliver
         if (r == 1) // reward left
         {
             arduino.digitalWrite(10, Arduino.HIGH);
