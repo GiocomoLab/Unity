@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Uniduino/UniduinoTestPanel/UniduinoTestPanel.unity
+- path: Assets/Scenes/MorphedScenes_V1/2AFC_morph_autoReward.unity
   isLoaded: 1
   isActive: 1

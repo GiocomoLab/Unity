@@ -35,8 +35,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 6
-    y: 56
+    x: 8
+    y: 51
     width: 1387
     height: 801
   m_ShowMode: 4
@@ -62,8 +62,8 @@ MonoBehaviour:
     y: 0
     width: 4080
     height: 807
-  m_MinSize: {x: 4080, y: 807}
-  m_MaxSize: {x: 4080, y: 807}
+  m_MinSize: {x: 4080, y: 785}
+  m_MaxSize: {x: 4080, y: 785}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 492}
   m_MaxSize: {x: 12008, y: 14042}
   vertical: 0
-  controlID: 76
+  controlID: 130
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 492}
   m_MaxSize: {x: 12008, y: 14042}
   vertical: 1
-  controlID: 77
+  controlID: 131
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 221}
   m_MaxSize: {x: 12008, y: 4021}
   vertical: 0
-  controlID: 126
+  controlID: 132
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -428,8 +428,8 @@ MonoBehaviour:
   m_DepthBufferBits: 32
   m_Pos:
     serializedVersion: 2
-    x: 320
-    y: 105
+    x: 322
+    y: 100
     width: 708
     height: 444
   m_SceneLighting: 1
@@ -465,7 +465,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.11985791, y: 0.7211373, z: -0.12899792, w: -0.67009854}
     speed: 2
-    m_Value: {x: -0.119853266, y: 0.72110933, z: -0.12899293, w: -0.67007256}
+    m_Value: {x: -0.11985791, y: 0.7211373, z: -0.12899792, w: -0.67009854}
   m_Size:
     m_Target: 485.01346
     speed: 2
@@ -502,15 +502,15 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 6
-    y: 105
+    x: 8
+    y: 100
     width: 310
     height: 444
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 642a0000
-    m_LastClickedID: 0
-    m_ExpandedIDs: 9486fdffc829feff4c4afeff1e51feffeaadffff20aeffff42aeffff46aeffff56aeffff6caeffff7aaeffffbaaeffff52afffff56afffffb4b0ffffe6fbfffff4ffffff00000000d0340000da3400001a350000dc350000e03500000236000038360000
+    m_SelectedIDs: fc270000
+    m_LastClickedID: 10236
+    m_ExpandedIDs: 18f9ffffe6fbffff00000000fc2700003c280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -529,7 +529,7 @@ MonoBehaviour:
       m_ClientGUIView: {fileID: 11}
     m_SearchString: 
   m_ExpandedScenes:
-  - UniduinoTestPanel
+  - 2AFC_morph_autoReward
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting
@@ -581,11 +581,11 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 1032
-    y: 105
+    x: 1034
+    y: 100
     width: 361
     height: 444
-  m_ScrollPosition: {x: 0, y: 0}
+  m_ScrollPosition: {x: 0, y: 322.95508}
   m_InspectorMode: 0
   m_PreviewResizer:
     m_CachedPref: -160
@@ -614,8 +614,8 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 6
-    y: 570
+    x: 8
+    y: 565
     width: 1387
     height: 265
   m_SearchFilter:
@@ -629,19 +629,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scenes/MorphScenes_LEDCue
+    - Assets/PanoCam/scripts
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes/MorphScenes_LEDCue
+  - Assets/PanoCam/scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\cygwin64\home\2PRig\Unity\2P_U5
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 191}
-    m_SelectedIDs: 302a0000
-    m_LastClickedID: 10800
-    m_ExpandedIDs: 000000002c250000582500006e250000b2250000ca250000ea2500004026000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 175}
+    m_SelectedIDs: 6c250000
+    m_LastClickedID: 9580
+    m_ExpandedIDs: 0000000038250000642500007a250000c2250000da250000fa250000462600005026000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -669,7 +669,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000002c250000582500006e250000b2250000ca250000ea25000040260000
+    m_ExpandedIDs: 0000000038250000642500007a250000c2250000da250000fa25000050260000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
