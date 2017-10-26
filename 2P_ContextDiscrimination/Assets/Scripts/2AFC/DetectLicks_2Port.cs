@@ -14,7 +14,7 @@ public class DetectLicks_2Port : MonoBehaviour
     private SerialPort _serialPort;
     private int delay;
     private string lick_raw;
-
+    private GameObject player;
 
     //public int pinValue;
     private int pinValue;
@@ -55,7 +55,7 @@ public class DetectLicks_2Port : MonoBehaviour
 
 
         // for saving data
-        GameObject player = GameObject.Find("Player");
+        player = GameObject.Find("Player");
         sp = player.GetComponent<SP>();
         pc = player.GetComponent<PC>();
        
@@ -88,7 +88,7 @@ public class DetectLicks_2Port : MonoBehaviour
         if (sp.saveData)
         {
             var sw = new StreamWriter(sp.lickFile, true);
-            sw.Write(c_1 + "\t" + c_2 + "\t" + -1f + "\t" + r + "\t" + Time.realtimeSinceStartup + "\t" + -1f + "\r\n");
+            sw.Write(c_1 + "\t" + c_2 + "\t" + player.transform.position.z + "\t" + r + "\t" + Time.realtimeSinceStartup + "\t" + sp.morph + "\r\n");
             sw.Close();
 
         }

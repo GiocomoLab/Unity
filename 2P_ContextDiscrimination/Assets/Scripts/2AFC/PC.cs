@@ -20,6 +20,7 @@ public class PC : MonoBehaviour
 
     private Rigidbody rb;
     private AudioSource sound;
+    private AudioSource errSound;
 
     private SP sp;
     private DetectLicks_2Port dl;
@@ -40,6 +41,8 @@ public class PC : MonoBehaviour
     public int cmd = 3;
     private bool flashFlag = false;
     private float LastRewardTime;
+
+    public ArrayList LickHistory;
 
     public void Awake()
     {
@@ -71,9 +74,18 @@ public class PC : MonoBehaviour
         initialPosition = new Vector3(0f, 0.5f, -50.0f);
         
         sound = GameObject.Find("basic_maze").GetComponent<AudioSource>();
+        errSound = reward.GetComponent<AudioSource>();
 
         LastRewardTime = Time.realtimeSinceStartup;
 
+        LickHistory = new ArrayList();
+        int j = 0;
+        while (j <20)
+        {
+            LickHistory.Add(0.5f);
+            j++;
+        }
+        Debug.Log(LickHistory[0]);
 
     }
 
@@ -114,7 +126,7 @@ public class PC : MonoBehaviour
         // manual rewards and punishments
         if (Input.GetKeyDown(KeyCode.Q) | Input.GetMouseButtonDown(0)) // reward left
         {
-            StartCoroutine(DeliverReward(1));
+            StartCoroutine(DeliverReward(11));
 
             if (sp.saveData)
             {
@@ -127,7 +139,7 @@ public class PC : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) | Input.GetMouseButtonDown(1)) // reward right
         {
             
-            StartCoroutine(DeliverReward(2));
+            StartCoroutine(DeliverReward(12));
 
             if (sp.saveData)
             {
@@ -168,7 +180,7 @@ public class PC : MonoBehaviour
             sw.Close();
 
             StartCoroutine(RewardSequence(side));
-            sp.numRewards += 1;
+            
 
             StartCoroutine(MoveReward());
             //movement = new Vector3(0.0f, 0.0f, sp.mrd + UnityEngine.Random.value * sp.ard);
@@ -265,20 +277,53 @@ public class PC : MonoBehaviour
         if (r == 1) // reward left
         {
             arduino.digitalWrite(10, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.01f);
             arduino.digitalWrite(10, Arduino.LOW);
             sp.numRewards += 1;
             Debug.Log(sp.numRewards);
+            LickHistory.Add(0f);
         }
         else if (r == 2) // reward right
         {
             arduino.digitalWrite(11, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.01f);
             arduino.digitalWrite(11, Arduino.LOW);
             sp.numRewards += 1;
             Debug.Log(sp.numRewards);
+            LickHistory.Add(1f);
+        }
+        else if (r == 3)
+        {
+            LickHistory.Add(0f);
+            errSound.Play();
+        }
+        else if (r==4)
+        {
+            LickHistory.Add(1f);
+            errSound.Play();
+        }
+        else if (r == 11)
+        {
+            arduino.digitalWrite(10, Arduino.HIGH);
+            yield return new WaitForSeconds(0.01f);
+            arduino.digitalWrite(10, Arduino.LOW);
+            sp.numRewards_manual += 1;
+            
+        }
+        else if (r == 12)
+        {
+            arduino.digitalWrite(11, Arduino.HIGH);
+            yield return new WaitForSeconds(0.01f);
+            arduino.digitalWrite(11, Arduino.LOW);
+            sp.numRewards_manual += 1;
+           
         }
         else { yield return null; };
+
+        if (LickHistory.Count > 20)
+        {
+            LickHistory.RemoveAt(0);
+        }
 
     }
 

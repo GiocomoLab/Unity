@@ -10,7 +10,8 @@ public class TrialBlocks : MonoBehaviour {
     private int switchFlag = 0;
     private float rand_val;
     public int BlockSize = 5;
-    private int numTraversalsLocal = 0;
+    private int numTraversalsLocal = -1;
+// private List<T> LickHistory;
 
     private void Awake()
     {

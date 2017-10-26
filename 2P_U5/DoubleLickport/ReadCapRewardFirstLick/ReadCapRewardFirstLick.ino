@@ -65,7 +65,7 @@ void loop()
           if (rc > 0 & lc < 1) 
           { 
             rflag = 1; 
-            r=5; } // if first lick is right prevent reward
+            r=4; } // if first lick is right prevent reward - r=4 is incorrect right
         }
         
         llc += lc;
@@ -88,7 +88,7 @@ void loop()
           if (lc > 0 & rc < 1) 
           { 
             rflag = 2;
-            r = 5;} // if  first lick is left prevent reward
+            r = 3;} // if  first lick is left prevent reward - r=3 is incorrect left
         }
         
         llc += lc;
