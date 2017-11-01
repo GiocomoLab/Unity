@@ -46,7 +46,7 @@ public class PC_LEDCue : MonoBehaviour {
 
     void ConfigurePins()
     {   // lickports
-        arduino.pinMode(8, PinMode.OUTPUT); // single lickport solenoid
+        arduino.pinMode(12, PinMode.OUTPUT); // single lickport solenoid
         arduino.pinMode(3, PinMode.PWM); // LED
 
         Debug.Log("Pins configured (player controller)");
@@ -57,7 +57,7 @@ public class PC_LEDCue : MonoBehaviour {
     {
 
         arduino.analogWrite(3, 20);
-        if (dl.r > 0 & dl.rflag < 1) { StartCoroutine(DeliverReward(dl.r)); dl.rflag = 1; }; // deliver appropriate reward 
+        if (dl.r > 0) { StartCoroutine(DeliverReward(dl.r)); dl.r = 0; }; // deliver appropriate reward 
 
         // manual rewards and punishments
         if (Input.GetKeyDown(KeyCode.Q) | Input.GetMouseButtonDown(0)) // reward left
@@ -68,7 +68,7 @@ public class PC_LEDCue : MonoBehaviour {
 
             if (sp.saveData)
             {
-                var sw = new StreamWriter(sp.MRewardFile, true);
+                var sw = new StreamWriter(sp.manRewardFile, true);
                 sw.Write(Time.realtimeSinceStartup + "\r\n");
                 sw.Close();
             }
@@ -88,9 +88,9 @@ public class PC_LEDCue : MonoBehaviour {
     { // deliver 
         if (r == 1) // reward
         {
-            arduino.digitalWrite(10, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(10, Arduino.LOW);
+            arduino.digitalWrite(12, Arduino.HIGH);
+            yield return new WaitForSeconds(0.1f);
+            arduino.digitalWrite(12, Arduino.LOW);
             numRewards += 1;
             Debug.Log(numRewards);
         }

@@ -38,19 +38,25 @@ public class DetectLicks_1Port_LEDCue : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        rflag = 0;
+        
         // check for licks every frame
         pinValue = arduino.analogRead(pin);
+        
         float currTime = Time.realtimeSinceStartup;
-        if (pinValue < 500 & currTime-lastlick > 5)
+        if (pinValue < 500)
         {
-            r = 1;
-            lastlick = currTime;
+            
             if (sp.saveData)
             {
                 var sw = new StreamWriter(sp.lickFile, true);
-                sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\n");
+                sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\r\n");
                 sw.Close();
+            }
+
+            if (currTime - lastlick > sp.r_timeout)
+            {
+                r = 1;
+                lastlick = currTime;
             }
         }
 
