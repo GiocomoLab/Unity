@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlideTableCOM : MonoBehaviour {
+public class DL_FlashLED_2Port : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
