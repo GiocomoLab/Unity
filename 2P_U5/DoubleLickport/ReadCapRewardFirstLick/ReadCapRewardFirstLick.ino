@@ -7,7 +7,7 @@ int trial_begin = 0; // flag for start of trial
 int rflag = 0; // flag to avoid multiple rewards
 int r = 0; // tell unity whether to deliver reward (1 = left, 2 = right)
 
-long th = 500; // threshold
+long th = 100; // threshold
 long lc = 0; // left lick count
 long rc = 0; // right lick count
 
@@ -44,7 +44,7 @@ void loop()
 
   if (Serial.available()>0) { // if new Unity frame
     int cmd = Serial.read()-'0';
-
+   
     switch (cmd) {
 
       case 0: // just count licks 

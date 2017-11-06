@@ -94,7 +94,14 @@ public class PC_LEDCue : MonoBehaviour {
             numRewards += 1;
             Debug.Log(numRewards);
         }
-        
+        if (r == 11) // reward
+        {
+            arduino.digitalWrite(12, Arduino.HIGH);
+            yield return new WaitForSeconds(0.1f);
+            arduino.digitalWrite(12, Arduino.LOW);
+            numRewards_manual += 1;
+            Debug.Log(numRewards);
+        }
         else { yield return null; };
 
     }

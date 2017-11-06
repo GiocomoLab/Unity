@@ -41,7 +41,7 @@ public class SlideTableCOM_MovingWall : MonoBehaviour
     // Update is called once per frame
     void Update () {
 
-        if (pc.cmd == 1 | pc.cmd == 2)
+        if (pc.cmd == 1 | pc.cmd == 2 | pc.cmd == 7)
         {
             actuatorPort.Write("1"); // move forward
         }

@@ -110,6 +110,7 @@ public class PC_FlashLED_1Port : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             arduino.digitalWrite(12, Arduino.LOW);
             numRewards += 1;
+            Debug.Log("Reward!");
             Debug.Log(numRewards);
         }
 
