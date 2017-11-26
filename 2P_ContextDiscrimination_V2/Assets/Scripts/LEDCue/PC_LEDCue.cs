@@ -42,6 +42,7 @@ public class PC_LEDCue : MonoBehaviour {
         // initialize arduino
         arduino = Arduino.global;
         arduino.Setup(ConfigurePins);
+        cmd = 8;
     }
 
     void ConfigurePins()

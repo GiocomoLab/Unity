@@ -25,6 +25,12 @@ public class PC_FlashLED_2Port : MonoBehaviour
     private bool reward_dir;
     private bool flashFlag;
 
+
+    private int RPort = 11;
+    private int LPort = 12;
+    private int puff = 10;
+
+
     private static bool created = false;
     private int r;
     private int r_last = 0;
@@ -59,8 +65,8 @@ public class PC_FlashLED_2Port : MonoBehaviour
 
     void ConfigurePins()
     {   // lickports
-        arduino.pinMode(11, PinMode.OUTPUT); // R
-        arduino.pinMode(10, PinMode.OUTPUT); // L        
+        arduino.pinMode(LPort, PinMode.OUTPUT); // R
+        arduino.pinMode(RPort, PinMode.OUTPUT); // L        
         arduino.pinMode(3, PinMode.PWM); // LED
 
         Debug.Log("Pins configured (player controller)");
@@ -121,7 +127,7 @@ public class PC_FlashLED_2Port : MonoBehaviour
         {
 
             arduino.analogWrite(3, 20); // turn LED on
-            cmd = 7; // reward first lick
+            cmd = 4; // reward first lick
             
             // correct biases in licking behavior 
             float sum = 0;
@@ -161,9 +167,9 @@ public class PC_FlashLED_2Port : MonoBehaviour
     { // deliver 
         if (r == 1) // reward left
         {
-            arduino.digitalWrite(10, Arduino.HIGH);
-            yield return new WaitForSeconds(0.02f);
-            arduino.digitalWrite(10, Arduino.LOW);
+            arduino.digitalWrite(LPort, Arduino.HIGH);
+            yield return new WaitForSeconds(0.05f);
+            arduino.digitalWrite(LPort, Arduino.LOW);
             sp.numRewards += 1;
             Debug.Log(sp.numRewards);
             LickHistory.Add(0f);
@@ -171,9 +177,9 @@ public class PC_FlashLED_2Port : MonoBehaviour
         }
         else if (r == 2) // reward right
         {
-            arduino.digitalWrite(11, Arduino.HIGH);
-            yield return new WaitForSeconds(0.02f);
-            arduino.digitalWrite(11, Arduino.LOW);
+            arduino.digitalWrite(RPort, Arduino.HIGH);
+            yield return new WaitForSeconds(0.05f);
+            arduino.digitalWrite(RPort, Arduino.LOW);
             sp.numRewards += 1;
             Debug.Log(sp.numRewards);
             LickHistory.Add(1f);
@@ -181,33 +187,33 @@ public class PC_FlashLED_2Port : MonoBehaviour
         
         else if (r == 11)
         {
-            arduino.digitalWrite(10, Arduino.HIGH);
-            yield return new WaitForSeconds(0.02f);
-            arduino.digitalWrite(10, Arduino.LOW);
+            arduino.digitalWrite(LPort, Arduino.HIGH);
+            yield return new WaitForSeconds(0.05f);
+            arduino.digitalWrite(LPort, Arduino.LOW);
             sp.numRewards_manual += 1;
 
         }
         else if (r == 12)
         {
-            arduino.digitalWrite(11, Arduino.HIGH);
-            yield return new WaitForSeconds(0.02f);
-            arduino.digitalWrite(11, Arduino.LOW);
+            arduino.digitalWrite(RPort, Arduino.HIGH);
+            yield return new WaitForSeconds(0.05f);
+            arduino.digitalWrite(RPort, Arduino.LOW);
             sp.numRewards_manual += 1;
 
         }
         else if (r == 21) // big reward
         {
-            arduino.digitalWrite(10, Arduino.HIGH);
+            arduino.digitalWrite(LPort, Arduino.HIGH);
             yield return new WaitForSeconds(0.5f);
-            arduino.digitalWrite(10, Arduino.LOW);
+            arduino.digitalWrite(LPort, Arduino.LOW);
             sp.numRewards_manual += 1;
 
         }
         else if (r == 22) // big reward
         {
-            arduino.digitalWrite(11, Arduino.HIGH);
+            arduino.digitalWrite(RPort, Arduino.HIGH);
             yield return new WaitForSeconds(0.5f);
-            arduino.digitalWrite(11, Arduino.LOW);
+            arduino.digitalWrite(RPort, Arduino.LOW);
             sp.numRewards_manual += 1;
 
         }

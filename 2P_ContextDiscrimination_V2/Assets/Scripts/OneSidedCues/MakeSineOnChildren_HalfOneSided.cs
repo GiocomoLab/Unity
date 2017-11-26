@@ -66,14 +66,14 @@ public class MakeSineOnChildren_HalfOneSided : MonoBehaviour
                         rr.speedBool = 0;
                         StartCoroutine(drawGreyWall(eastRenderer));
                         StartCoroutine(drawSineWall(westRenderer));
-                        rr.speedBool = 1;
+                       
                     }
                     else if (morph == 1)
                     {
                         rr.speedBool = 0;
                         StartCoroutine(drawGreyWall(westRenderer));
                         StartCoroutine(drawSineWall(eastRenderer));
-                        rr.speedBool = 1;
+                       
                     }
                 } else
                 {
@@ -87,7 +87,7 @@ public class MakeSineOnChildren_HalfOneSided : MonoBehaviour
                 {
                     rr.speedBool = 0;
                     StartCoroutine(drawDoubleSineWall());
-                    rr.speedBool = 1;
+                    
                     
                 }
                 else
@@ -97,14 +97,14 @@ public class MakeSineOnChildren_HalfOneSided : MonoBehaviour
                         rr.speedBool = 0;
                         StartCoroutine(drawGreyWall(eastRenderer));
                         StartCoroutine(drawSineWall(westRenderer));
-                        rr.speedBool = 1;
+                       
                     }
                     else if (morph == 1)
                     {
                         rr.speedBool = 0;
                         StartCoroutine(drawGreyWall(westRenderer));
                         StartCoroutine(drawSineWall(eastRenderer));
-                        rr.speedBool = 1;
+                       
                     }
                 }
             }
@@ -172,7 +172,7 @@ public class MakeSineOnChildren_HalfOneSided : MonoBehaviour
         }
         texture.filterMode = FilterMode.Point;
         texture.Apply();
-
+        rr.speedBool = 1;
         yield return null;
     }
 
@@ -212,7 +212,7 @@ public class MakeSineOnChildren_HalfOneSided : MonoBehaviour
         }
         texture.filterMode = FilterMode.Point;
         texture.Apply();
-
+        rr.speedBool = 1;
         yield return null;
     }
 }

@@ -19,6 +19,8 @@ public class RR_2AFC : MonoBehaviour
     public float delta_z;
     private float realSpeed = 0.0447f;
     public float speedBool = 0;
+    private float startBool = 0;
+    public float servoBool = 0;
     private bool firstFlag = true;
 
     private static bool created = false;
@@ -44,8 +46,7 @@ public class RR_2AFC : MonoBehaviour
 
     void Update()
     {
-
-        if (firstFlag) { speedBool = 1; firstFlag = false; }
+        if (Input.GetKeyDown(KeyCode.G)) { startBool = 1; };
 
         // read quadrature encoder
         _serialPort.Write("\n");
@@ -53,7 +54,7 @@ public class RR_2AFC : MonoBehaviour
         {
             pulses = int.Parse(_serialPort.ReadLine());
             //Debug.Log (pulses);
-            delta_z = -1f * speedBool * pulses * realSpeed;
+            delta_z = -1f * speedBool * startBool * servoBool * pulses * realSpeed;
             Vector3 movement = new Vector3(0.0f, 0.0f, delta_z);
             transform.position = transform.position + movement;
 

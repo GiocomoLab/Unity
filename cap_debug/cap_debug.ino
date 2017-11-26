@@ -2,6 +2,7 @@
 
 CapacitiveSensor   L_port = CapacitiveSensor(11, 10);       // 1 megohm resistor between pins 11 & 10, pin 10 is sensor pin
 CapacitiveSensor   R_port = CapacitiveSensor(6, 5);       // 1 megohm resistor between pins 6 & 5, pin 5 is sensor pin
+CapacitiveSensor S_port = CapacitiveSensor(9, 3);   
 
 int trial_begin = 0; // flag for start of trial
 int rflag = 0; // flag to avoid multiple rewards
@@ -33,11 +34,14 @@ void loop()
   
   long L_val =  L_port.capacitiveSensor(50);
   long R_val =  R_port.capacitiveSensor(50);
-  
+  long S_val = S_port.capacitiveSensor(50);
   
     Serial.print(L_val);                  // print sensor output 1
     Serial.print("\t");
     Serial.print(R_val);                  // print sensor output 2
+    Serial.print("\t");
+    Serial.print(S_val);                 // print sensor output 3
+    Serial.print("\t");
     
     Serial.println("");
     delay(10);

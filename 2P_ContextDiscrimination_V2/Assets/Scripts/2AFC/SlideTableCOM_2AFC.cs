@@ -19,13 +19,14 @@ public class SlideTableCOM_2AFC : MonoBehaviour
     private string sceneName;
     private GameObject player;
     private PC_2AFC pc;
-
+    private RR_2AFC rr;
 
     private void Awake()
     {
 
         player = GameObject.Find("Player");
         pc = player.GetComponent<PC_2AFC>();
+        rr = player.GetComponent<RR_2AFC>();
 
 
     }
@@ -36,6 +37,7 @@ public class SlideTableCOM_2AFC : MonoBehaviour
         connect(actPort, 9600, true, 4); // connect to linear actuator port
         Debug.Log("Connected to actuator serial port");
         actFlag = true;
+        rr.servoBool = 1;
     }
 
     // Update is called once per frame

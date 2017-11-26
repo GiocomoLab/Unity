@@ -37,7 +37,7 @@ public class SavePositionData_OneSided : MonoBehaviour
         if (sp.saveData)
         {
             var sw = new StreamWriter(sp.posFile, true);
-            sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\r\n");
+            sw.Write(transform.position.z + "\t" + sp.morph + "\t" + Time.realtimeSinceStartup + "\r\n");
             sw.Close();
         }
     }

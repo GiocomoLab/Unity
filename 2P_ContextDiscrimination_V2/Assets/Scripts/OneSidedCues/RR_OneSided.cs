@@ -19,6 +19,7 @@ public class RR_OneSided : MonoBehaviour
     public float delta_z;
     private float realSpeed = 0.0447f;
     public float speedBool = 0;
+    private float startBool = 0;
     private bool firstFlag = true;
 
     private static bool created = false;
@@ -55,15 +56,17 @@ public class RR_OneSided : MonoBehaviour
     void Update()
     {
 
-        if (firstFlag) { speedBool = 1; firstFlag = false; }
-
+        if (Input.GetKeyDown(KeyCode.G)) { startBool = 1;  }
+        //Debug.Log(speedBool);
         // read quadrature encoder
         _serialPort.Write("\n");
         try
         {
             pulses = int.Parse(_serialPort.ReadLine());
-            //Debug.Log (pulses);
-            delta_z = -1f * speedBool * pulses * realSpeed;
+
+           // Debug.Log(speedBool);
+            delta_z = -1f*speedBool*startBool*pulses*realSpeed;
+            //Debug.Log(delta_z);
             Vector3 movement = new Vector3(0.0f, 0.0f, delta_z);
             transform.position = transform.position + movement;
 

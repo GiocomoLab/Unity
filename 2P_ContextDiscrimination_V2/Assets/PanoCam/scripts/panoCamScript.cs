@@ -39,7 +39,7 @@ public class panoCamScript : MonoBehaviour {
 		for(int i = 0; i < transform.childCount; i++) {
 			Transform child = transform.GetChild(i);
 			float onepart = 1.0f/transform.childCount;
-			child.GetComponent<Camera>().fieldOfView = 2*Mathf.Atan(hwratio*Mathf.Tan (180*Mathf.Deg2Rad/transform.childCount))*Mathf.Rad2Deg;
+			child.GetComponent<Camera>().fieldOfView = 2f*Mathf.Atan(hwratio*Mathf.Tan (135.0f*Mathf.Deg2Rad/transform.childCount))*Mathf.Rad2Deg;
 			child.localEulerAngles = new Vector3(0, 270.0f/transform.childCount * i, 0);
 			child.GetComponent<Camera>().rect = new Rect(onepart * i, 0, onepart, 1);
 		}

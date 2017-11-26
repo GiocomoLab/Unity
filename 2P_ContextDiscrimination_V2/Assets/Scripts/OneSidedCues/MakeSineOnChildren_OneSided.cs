@@ -25,6 +25,9 @@ public class MakeSineOnChildren_OneSided : MonoBehaviour
     private GameObject eWall;
     private GameObject wWall;
 
+    private float eastBool = 0;
+    private float westBool = 0;
+
     private RR_OneSided rr;
 
     private int numTraversalsLocal = -1;
@@ -52,20 +55,21 @@ public class MakeSineOnChildren_OneSided : MonoBehaviour
         if (numTraversalsLocal != sp.numTraversals | morph != sp.morph)
         {
             numTraversalsLocal = sp.numTraversals;
-
+           
             morph = sp.morph;
             if (morph == 0)
-            {
+            {   
+                
                 rr.speedBool = 0;
                 StartCoroutine(drawGreyWall(eastRenderer));
                 StartCoroutine(drawSineWall(westRenderer));
-                rr.speedBool = 1;
+               
             } else if (morph == 1)
             {
                 rr.speedBool = 0;
                 StartCoroutine(drawGreyWall(westRenderer));
-                StartCoroutine(drawSineWall(eastRenderer));
-                rr.speedBool = 1;
+                StartCoroutine(drawSineWall(eastRenderer ));
+                
             }
             
         }
@@ -130,7 +134,7 @@ public class MakeSineOnChildren_OneSided : MonoBehaviour
         }
         texture.filterMode = FilterMode.Point;
         texture.Apply();
-
+        rr.speedBool = 1f;
         yield return null;
     }
 }

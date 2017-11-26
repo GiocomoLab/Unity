@@ -60,7 +60,7 @@ public class DL_2AFC : MonoBehaviour
             string[] lick_list = lick_raw.Split('\t');
             c_1 = int.Parse(lick_list[0]);
             c_2 = int.Parse(lick_list[1]);
-            r = int.Parse(lick_list[2]);
+            r = int.Parse(lick_list[3]);
 
 
         }

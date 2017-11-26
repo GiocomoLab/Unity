@@ -60,7 +60,7 @@ public class DL_MovingWall : MonoBehaviour
             if (pc.cmd ==1 & !rflag)
             {
                 r = 1;
-                pc.cmd = 0;
+                pc.cmd = 3;
             } 
         } 
 

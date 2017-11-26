@@ -62,7 +62,7 @@ public class MakeSineOnChildren_2AFC_Train : MonoBehaviour
             rr.speedBool = 0;
             StartCoroutine(drawSineWall());
             
-            rr.speedBool = 1;
+           
         }
     }
 
@@ -103,7 +103,7 @@ public class MakeSineOnChildren_2AFC_Train : MonoBehaviour
         }
         texture.filterMode = FilterMode.Point;
         texture.Apply();
-
+        rr.speedBool = 1;
         yield return null;
     }
 }

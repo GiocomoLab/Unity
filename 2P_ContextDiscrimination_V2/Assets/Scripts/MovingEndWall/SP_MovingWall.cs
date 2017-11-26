@@ -23,6 +23,7 @@ public class SP_MovingWall : MonoBehaviour
 
     public int numTraversals = 0;
     public int numTrialsTotal;
+    public int maxRewards = 100;
 
     public float morph = 0;
 

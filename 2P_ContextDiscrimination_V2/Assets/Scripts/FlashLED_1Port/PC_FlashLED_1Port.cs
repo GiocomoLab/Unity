@@ -67,7 +67,7 @@ public class PC_FlashLED_1Port : MonoBehaviour
         {
             numRewards_manual += 1;
             Debug.Log(numRewards_manual);
-            StartCoroutine(DeliverReward(11));
+            StartCoroutine(DeliverReward(1));
 
             if (sp.saveData)
             {
@@ -92,6 +92,7 @@ public class PC_FlashLED_1Port : MonoBehaviour
         {
 
             arduino.analogWrite(3, 20); // turn LED on
+            yield return new WaitForSeconds(0.5f);
             cmd = 1;// tell DetectLicks to report first lick
             yield return new WaitForSeconds(sp.rDur);
             cmd = 0;

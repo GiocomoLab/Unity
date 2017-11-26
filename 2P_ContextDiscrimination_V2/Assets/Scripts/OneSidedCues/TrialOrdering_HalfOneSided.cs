@@ -26,13 +26,7 @@ public class TrialOrdering_HalfOneSided : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        if (UnityEngine.Random.value > .5)
-        {
-            oddTwoSided = true;
-        } else
-        {
-            oddTwoSided = false;
-        }
+        
     }
 
     // Update is called once per frame

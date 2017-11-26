@@ -22,7 +22,7 @@ public class PC_MovingWall : MonoBehaviour
     private AudioSource sound;
 
     private SP_MovingWall sp;
-    private DL_MovingWall dl;
+    private DL_MovingWall_CapBased dl;
     private RR_MovingWall rotary;
 
     private bool reward_dir;
@@ -40,7 +40,7 @@ public class PC_MovingWall : MonoBehaviour
         GameObject player = GameObject.Find("Player");
         sp = player.GetComponent<SP_MovingWall>();
         rotary = player.GetComponent<RR_MovingWall>();
-        dl = player.GetComponent<DL_MovingWall>();
+        dl = player.GetComponent<DL_MovingWall_CapBased>();
         blackCam = GameObject.Find("Black Camera");
         panoCam = GameObject.Find("panoCamera");
         panoCam.transform.eulerAngles = new Vector3(0.0f, -90.0f, 0.0f);
@@ -74,7 +74,7 @@ public class PC_MovingWall : MonoBehaviour
         transform.eulerAngles = new Vector3(0.0f, 90.0f, 0.0f);
 
         // end game after appropriate number of trials
-        if (transform.position.z <= 0 & sp.numTraversals == sp.numTrialsTotal)
+        if (sp.numTraversals >= sp.numTrialsTotal | sp.numRewards>= sp.maxRewards)
         {
             UnityEditor.EditorApplication.isPlaying = false;
         }
@@ -172,10 +172,14 @@ public class PC_MovingWall : MonoBehaviour
     IEnumerator RewardSequence()
     {   // water reward
         arduino.analogWrite(3, 20); // turn LED on
-        cmd = 1;
+        cmd = 9;
         yield return new WaitForSeconds(sp.rDur);
+        
         arduino.analogWrite(3, 0); // turn LED off
-        cmd = 0; 
+        yield return new WaitForSeconds(.05f);
+        cmd = 3;
+        yield return new WaitForSeconds(.5f);
+        cmd = 0;
 
     }
 
@@ -200,19 +204,20 @@ public class PC_MovingWall : MonoBehaviour
 
     IEnumerator DeliverReward(int r)
     { // deliver
+        Debug.Log(r);
         if (r == 1) // reward left
         {
             arduino.digitalWrite(12, Arduino.HIGH);
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.05f);
             arduino.digitalWrite(12, Arduino.LOW);
             sp.numRewards += 1;
             
         }
         else if (r == 11)
         {
-            arduino.digitalWrite(10, Arduino.HIGH);
-            yield return new WaitForSeconds(0.01f);
-            arduino.digitalWrite(10, Arduino.LOW);
+            arduino.digitalWrite(12, Arduino.HIGH);
+            yield return new WaitForSeconds(0.05f);
+            arduino.digitalWrite(12, Arduino.LOW);
             sp.numRewards_manual += 1;
             
 
