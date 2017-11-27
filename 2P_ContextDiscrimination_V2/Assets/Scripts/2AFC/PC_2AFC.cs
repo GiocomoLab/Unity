@@ -39,8 +39,8 @@ public class PC_2AFC : MonoBehaviour
     private int r_last = 0;
 
     private int RPort = 11;
-    private int LPort = 12;
-    private int puff = 10;
+    private int LPort = 10;
+    
 
     public int cmd = 3;
     private bool flashFlag = false;
@@ -91,8 +91,8 @@ public class PC_2AFC : MonoBehaviour
     void ConfigurePins()
     {   // lickports
         arduino.pinMode(RPort, PinMode.OUTPUT); // R - sweetened condensed milk 
-        arduino.pinMode(LPort, PinMode.OUTPUT); // airpuff //L - water or .5 mM diluted quinine
-        arduino.pinMode(puff, PinMode.OUTPUT); // L port for sweetened condensed milk
+        arduino.pinMode(LPort, PinMode.OUTPUT); //L - .5 mM diluted quinine
+        
         
         arduino.pinMode(3, PinMode.PWM); // LED
 
@@ -115,7 +115,7 @@ public class PC_2AFC : MonoBehaviour
         // manual rewards and punishments
         if (Input.GetKeyDown(KeyCode.Q) | Input.GetMouseButtonDown(0)) // reward left 
         {
-            StartCoroutine(DeliverReward(LPort));
+            StartCoroutine(DeliverReward(11));
 
             if (sp.saveData)
             {
@@ -128,7 +128,7 @@ public class PC_2AFC : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) | Input.GetMouseButtonDown(1)) // reward right 
         {
 
-            StartCoroutine(DeliverReward(RPort));
+            StartCoroutine(DeliverReward(12));
 
             if (sp.saveData)
             {
@@ -193,11 +193,8 @@ public class PC_2AFC : MonoBehaviour
     {   // water reward
         arduino.analogWrite(3, 20); // turn LED on
         yield return new WaitForSeconds(.5f);
-        if (side == 1)
-        { cmd = 1; }
-        else if (side == 2)
-        { cmd = 2; };
-        //cmd = 7; // dispense on first side that is licked - for servo
+        
+        cmd = 7; // dispense on first side that is licked - for servo
         yield return new WaitForSeconds(sp.rDur);
         arduino.analogWrite(3, 0); // turn LED off
         yield return new WaitForSeconds(.05f);
@@ -227,6 +224,7 @@ public class PC_2AFC : MonoBehaviour
     { // deliver
         if (r == 1) // reward left
         {
+            errSound.Play();
             arduino.digitalWrite(LPort, Arduino.HIGH);
             yield return new WaitForSeconds(0.03f);
             arduino.digitalWrite(LPort, Arduino.LOW);
@@ -237,11 +235,13 @@ public class PC_2AFC : MonoBehaviour
             {
                 LickHistory.Add(.25f);
             }
-            else
+            else if (sp.morph == 1)
             {
-                //LickHistory.Add(.25f); for servo
-                LickHistory.Add(.25f);
+                LickHistory.Add(.75f); 
+                
             }
+            yield return new WaitForSeconds(0.4f);
+            errSound.Stop();
         }
         else if (r == 2) // reward right
         {
@@ -252,12 +252,12 @@ public class PC_2AFC : MonoBehaviour
             Debug.Log(sp.numRewards);
             if (sp.morph == 0)
             {
-                //LickHistory.Add(.25f);
+                
                 LickHistory.Add(.75f); // for servo
             }
-            else
+            else if (sp.morph == 1)
             {
-                LickHistory.Add(.75f);
+                LickHistory.Add(.25f);
             }
 
         }

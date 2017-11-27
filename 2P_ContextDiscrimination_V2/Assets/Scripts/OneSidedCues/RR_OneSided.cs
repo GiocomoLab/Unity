@@ -20,22 +20,19 @@ public class RR_OneSided : MonoBehaviour
     private float realSpeed = 0.0447f;
     public float speedBool = 0;
     private float startBool = 0;
+    public float servoBool = 0;
     private bool firstFlag = true;
 
     private static bool created = false;
     public void Awake()
     {
-        if (!created)
-        {
-            // this is the first instance - make it persist
-            DontDestroyOnLoad(this);
-            created = true;
-        }
-        else
-        {
-            // this must be a duplicate from a scene reload - DESTROY!
-            Destroy(this);
-        }
+        // set speed
+        speedBool = 0;
+
+        // connect to playerController script
+        GameObject player = GameObject.Find("Player");
+        pc = player.GetComponent<PC_OneSided>();
+        sp = player.GetComponent<SP_OneSided>();
     }
 
     void Start()
@@ -44,13 +41,7 @@ public class RR_OneSided : MonoBehaviour
         connect(port, 57600, true, 4);
         Debug.Log("Connected to rotary encoder serial port");
 
-        // set speed
-        speedBool = 0;
-
-        // connect to playerController script
-        GameObject player = GameObject.Find("Player");
-        pc = player.GetComponent<PC_OneSided>();
-        sp = player.GetComponent<SP_OneSided>();
+        
     }
 
     void Update()
@@ -65,7 +56,7 @@ public class RR_OneSided : MonoBehaviour
             pulses = int.Parse(_serialPort.ReadLine());
 
            // Debug.Log(speedBool);
-            delta_z = -1f*speedBool*startBool*pulses*realSpeed;
+            delta_z = -1f * speedBool * startBool* servoBool * pulses * realSpeed;
             //Debug.Log(delta_z);
             Vector3 movement = new Vector3(0.0f, 0.0f, delta_z);
             transform.position = transform.position + movement;

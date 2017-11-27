@@ -20,9 +20,12 @@ public class SlideTableServoCOM_OneSided : MonoBehaviour
     private GameObject player;
     private PC_OneSided pc;
     private SP_OneSided sp;
+    private RR_OneSided rr;
+
     private float morph = -1;
     private int numTraversalsLocal = -1;
 
+    public bool servoFlag = false;
 
     private void Awake()
     {
@@ -30,7 +33,7 @@ public class SlideTableServoCOM_OneSided : MonoBehaviour
         player = GameObject.Find("Player");
         pc = player.GetComponent<PC_OneSided>();
         sp = player.GetComponent<SP_OneSided>();
-
+        rr = player.GetComponent<RR_OneSided>();
 
     }
 
@@ -54,43 +57,81 @@ public class SlideTableServoCOM_OneSided : MonoBehaviour
         if (pc.cmd == 1 | pc.cmd == 2 | pc.cmd == 7)
         {
             actuatorPort.Write("1"); // move forward
+            if (pc.transform.position.z < 0)
+            {
+                rr.servoBool = 0;
+            }
         }
         else
         {
-            actuatorPort.Write("2"); // move port back
-            if (sp.morph == 0f)
+            actuatorPort.Write("2"); // move forward
+            if (servoFlag)
             {
-                StartCoroutine(roll0());
-            }
-            else if (sp.morph == 1f)
-            {
-                StartCoroutine(roll1());
+                servoFlag = false;
+                rr.servoBool = 0.0f;
+                morph = sp.morph;
+                if (morph == 0f)
+                {
+                    //actuatorPort.Write("3");
+                    StartCoroutine(roll0());
+                }
+                else if (morph == 1f)
+                {
+                    //actuatorPort.Write("4");
+                    StartCoroutine(roll1());
 
+                }
             }
         }
 
-        
 
     }
 
 
     IEnumerator roll0()
     {
-        //actuatorPort.Write("2"); // move port back
-        yield return new WaitForSeconds(0.75f);
+        rr.servoBool = 0f;
+        actuatorPort.Write("2"); // move port back
+        yield return new WaitForSeconds(0.5f);
+        int repeats = (int)Math.Round(3.0f * UnityEngine.Random.value, 0);
+        int i = 0;
+        while (i < repeats + 1)
+        {
+            actuatorPort.Write("3");
+            yield return new WaitForSeconds(.75f);
+            actuatorPort.Write("4");
+            yield return new WaitForSeconds(.75f);
+            i++;
+        }
         actuatorPort.Write("3");
+        yield return new WaitForSeconds(1.0f);
+        rr.servoBool = 1f;
         yield return null;
-
     }
 
     IEnumerator roll1()
     {
-       // actuatorPort.Write("2"); // move port back
-        yield return new WaitForSeconds(0.75f);
+        rr.servoBool = 0f;
+        actuatorPort.Write("2"); // move port back
+        yield return new WaitForSeconds(1.0f);
+        int repeats = (int)Math.Round(3.0f * UnityEngine.Random.value, 0);
+        int i = 0;
+        while (i < repeats + 1)
+        {
+            actuatorPort.Write("4");
+            yield return new WaitForSeconds(.75f);
+            actuatorPort.Write("3");
+            yield return new WaitForSeconds(.75f);
+            i++;
+        }
         actuatorPort.Write("4");
+        yield return new WaitForSeconds(1.0f);
+        rr.servoBool = 1f;
         yield return null;
 
     }
+
+
     private void connect(string serialPortName, Int32 baudRate, bool autoStart, int delay)
     {
         actuatorPort = new SerialPort(serialPortName, baudRate);

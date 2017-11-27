@@ -8,6 +8,7 @@ public class TrialOrdering_OneSided_Quinine : MonoBehaviour
 
     private SP_OneSided sp;
     private PC_OneSided pc;
+    private SlideTableServoCOM_OneSided servoport;
     private GameObject player;
     private int switchFlag = 0;
     private float rand_val;
@@ -19,7 +20,7 @@ public class TrialOrdering_OneSided_Quinine : MonoBehaviour
         player = GameObject.Find("Player");
         sp = player.GetComponent<SP_OneSided>();
         pc = player.GetComponent<PC_OneSided>();
-
+        servoport = player.GetComponent<SlideTableServoCOM_OneSided>();
 
     }
     // Use this for initialization
@@ -35,6 +36,7 @@ public class TrialOrdering_OneSided_Quinine : MonoBehaviour
         if (player.transform.position.z < 0 & numTraversalsLocal != sp.numTraversals)
         {
             numTraversalsLocal = sp.numTraversals;
+            servoport.servoFlag = true;
             Debug.Log(pc.LickHistory[0]);
             if (pc.LickHistory.Count >= 20)
             {

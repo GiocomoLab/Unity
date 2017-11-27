@@ -9,6 +9,7 @@ public class TrialOrdering_HalfOneSided : MonoBehaviour
     private SP_OneSided sp;
     private PC_OneSided pc;
     private GameObject player;
+    private SlideTableServoCOM_OneSided servoport;
     private int switchFlag = 0;
     private float rand_val;
     private int numTraversalsLocal = -1;
@@ -20,6 +21,7 @@ public class TrialOrdering_HalfOneSided : MonoBehaviour
         player = GameObject.Find("Player");
         sp = player.GetComponent<SP_OneSided>();
         pc = player.GetComponent<PC_OneSided>();
+        servoport = player.GetComponent<SlideTableServoCOM_OneSided>();
 
 
     }
@@ -36,6 +38,7 @@ public class TrialOrdering_HalfOneSided : MonoBehaviour
         if (player.transform.position.z < 0 & numTraversalsLocal != sp.numTraversals)
         {
             numTraversalsLocal++;
+            servoport.servoFlag = true;
             Debug.Log(pc.LickHistory[0]);
             if (pc.LickHistory.Count >= 20)
             {

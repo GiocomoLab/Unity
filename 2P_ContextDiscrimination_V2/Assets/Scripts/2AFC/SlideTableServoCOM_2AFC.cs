@@ -57,6 +57,10 @@ public class SlideTableServoCOM_2AFC : MonoBehaviour
         if (pc.cmd == 1 | pc.cmd == 2 | pc.cmd == 7)
         {
             actuatorPort.Write("1"); // move forward
+            if (pc.transform.position.z<0)
+            {
+                rr.servoBool = 0;
+            }
         }
         else
         {
@@ -65,14 +69,16 @@ public class SlideTableServoCOM_2AFC : MonoBehaviour
             if (servoFlag)
             {
                 servoFlag = false;
-                rr.servoBool = 0;
+                rr.servoBool = 0.0f;
                 morph = sp.morph;
                 if (morph == 0f)
                 {
+                    //actuatorPort.Write("3");
                     StartCoroutine(roll0());
                 }
                 else if (morph == 1f)
                 {
+                    //actuatorPort.Write("4");
                     StartCoroutine(roll1());
 
                 }
@@ -95,9 +101,9 @@ public class SlideTableServoCOM_2AFC : MonoBehaviour
         while (i < repeats+1)
         {
             actuatorPort.Write("3");
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(.75f);
             actuatorPort.Write("4");
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(.75f);
             i++;
         }
         actuatorPort.Write("3");
@@ -118,13 +124,13 @@ public class SlideTableServoCOM_2AFC : MonoBehaviour
         while (i < repeats+1)
         {
             actuatorPort.Write("4");
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(.75f);
             actuatorPort.Write("3");
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(.75f);
             i++;
         }
         actuatorPort.Write("4");
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         rr.servoBool = 1f;
         yield return null;
 
