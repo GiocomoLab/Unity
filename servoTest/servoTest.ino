@@ -10,7 +10,7 @@ int pause = 50;
 
 void setup() {
   // put your setup code here, to run once:
-  testservo.attach(9, 600, 2300);
+  testservo.attach(9, 600, 2400);
   pinMode(10, OUTPUT);
   next = millis() + 2000;
   //testservo.writeMicroseconds(600);

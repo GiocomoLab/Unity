@@ -10,7 +10,7 @@ void setup() {
   pinMode(sol, OUTPUT);
   // begin serial port
   Serial.begin(9600);
-  lickServo.attach(9, 600, 2300);
+  lickServo.attach(9, 590, 2350);
   lickServo.write(pos);
 
 }
