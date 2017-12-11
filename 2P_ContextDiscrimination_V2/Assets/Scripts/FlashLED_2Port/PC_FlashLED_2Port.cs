@@ -26,9 +26,9 @@ public class PC_FlashLED_2Port : MonoBehaviour
     private bool flashFlag;
 
 
-    private int RPort = 11;
-    private int LPort = 12;
-    private int puff = 10;
+    private int RPort = 10;
+    private int LPort = 11;
+    private int puff = 12;
 
 
     private static bool created = false;

@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public class SlideTableCOM_2AFC : MonoBehaviour
 {
 
-    public string actPort = "COM4";
+    public string actPort = "COM5";
     public SerialPort actuatorPort;
     private int delay;
 
@@ -37,7 +37,7 @@ public class SlideTableCOM_2AFC : MonoBehaviour
         connect(actPort, 9600, true, 4); // connect to linear actuator port
         Debug.Log("Connected to actuator serial port");
         actFlag = true;
-        rr.servoBool = 1;
+        //rr.servoBool = 1;
     }
 
     // Update is called once per frame

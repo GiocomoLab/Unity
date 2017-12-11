@@ -37,8 +37,10 @@ public class PC_OneSided : MonoBehaviour
     private int r;
     private int r_last = 0;
 
-    private int RPort = 11;
-    private int LPort = 10;
+    private int RPort = 10;
+    private int LPort = 11;
+    private int puff = 12;
+    private int prevReward = 0;
 
     public int cmd = 3;
     private bool flashFlag = false;
@@ -58,7 +60,7 @@ public class PC_OneSided : MonoBehaviour
         panoCam = GameObject.Find("panoCamera");
         panoCam.transform.eulerAngles = new Vector3(0.0f, -90.0f, 0.0f);
         reward = GameObject.Find("Reward");
-        initialPosition = new Vector3(0f, 6f, -100.0f);
+        initialPosition = new Vector3(0f, 6f, -50.0f);
 
         sound = player.GetComponent<AudioSource>();
         errSound = GameObject.Find("basic_maze").GetComponent<AudioSource>();
@@ -89,6 +91,7 @@ public class PC_OneSided : MonoBehaviour
     {   // lickports
         arduino.pinMode(11, PinMode.OUTPUT); // R - sweetened condensed milk 
         arduino.pinMode(10, PinMode.OUTPUT); // L - water or .5 mM diluted quinine
+        arduino.pinMode(12, PinMode.OUTPUT);
         arduino.pinMode(3, PinMode.PWM); // LED
 
         Debug.Log("Pins configured (player controller)");
@@ -100,7 +103,7 @@ public class PC_OneSided : MonoBehaviour
         transform.eulerAngles = new Vector3(0.0f, 90.0f, 0.0f);
 
         // end game after appropriate number of trials
-        if (sp.numTraversals >= sp.numTrialsTotal)
+        if ((sp.numTraversals >= sp.numTrialsTotal) | (sp.numRewards >= sp.maxRewards   & transform.position.z < 0f ))
         {
             UnityEditor.EditorApplication.isPlaying = false;
         }
@@ -164,11 +167,34 @@ public class PC_OneSided : MonoBehaviour
            
             sound.Stop();
             transform.position = initialPosition;
+            StartCoroutine(InterTrialTimeout());
             reward.transform.position = new Vector3(0.0f, 0.0f, sp.mrd + UnityEngine.Random.value * sp.ard);
             LastRewardTime = Time.realtimeSinceStartup; // to avoid issues with teleports
+            
         }
 
     }
+
+    IEnumerator InterTrialTimeout()
+    {
+        rotary.toutBool = 0f;
+        if (prevReward == 0) // omission
+        {
+            yield return new WaitForSeconds(7f);
+
+        }
+        else if (prevReward == 1)
+        {// correct
+            yield return new WaitForSeconds(.5f);
+        }
+        else if (prevReward == 2) {
+            yield return new WaitForSeconds(7f);
+        }
+        rotary.toutBool = 1f;
+        prevReward = 0;
+    }
+
+
 
     IEnumerator MoveReward()
     {
@@ -187,8 +213,14 @@ public class PC_OneSided : MonoBehaviour
     {   // water reward
         arduino.analogWrite(3, 20); // turn LED on
         yield return new WaitForSeconds(.5f);
-        
-        cmd = 7; // dispense on first side that is licked
+        if (side ==1)
+        {
+            cmd = 1;
+        } else if (side == 2)
+        {
+            cmd = 2;
+        }
+        //cmd = 7; // dispense on first side that is licked
         yield return new WaitForSeconds(sp.rDur);
         arduino.analogWrite(3, 0); // turn LED off
         yield return new WaitForSeconds(.05f);
@@ -218,60 +250,55 @@ public class PC_OneSided : MonoBehaviour
     { // deliver
         if (r == 1) // reward left
         {
-            errSound.Play();
+            prevReward = 1;
+            LickHistory.Add(.33f);
             arduino.digitalWrite(LPort, Arduino.HIGH);
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.01f);
             arduino.digitalWrite(LPort, Arduino.LOW);
             sp.numRewards += 1;
             Debug.Log(sp.numRewards);
-
-            if (sp.morph == 0)
-            {
-                LickHistory.Add(.75f);
-            }
-            else if (sp.morph == 1)
-            {
-                LickHistory.Add(.25f);
-
-            }
-            yield return new WaitForSeconds(0.4f);
-            errSound.Stop();
+            
         }
         else if (r == 2) // reward right
         {
+            prevReward = 1;
+            LickHistory.Add(.67f);
             arduino.digitalWrite(RPort, Arduino.HIGH);
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.01f);
             arduino.digitalWrite(RPort, Arduino.LOW);
             sp.numRewards += 1;
             Debug.Log(sp.numRewards);
-            if (sp.morph == 0)
-            {
 
-                LickHistory.Add(.25f); // for servo
-            }
-            else if (sp.morph == 1)
-            {
-                LickHistory.Add(.75f);
-            }
-
+            
         }
         else if (r == 3)
         {
-            LickHistory.Add(0f);
+            prevReward = 2;
+            LickHistory.Add(.33f);
             errSound.Play();
-            //arduino.digitalWrite(puff, Arduino.HIGH);
+            arduino.digitalWrite(puff, Arduino.HIGH);
+            yield return new WaitForSeconds(0.1f);
+            arduino.digitalWrite(puff, Arduino.LOW);
             yield return new WaitForSeconds(0.5f);
+            
             errSound.Stop();
             yield return new WaitForSeconds(0.5f);
+
+           
         }
         else if (r == 4)
         {
-            LickHistory.Add(1f);
+            prevReward = 2;
+            LickHistory.Add(.67f);
             errSound.Play();
+            arduino.digitalWrite(puff, Arduino.HIGH);
+            yield return new WaitForSeconds(0.1f);
+            arduino.digitalWrite(puff, Arduino.LOW);
             yield return new WaitForSeconds(0.5f);
+
             errSound.Stop();
-            //arduino.digitalWrite(puff, Arduino.HIGH);
             yield return new WaitForSeconds(0.5f);
+            
         }
         else if (r == 11)
         {
@@ -291,7 +318,15 @@ public class PC_OneSided : MonoBehaviour
         }
         else
         {
-            LickHistory.Add(.5f);
+            if (sp.morph == 0)
+            {
+                LickHistory.Add(.66f);
+            }
+            else if (sp.morph == 1)
+            {
+                LickHistory.Add(.33f);
+            }
+            
             yield return null;
         };
 

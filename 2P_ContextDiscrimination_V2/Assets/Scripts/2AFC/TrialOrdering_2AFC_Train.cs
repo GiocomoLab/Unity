@@ -8,7 +8,7 @@ public class TrialOrdering_2AFC_Train : MonoBehaviour
 
     private SP_2AFC sp;
     private PC_2AFC pc;
-    private SlideTableServoCOM_2AFC servoport;
+    private SlideTableCOM_2AFC servoport;
     private GameObject player;
     private int switchFlag = 0;
     private float rand_val;
@@ -20,7 +20,7 @@ public class TrialOrdering_2AFC_Train : MonoBehaviour
         player = GameObject.Find("Player");
         sp = player.GetComponent<SP_2AFC>();
         pc = player.GetComponent<PC_2AFC>();
-        servoport = player.GetComponent<SlideTableServoCOM_2AFC>();
+        servoport = player.GetComponent<SlideTableCOM_2AFC>();
 
 
     }
@@ -37,7 +37,7 @@ public class TrialOrdering_2AFC_Train : MonoBehaviour
         if (player.transform.position.z < 0 & numTraversalsLocal != sp.numTraversals)
         {
             numTraversalsLocal++;
-            servoport.servoFlag = true;
+            //servoport.servoFlag = true;
             Debug.Log(pc.LickHistory[0]);
             if (pc.LickHistory.Count >= 20)
             {

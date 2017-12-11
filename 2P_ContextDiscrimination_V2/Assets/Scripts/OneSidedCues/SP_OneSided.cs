@@ -21,6 +21,7 @@ public class SP_OneSided : MonoBehaviour
     public int numTraversals = 0;
     public int numTrialsTotal;
 
+    public int maxRewards = 200;
     public float morph = 0;
 
     public float rDur = 1.5f; // timeout duration between available rewards

@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public class SlideTableServoCOM_OneSided : MonoBehaviour
 {
 
-    public string actPort = "COM4";
+    public string actPort = "COM5";
     public SerialPort actuatorPort;
     private int delay;
 
@@ -59,7 +59,7 @@ public class SlideTableServoCOM_OneSided : MonoBehaviour
             actuatorPort.Write("1"); // move forward
             if (pc.transform.position.z < 0)
             {
-                rr.servoBool = 0;
+              //  rr.servoBool = 0;
             }
         }
         else
@@ -68,7 +68,7 @@ public class SlideTableServoCOM_OneSided : MonoBehaviour
             if (servoFlag)
             {
                 servoFlag = false;
-                rr.servoBool = 0.0f;
+               // rr.servoBool = 0.0f;
                 morph = sp.morph;
                 if (morph == 0f)
                 {
@@ -90,7 +90,7 @@ public class SlideTableServoCOM_OneSided : MonoBehaviour
 
     IEnumerator roll0()
     {
-        rr.servoBool = 0f;
+        //rr.servoBool = 0f;
         actuatorPort.Write("2"); // move port back
         yield return new WaitForSeconds(0.5f);
         int repeats = (int)Math.Round(3.0f * UnityEngine.Random.value, 0);
@@ -105,13 +105,13 @@ public class SlideTableServoCOM_OneSided : MonoBehaviour
         }
         actuatorPort.Write("3");
         yield return new WaitForSeconds(1.0f);
-        rr.servoBool = 1f;
+        //rr.servoBool = 1f;
         yield return null;
     }
 
     IEnumerator roll1()
     {
-        rr.servoBool = 0f;
+        //rr.servoBool = 0f;
         actuatorPort.Write("2"); // move port back
         yield return new WaitForSeconds(1.0f);
         int repeats = (int)Math.Round(3.0f * UnityEngine.Random.value, 0);
@@ -126,7 +126,7 @@ public class SlideTableServoCOM_OneSided : MonoBehaviour
         }
         actuatorPort.Write("4");
         yield return new WaitForSeconds(1.0f);
-        rr.servoBool = 1f;
+        //rr.servoBool = 1f;
         yield return null;
 
     }

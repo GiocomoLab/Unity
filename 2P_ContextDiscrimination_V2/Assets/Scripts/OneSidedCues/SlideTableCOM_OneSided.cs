@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public class SlideTableCOM_OneSided : MonoBehaviour
 {
 
-    public string actPort = "COM4";
+    public string actPort = "COM5";
     public SerialPort actuatorPort;
     private int delay;
 

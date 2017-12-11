@@ -20,6 +20,7 @@ public class SP_2AFC : MonoBehaviour
 
     public int numTraversals = 0;
     public int numTrialsTotal;
+    public int maxRewards = 200;
 
     public float morph = 0;
 

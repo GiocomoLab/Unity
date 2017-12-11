@@ -123,9 +123,9 @@ public class PC_LEDCue_2Port : MonoBehaviour
     { // deliver 
         if (r == 1) // reward left
         {
-            arduino.digitalWrite(10, Arduino.HIGH);
+            arduino.digitalWrite(11, Arduino.HIGH);
             yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(10, Arduino.LOW);
+            arduino.digitalWrite(11, Arduino.LOW);
             sp.numRewards += 1;
             Debug.Log(sp.numRewards);
             LickHistory.Add(0f);
@@ -133,9 +133,9 @@ public class PC_LEDCue_2Port : MonoBehaviour
         }
         else if (r == 2) // reward right
         {
-            arduino.digitalWrite(11, Arduino.HIGH);
+            arduino.digitalWrite(10, Arduino.HIGH);
             yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(11, Arduino.LOW);
+            arduino.digitalWrite(10, Arduino.LOW);
             sp.numRewards += 1;
             Debug.Log(sp.numRewards);
             LickHistory.Add(1f);
@@ -143,17 +143,17 @@ public class PC_LEDCue_2Port : MonoBehaviour
         
         else if (r == 11)
         {
-            arduino.digitalWrite(10, Arduino.HIGH);
+            arduino.digitalWrite(11, Arduino.HIGH);
             yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(10, Arduino.LOW);
+            arduino.digitalWrite(11, Arduino.LOW);
             sp.numRewards_manual += 1;
 
         }
         else if (r == 12)
         {
-            arduino.digitalWrite(11, Arduino.HIGH);
+            arduino.digitalWrite(10, Arduino.HIGH);
             yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(11, Arduino.LOW);
+            arduino.digitalWrite(10, Arduino.LOW);
             sp.numRewards_manual += 1;
 
         }
