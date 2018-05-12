@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-using Uniduino;
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
@@ -10,7 +9,7 @@ public class PC_FlashLED_2Port : MonoBehaviour
 {
 
     public float r_timeout = 5.0f; // timeout duration between available rewards
-    public Arduino arduino;
+   
 
     private static int numRewards = 0;
     private int numRewards_manual = 0;
@@ -26,9 +25,7 @@ public class PC_FlashLED_2Port : MonoBehaviour
     private bool flashFlag;
 
 
-    private int RPort = 10;
-    private int LPort = 11;
-    private int puff = 12;
+ 
 
 
     private static bool created = false;
@@ -58,16 +55,12 @@ public class PC_FlashLED_2Port : MonoBehaviour
 
     void Start()
     {
-        // initialize arduino
-        arduino = Arduino.global;
-        arduino.Setup(ConfigurePins);
+        
     }
 
     void ConfigurePins()
     {   // lickports
-        arduino.pinMode(LPort, PinMode.OUTPUT); // R
-        arduino.pinMode(RPort, PinMode.OUTPUT); // L        
-        arduino.pinMode(3, PinMode.PWM); // LED
+       
 
         Debug.Log("Pins configured (player controller)");
         pcntrl_pins = true;
@@ -86,28 +79,26 @@ public class PC_FlashLED_2Port : MonoBehaviour
         {
             numRewards_manual += 1;
             Debug.Log(numRewards_manual);
-            StartCoroutine(DeliverReward(1));
+            StartCoroutine(DeliverReward(7));
 
-            if (sp.saveData)
-            {
-                var sw = new StreamWriter(sp.rewardFile, true);
-                sw.Write(Time.realtimeSinceStartup + "\t" + 1f + "\r\n");
-                sw.Close();
-            }
+          
+            var sw = new StreamWriter(sp.rewardFile, true);
+            sw.Write(Time.realtimeSinceStartup + "\t" + 1f + "\r\n");
+            sw.Close();
+            
         }
 
         if (Input.GetKeyDown(KeyCode.P) | Input.GetMouseButtonDown(1)) // reward right
         {
             numRewards_manual += 1;
             Debug.Log(numRewards_manual);
-            StartCoroutine(DeliverReward(2));
+            StartCoroutine(DeliverReward(8));
 
-            if (sp.saveData)
-            {
-                var sw = new StreamWriter(sp.rewardFile, true);
-                sw.Write(Time.realtimeSinceStartup + "\t" + 2f + "\r\n");
-                sw.Close();
-            }
+           
+            var sw = new StreamWriter(sp.rewardFile, true);
+            sw.Write(Time.realtimeSinceStartup + "\t" + 2f + "\r\n");
+            sw.Close();
+            
         }
 
         r_last = dl.r;
@@ -117,7 +108,7 @@ public class PC_FlashLED_2Port : MonoBehaviour
     // save manipulation data to server
     void OnApplicationQuit()
     {
-        arduino.analogWrite(3, 0);
+      
 
     }
 
@@ -126,7 +117,8 @@ public class PC_FlashLED_2Port : MonoBehaviour
         while (true)
         {
 
-            arduino.analogWrite(3, 20); // turn LED on
+            cmd = 11;
+            yield return new WaitForSeconds(.5f);
             cmd = 4; // reward first lick
             
             // correct biases in licking behavior 
@@ -138,14 +130,14 @@ public class PC_FlashLED_2Port : MonoBehaviour
             float thresh = sum / (float)LickHistory.Count;
             if (thresh >= .9 )
             {
-                StartCoroutine(DeliverReward(21)); // if haven't licked left in a while, deliver a reward to the left
+                StartCoroutine(DeliverReward(7)); // if haven't licked left in a while, deliver a reward to the left
                 var sw = new StreamWriter(sp.rewardFile, true);
                 sw.Write(Time.realtimeSinceStartup + "\t" + 21f + "\r\n");
                 sw.Close();
 
             } else if (thresh <=.1)
             {
-                StartCoroutine(DeliverReward(22)); // if haven't licked right in a while, deliver a reward to the right
+                StartCoroutine(DeliverReward(8)); // if haven't licked right in a while, deliver a reward to the right
                 var sw = new StreamWriter(sp.rewardFile, true);
                 sw.Write(Time.realtimeSinceStartup + "\t" + 22f + "\r\n");
                 sw.Close();
@@ -153,7 +145,6 @@ public class PC_FlashLED_2Port : MonoBehaviour
             //
 
             yield return new WaitForSeconds(sp.rDur);
-            arduino.analogWrite(3, 0);
             float timeout = 5.0f * UnityEngine.Random.value + 5.0f;
             cmd = 3;
             yield return new WaitForSeconds(.5f);
@@ -163,66 +154,50 @@ public class PC_FlashLED_2Port : MonoBehaviour
         }
     }
 
-    IEnumerator DeliverReward(int r)
-    { // deliver 
+     IEnumerator DeliverReward(int r)
+    { // deliver
+
         if (r == 1) // reward left
         {
-            arduino.digitalWrite(LPort, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(LPort, Arduino.LOW);
-            sp.numRewards += 1;
-            Debug.Log(sp.numRewards);
-            LickHistory.Add(0f);
 
+            LickHistory.Add(.25f); // .33f);
+            sp.numRewards += 1;
+            //Debug.Log(sp.numRewards);
+            // prevReward = 1;
         }
         else if (r == 2) // reward right
         {
-            arduino.digitalWrite(RPort, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(RPort, Arduino.LOW);
+            //prevReward = 1;
+            LickHistory.Add(.75f); // .66f);
             sp.numRewards += 1;
-            Debug.Log(sp.numRewards);
-            LickHistory.Add(1f);
-        }
-        
-        else if (r == 11)
-        {
-            arduino.digitalWrite(LPort, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(LPort, Arduino.LOW);
-            sp.numRewards_manual += 1;
+            // Debug.Log(sp.numRewards);
+
+
 
         }
-        else if (r == 12)
-        {
-            arduino.digitalWrite(RPort, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(RPort, Arduino.LOW);
-            sp.numRewards_manual += 1;
 
-        }
-        else if (r == 21) // big reward
+        else if (r == 7)
         {
-            arduino.digitalWrite(LPort, Arduino.HIGH);
-            yield return new WaitForSeconds(0.5f);
-            arduino.digitalWrite(LPort, Arduino.LOW);
-            sp.numRewards_manual += 1;
-
+            cmd = 7;
+            yield return new WaitForSeconds(0.01f);
+            cmd = 0;
         }
-        else if (r == 22) // big reward
+        else if (r == 8)
         {
-            arduino.digitalWrite(RPort, Arduino.HIGH);
-            yield return new WaitForSeconds(0.5f);
-            arduino.digitalWrite(RPort, Arduino.LOW);
-            sp.numRewards_manual += 1;
-
+            cmd = 8;
+            yield return new WaitForSeconds(0.01f);
+            cmd = 0;
         }
-        else { yield return null; };
+        else
+        { }
+           
 
         if (LickHistory.Count > 10)
         {
             LickHistory.RemoveAt(0);
         }
+
     }
+
 
 }

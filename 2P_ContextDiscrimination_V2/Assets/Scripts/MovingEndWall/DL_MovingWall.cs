@@ -50,12 +50,11 @@ public class DL_MovingWall : MonoBehaviour
         if (pinValue < 500)
         {
 
-            if (sp.saveData)
-            {
-                var sw = new StreamWriter(sp.lickFile, true);
-                sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\r\n");
-                sw.Close();
-            }
+            
+            var sw = new StreamWriter(sp.lickFile, true);
+            sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\r\n");
+            sw.Close();
+            
 
             if (pc.cmd ==1 & !rflag)
             {

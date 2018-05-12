@@ -6,7 +6,7 @@ using System.IO;
 public class SP_OneSided : MonoBehaviour
 {
 
-    public bool saveData = true;
+    
     public string mouse;
     public string session;
 
@@ -61,7 +61,7 @@ public class SP_OneSided : MonoBehaviour
     private static bool created = false;
 
     public int dirCheck = 0;
-
+    
     public void Awake()
     {
         if (!created)
@@ -138,15 +138,14 @@ public class SP_OneSided : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        if (saveData)
-        {
+        
             File.Copy(rewardFile, serverRewardFile, true);
             File.Copy(lickFile, serverLickFile, true);
             File.Copy(posFile, serverPosFile, true);
             File.Copy(manRewardFile, serverManRewardFile, true);
             File.Copy(timeSyncFile, serverTimeSyncFile, true);
             File.Copy(trialOrderFile, serverTrialOrderFile, true);
-        }
+        
     }
 
 }

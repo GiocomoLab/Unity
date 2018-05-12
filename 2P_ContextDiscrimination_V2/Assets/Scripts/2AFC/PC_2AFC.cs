@@ -11,7 +11,7 @@ using System.Threading;
 
 public class PC_2AFC : MonoBehaviour
 {
-    public Arduino arduino;
+    
 
     private GameObject player;
     private GameObject reward;
@@ -37,10 +37,6 @@ public class PC_2AFC : MonoBehaviour
     private static bool created = false;
     private int r;
     private int r_last = 0;
-
-    private int RPort = 10;
-    private int LPort = 11;
-    private int puff = 12;
 
     public int cmd = 3;
     private bool flashFlag = false;
@@ -69,34 +65,22 @@ public class PC_2AFC : MonoBehaviour
 
         LickHistory = new ArrayList();
         int j = 0;
-        while (j < 20)
+        while (j <  20)
         {
             LickHistory.Add(0.5f);
             j++;
         }
-        Debug.Log(LickHistory[0]);
+        //Debug.Log(LickHistory[0]);
 
     }
 
     void Start()
     {
-        // get game objects
-        arduino = Arduino.global;
-        arduino.Setup(ConfigurePins);
+        
         // put the mouse in the dark tunnel
 
         reward.transform.position = reward.transform.position + new Vector3(0.0f, 0.0f, sp.mrd + UnityEngine.Random.value * sp.ard); ;
 
-    }
-
-    void ConfigurePins()
-    {   // lickports
-        arduino.pinMode(11, PinMode.OUTPUT); // R - sweetened condensed milk 
-        arduino.pinMode(10, PinMode.OUTPUT); // L - water or .5 mM diluted quinine
-        arduino.pinMode(12, PinMode.OUTPUT);
-        arduino.pinMode(3, PinMode.PWM); // LED
-
-        Debug.Log("Pins configured (player controller)");
     }
 
     void Update()
@@ -115,27 +99,25 @@ public class PC_2AFC : MonoBehaviour
         // manual rewards and punishments
         if (Input.GetKeyDown(KeyCode.Q) | Input.GetMouseButtonDown(0)) // reward left - sweetened condensed milk
         {
-            StartCoroutine(DeliverReward(11));
-
-            if (sp.saveData)
-            {
-                var sw = new StreamWriter(sp.manRewardFile, true);
-                sw.Write(Time.realtimeSinceStartup + "\t" + 1f + "\r\n");
-                sw.Close();
-            }
+            StartCoroutine(DeliverReward(7));
+            //cmd = 7;
+            
+            var sw = new StreamWriter(sp.manRewardFile, true);
+            sw.Write(Time.realtimeSinceStartup + "\t" + 1f + "\r\n");
+            sw.Close();
+            
         }
 
         if (Input.GetKeyDown(KeyCode.P) | Input.GetMouseButtonDown(1)) // reward right - quinine
         {
 
-            StartCoroutine(DeliverReward(12));
-
-            if (sp.saveData)
-            {
-                var sw = new StreamWriter(sp.manRewardFile, true);
-                sw.Write(Time.realtimeSinceStartup + "\t" + 2f + "\r\n");
-                sw.Close();
-            }
+            StartCoroutine(DeliverReward(8));
+            //cmd = 8;
+            
+            var sw = new StreamWriter(sp.manRewardFile, true);
+            sw.Write(Time.realtimeSinceStartup + "\t" + 2f + "\r\n");
+            sw.Close();
+            
         }
 
 
@@ -154,7 +136,26 @@ public class PC_2AFC : MonoBehaviour
 
         else if (other.tag == "Reward")
         {
-            int side = (int)sp.morph + 1;
+            int side;
+            if (sp.morph == 0)
+            {
+                side = 1;
+            } else if (sp.morph == 1)
+            {
+                side = 2;
+            } else
+            {
+                side = 0;
+            }
+            //if (sp.morph<=.9999f*UnityEngine.Random.value) {
+            //    side = 1;
+            //
+            //} else
+            //{
+            //    side = 2;
+            //}
+
+            //int side = (int)sp.morph + 1;
             var sw = new StreamWriter(sp.rewardFile, true);
             sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\t" + sp.morph + "\t" + side + "\r\n");
             sw.Close();
@@ -181,17 +182,22 @@ public class PC_2AFC : MonoBehaviour
         rotary.toutBool = 0f;
         if (prevReward == 0) // omission
         {
-            yield return new WaitForSeconds(7f);
+            yield return new WaitForSeconds(10f); // 7f);
 
         }
         else if (prevReward == 1)
         {// correct
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(1f); //.5f);
         }
         else if (prevReward == 2)
         {
-            yield return new WaitForSeconds(7f);
+            yield return new WaitForSeconds(10f); //7f);
         }
+        else
+        {
+            yield return new WaitForSeconds(1f);
+        } 
+
         rotary.toutBool = 1f;
         prevReward = 0;
     }
@@ -205,14 +211,15 @@ public class PC_2AFC : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        arduino.analogWrite(3, 0);
+        
         panoCam.SetActive(false);
 
     }
 
     IEnumerator RewardSequence(int side)
     {   // water reward
-        arduino.analogWrite(3, 20); // turn LED on
+        //arduino.analogWrite(3, 20); // turn LED on
+        cmd = 11;
         yield return new WaitForSeconds(.5f);
         if (side == 1)
         {
@@ -221,11 +228,12 @@ public class PC_2AFC : MonoBehaviour
         else if (side == 2)
         {
             cmd = 2;
+        } else
+        {
+            cmd = 15;
         }
         //cmd = 7; // dispense on first side that is licked
         yield return new WaitForSeconds(sp.rDur);
-        arduino.analogWrite(3, 0); // turn LED off
-        yield return new WaitForSeconds(.05f);
         cmd = 3;
         yield return new WaitForSeconds(.5f);
         cmd = 0;
@@ -250,82 +258,80 @@ public class PC_2AFC : MonoBehaviour
 
     IEnumerator DeliverReward(int r)
     { // deliver
+        
         if (r == 1) // reward left
         {
-            prevReward = 1;
-            LickHistory.Add(.33f);
-            arduino.digitalWrite(LPort, Arduino.HIGH);
-            yield return new WaitForSeconds(0.01f);
-            arduino.digitalWrite(LPort, Arduino.LOW);
+           
+            LickHistory.Add(.33f); // .33f);
             sp.numRewards += 1;
-            Debug.Log(sp.numRewards);
+            //Debug.Log(sp.numRewards);
             prevReward = 1;
         }
         else if (r == 2) // reward right
         {
             prevReward = 1;
-            LickHistory.Add(.66f);
-            arduino.digitalWrite(RPort, Arduino.HIGH);
-            yield return new WaitForSeconds(0.01f);
-            arduino.digitalWrite(RPort, Arduino.LOW);
+            LickHistory.Add(.67f); // .66f);
             sp.numRewards += 1;
-            Debug.Log(sp.numRewards);
+           // Debug.Log(sp.numRewards);
             
 
 
         }
         else if (r == 3)
         {
-            prevReward = 2;
-            LickHistory.Add(.33f);
-            errSound.Play();
-            arduino.digitalWrite(puff, Arduino.HIGH);
-            yield return new WaitForSeconds(0.1f);
-            arduino.digitalWrite(puff, Arduino.LOW);
-            yield return new WaitForSeconds(0.5f);
-
-            errSound.Stop();
-            yield return new WaitForSeconds(0.5f);
+            if (sp.morph == 1.0f)
+            {
+                prevReward = 2;
+                LickHistory.Add(.33f); //.33f);
+                errSound.Play();
+                yield return new WaitForSeconds(0.5f);
+                errSound.Stop();
+            }  else
+            {
+                prevReward = 1;
+            }
+            
             
         }
         else if (r == 4)
         {
-            prevReward = 2;
-            LickHistory.Add(.66f);
-            errSound.Play();
-            arduino.digitalWrite(puff, Arduino.HIGH);
-            yield return new WaitForSeconds(0.1f);
-            arduino.digitalWrite(puff, Arduino.LOW);
-            yield return new WaitForSeconds(0.5f);
-
-            errSound.Stop();
-            yield return new WaitForSeconds(0.5f);
-        }
-        else if (r == 11)
+            if (sp.morph == 0f)
+            {
+                prevReward = 2;
+                LickHistory.Add(.67f); // 66f);
+                errSound.Play();
+                yield return new WaitForSeconds(0.5f);
+                errSound.Stop();
+            } else
+            {
+                prevReward = 1;
+            }
+            
+        } else if (r ==7)
         {
-            arduino.digitalWrite(LPort, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(LPort, Arduino.LOW);
-            sp.numRewards_manual += 1;
-
+            cmd = 7;
+            yield return new WaitForSeconds(0.01f);
+            cmd = 0;
         }
-        else if (r == 12)
+        else if (r == 8)
         {
-            arduino.digitalWrite(RPort, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(RPort, Arduino.LOW);
-            sp.numRewards_manual += 1;
-
+            cmd = 8;
+            yield return new WaitForSeconds(0.01f);
+            cmd = 0;
         }
         else
         {
             if (sp.morph == 0)
             {
-                LickHistory.Add(.66f);
+                LickHistory.Add(.67f); //.66f);
             }
             else if (sp.morph == 1)
             {
-                LickHistory.Add(.33f);
+                LickHistory.Add(.33f); //.33f);
+            } else // morph trials
+            {
+                prevReward = 1;
+                LickHistory.Add(.5f);
             }
 
             yield return null;

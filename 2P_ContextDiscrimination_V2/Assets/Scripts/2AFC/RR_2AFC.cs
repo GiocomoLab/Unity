@@ -17,6 +17,7 @@ public class RR_2AFC : MonoBehaviour
     private SP_2AFC sp;
     private PC_2AFC pc;
     public float delta_z;
+    public float true_delta_z;
     private float realSpeed = 0.0447f;
     public float speedBool = 0;
     private float startBool = 0;
@@ -55,6 +56,7 @@ public class RR_2AFC : MonoBehaviour
         {
             pulses = int.Parse(_serialPort.ReadLine());
             //Debug.Log (pulses);
+            true_delta_z = -1f*pulses * realSpeed;
             delta_z = -1f * speedBool * startBool  * toutBool * pulses * realSpeed;
             Vector3 movement = new Vector3(0.0f, 0.0f, delta_z);
             transform.position = transform.position + movement;

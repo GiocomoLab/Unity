@@ -17,6 +17,7 @@ public class RR_OneSided : MonoBehaviour
     private SP_OneSided sp;
     private PC_OneSided pc;
     public float delta_z;
+    public float true_delta_z;
     private float realSpeed = 0.0447f;
     public float speedBool = 0;
     private float startBool = 0;
@@ -56,6 +57,7 @@ public class RR_OneSided : MonoBehaviour
             pulses = int.Parse(_serialPort.ReadLine());
 
            // Debug.Log(speedBool);
+           true_delta_z = -1f * pulses * realSpeed;
             delta_z = -1f * speedBool * startBool* toutBool* pulses * realSpeed;
             //Debug.Log(delta_z);
             Vector3 movement = new Vector3(0.0f, 0.0f, delta_z);

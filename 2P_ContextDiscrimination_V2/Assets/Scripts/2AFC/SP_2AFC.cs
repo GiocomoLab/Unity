@@ -6,13 +6,13 @@ using System.IO;
 public class SP_2AFC : MonoBehaviour
 {
 
-    public bool saveData = true;
+    //public bool saveData = true;
     public string mouse;
     public string session;
 
     public float mrd = 175.0f; // minimum reward distance
     public float ard = 150.0f; // additional reward distance
-    public bool fixedRewardSchedule = false; // proportion of trials with towers on both sides
+    
 
     public int numRewards = 0;
     public int numRewards_manual = 0;
@@ -23,9 +23,7 @@ public class SP_2AFC : MonoBehaviour
     public int maxRewards = 200;
 
     public float morph = 0;
-
-    public float rDur = 1.5f; // timeout duration between available rewards
-
+    public float rDur = 2;
 
     // for saving data
     public string localDirectory_pre = "C:/Users/2PRig/VR_Data/2AFC_V3/";
@@ -131,22 +129,16 @@ public class SP_2AFC : MonoBehaviour
 
     }
 
-    //void Start()
-    //{   // to debug pasted all contents to awake (beginning line 54)
-
-    //}
-
     void OnApplicationQuit()
     {
-        if (saveData)
-        {
-            File.Copy(rewardFile, serverRewardFile, true);
-            File.Copy(lickFile, serverLickFile, true);
-            File.Copy(posFile, serverPosFile, true);
-            File.Copy(manRewardFile, serverManRewardFile, true);
-            File.Copy(timeSyncFile, serverTimeSyncFile, true);
-            File.Copy(trialOrderFile, serverTrialOrderFile, true);
-        }
+     
+        File.Copy(rewardFile, serverRewardFile, true);
+        File.Copy(lickFile, serverLickFile, true);
+        File.Copy(posFile, serverPosFile, true);
+        File.Copy(manRewardFile, serverManRewardFile, true);
+        File.Copy(timeSyncFile, serverTimeSyncFile, true);
+        File.Copy(trialOrderFile, serverTrialOrderFile, true);
+     
     }
 
 }

@@ -43,7 +43,7 @@ public class DL_LEDCue_2Port : MonoBehaviour
     void Start()
     {
         // connect to Arduino uno serial port
-        connect(port, 9600, true, 4);
+        connect(port, 115200, true, 4);
         Debug.Log("Connected to lick detector serial port");  
         
     }
@@ -53,14 +53,14 @@ public class DL_LEDCue_2Port : MonoBehaviour
     {
         rflag = 0;
 
-        _serialPort.Write(pc.cmd.ToString());
+        _serialPort.Write(pc.cmd.ToString() + ',');
         try
         {
             lick_raw = _serialPort.ReadLine();
             string[] lick_list = lick_raw.Split('\t');
             c_1 = int.Parse(lick_list[0]);
             c_2 = int.Parse(lick_list[1]);
-            r = int.Parse(lick_list[3]);
+            r = int.Parse(lick_list[2]);
             
 
         }
@@ -71,22 +71,18 @@ public class DL_LEDCue_2Port : MonoBehaviour
 
 
         //Debug.Log(pinValue);
-        if (sp.saveData)
-        {
-            var sw = new StreamWriter(sp.lickFile, true);
-            sw.Write(c_1 + "\t" + c_2 +  "\t" + r + "\t" + Time.realtimeSinceStartup + "\r\n");
-            sw.Close();
+       
+        var sw = new StreamWriter(sp.lickFile, true);
+        sw.Write(c_1 + "\t" + c_2 +  "\t" + r + "\t" + Time.realtimeSinceStartup + "\r\n");
+        sw.Close();
 
-        }
+        
 
     }
 
     void OnApplicationQuit()
     {
-        if (sp.saveData)
-        {
-            File.Copy(sp.lickFile, sp.serverLickFile);
-        }
+        //_serialPort.Write("12,");
     }
 
     private void connect(string serialPortName, Int32 baudRate, bool autoStart, int delay)

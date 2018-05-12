@@ -7,6 +7,8 @@ public class SavePositionData_OneSided : MonoBehaviour
 {
 
     private SP_OneSided sp;
+    private RR_OneSided rr;
+
     private static bool created = false;
 
     public void Awake()
@@ -28,18 +30,18 @@ public class SavePositionData_OneSided : MonoBehaviour
     {
         GameObject player = GameObject.Find("Player");
         sp = player.GetComponent<SP_OneSided>();
+        rr = player.GetComponent<RR_OneSided>();
 
     }
 
     void Update()
     {
         // write position data to file every frame
-        if (sp.saveData)
-        {
+       
             var sw = new StreamWriter(sp.posFile, true);
-            sw.Write(transform.position.z + "\t" + sp.morph + "\t" + Time.realtimeSinceStartup + "\r\n");
+            sw.Write(transform.position.z + "\t" + sp.morph + "\t" + Time.realtimeSinceStartup + "\t" + sp.morph + "\t" + rr.true_delta_z + "\r\n");
             sw.Close();
-        }
+        
     }
 
 

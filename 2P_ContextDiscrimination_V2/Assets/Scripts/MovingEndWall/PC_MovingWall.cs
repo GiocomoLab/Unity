@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-using Uniduino;
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
@@ -11,7 +10,7 @@ using System.Threading;
 
 public class PC_MovingWall : MonoBehaviour
 {
-    public Arduino arduino;
+    
 
     private GameObject player;
     private GameObject reward;
@@ -51,22 +50,13 @@ public class PC_MovingWall : MonoBehaviour
     void Start()
     {
        
-        arduino = Arduino.global;
-        arduino.Setup(ConfigurePins);
+        
         // put the mouse in the dark tunnel
         StartCoroutine(LightsOff());
         reward.transform.position = reward.transform.position + new Vector3(0.0f, 0.0f, sp.mrd ); ;
         LastRewardTime = Time.realtimeSinceStartup;
     }
 
-    void ConfigurePins()
-    {   // lickports
-        
-        arduino.pinMode(3, PinMode.PWM);  // LED
-        arduino.pinMode(12, PinMode.OUTPUT); // single lickport
-        
-        Debug.Log("Pins configured (player controller)");
-    }
 
     void Update()
     {
@@ -79,34 +69,21 @@ public class PC_MovingWall : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
         }
 
-        if (dl.r > 0 ) { StartCoroutine(DeliverReward(dl.r));  dl.r = 0; }; // deliver appropriate reward
+        if (dl.r > 0 ) { StartCoroutine(DeliverReward(dl.r)); sp.numRewards++; dl.r = 0; }; // deliver appropriate reward
 
         // manual rewards and punishments
         if (Input.GetKeyDown(KeyCode.Q) | Input.GetMouseButtonDown(0)) // reward left
         {
-            StartCoroutine(DeliverReward(11));
+            StartCoroutine(DeliverReward(4));
 
-            if (sp.saveData)
-            {
-                var sw = new StreamWriter(sp.manRewardFile, true);
-                sw.Write(Time.realtimeSinceStartup + "\r\n");
-                sw.Close();
-            }
+            
+            var sw = new StreamWriter(sp.manRewardFile, true);
+            sw.Write(Time.realtimeSinceStartup + "\r\n");
+            sw.Close();
+            
         }
 
-        if (Input.GetKeyDown(KeyCode.P) | Input.GetMouseButtonDown(1)) // reward right
-        {
-
-            StartCoroutine(DeliverReward(12));
-
-            if (sp.saveData)
-            {
-                var sw = new StreamWriter(sp.manRewardFile, true);
-                sw.Write( Time.realtimeSinceStartup + "\r\n");
-                sw.Close();
-            }
-        }
-
+       
     }
 
     void OnTriggerEnter(Collider other)
@@ -163,7 +140,7 @@ public class PC_MovingWall : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        arduino.analogWrite(3, 0);
+        
         blackCam.SetActive(true);
         panoCam.SetActive(false);
 
@@ -171,13 +148,12 @@ public class PC_MovingWall : MonoBehaviour
 
     IEnumerator RewardSequence()
     {   // water reward
-        arduino.analogWrite(3, 20); // turn LED on
-        cmd = 9;
+
+        cmd = 7; // turn LED on
+        yield return new WaitForSeconds(.5f);
+        cmd = 1;
         yield return new WaitForSeconds(sp.rDur);
-        
-        arduino.analogWrite(3, 0); // turn LED off
-        yield return new WaitForSeconds(.05f);
-        cmd = 3;
+        cmd = 2;
         yield return new WaitForSeconds(.5f);
         cmd = 0;
 
@@ -204,25 +180,12 @@ public class PC_MovingWall : MonoBehaviour
 
     IEnumerator DeliverReward(int r)
     { // deliver
-        Debug.Log(r);
-        if (r == 1) // reward left
+       if (r == 4)
         {
-            arduino.digitalWrite(12, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(12, Arduino.LOW);
-            sp.numRewards += 1;
-            
+            cmd = 4;
+            yield return new WaitForSeconds(0.01f);
+            cmd = 0;
         }
-        else if (r == 11)
-        {
-            arduino.digitalWrite(12, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(12, Arduino.LOW);
-            sp.numRewards_manual += 1;
-            
-
-        }
-        else { yield return null; };
     }
 
 }

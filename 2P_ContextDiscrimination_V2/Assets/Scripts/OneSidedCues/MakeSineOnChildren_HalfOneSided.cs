@@ -7,10 +7,10 @@ public class MakeSineOnChildren_HalfOneSided : MonoBehaviour
 
     private int dim1 = 3600;
     private int dim2 = 450;
-    private float f1 = 3;
-    private float f2 = .5f;
-    private float theta1 = 0;
-    private float theta2 = 60;
+    private float f1 = 2f; //3;
+    private float f2 = 1f; //.5f;
+    private float theta1 = 10f;
+    private float theta2 = 60f;
 
     private SP_OneSided sp;
     private float morph;

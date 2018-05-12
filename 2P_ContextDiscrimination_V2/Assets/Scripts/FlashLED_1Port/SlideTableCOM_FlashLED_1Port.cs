@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public class SlideTableCOM_FlashLED_1Port : MonoBehaviour
 {
 
-    public string actPort = "COM4";
+    public string actPort = "COM5";
     public SerialPort actuatorPort;
     private int delay;
 
@@ -42,7 +42,7 @@ public class SlideTableCOM_FlashLED_1Port : MonoBehaviour
     void Update()
     {
 
-        if (pc.cmd == 1 | pc.cmd == 2 | pc.cmd == 7 )
+        if (pc.cmd == 1 | pc.cmd == 2 | pc.cmd == 7 | pc.cmd==9)
         {
             actuatorPort.Write("1"); // move forward
         }

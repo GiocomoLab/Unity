@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-using Uniduino;
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
@@ -10,7 +9,7 @@ public class PC_LEDCue_2Port : MonoBehaviour
 {
 
     public float r_timeout = 5.0f; // timeout duration between available rewards
-    public Arduino arduino;
+   
 
     private static int numRewards = 0;
     private int numRewards_manual = 0;
@@ -53,25 +52,19 @@ public class PC_LEDCue_2Port : MonoBehaviour
     void Start()
     {
         // initialize arduino
-        arduino = Arduino.global;
-        arduino.Setup(ConfigurePins);
         cmd = 4;
     }
 
     void ConfigurePins()
     {   // lickports
-        arduino.pinMode(11, PinMode.OUTPUT); // R
-        arduino.pinMode(10, PinMode.OUTPUT); // L        
-        arduino.pinMode(3, PinMode.PWM); // LED
-
         Debug.Log("Pins configured (player controller)");
         pcntrl_pins = true;
     }
 
     void Update()
     {
-        
-        arduino.analogWrite(3, 20);
+
+        cmd = 14;
         if (dl.r > 0) { StartCoroutine(DeliverReward(dl.r)); dl.r = 0; }; // deliver appropriate reward 
 
 
@@ -81,28 +74,25 @@ public class PC_LEDCue_2Port : MonoBehaviour
         {
             numRewards_manual += 1;
             Debug.Log(numRewards_manual);
-            StartCoroutine(DeliverReward(1));
+            StartCoroutine(DeliverReward(7));
 
-            if (sp.saveData)
-            {
-                var sw = new StreamWriter(sp.rewardFile, true);
-                sw.Write(Time.realtimeSinceStartup + "\t" + 1f + "\r\n");
-                sw.Close();
-            }
+            
+            var sw = new StreamWriter(sp.rewardFile, true);
+            sw.Write(Time.realtimeSinceStartup + "\t" + 1f + "\r\n");
+            sw.Close();
+            
         }
 
         if (Input.GetKeyDown(KeyCode.P) | Input.GetMouseButtonDown(1)) // reward right
         {
             numRewards_manual += 1;
             Debug.Log(numRewards_manual);
-            StartCoroutine(DeliverReward(2));
-
-            if (sp.saveData)
-            {
-                var sw = new StreamWriter(sp.rewardFile, true);
-                sw.Write(Time.realtimeSinceStartup + "\t" + 2f + "\r\n");
-                sw.Close();
-            }
+            StartCoroutine(DeliverReward(8));
+            
+            var sw = new StreamWriter(sp.rewardFile, true);
+            sw.Write(Time.realtimeSinceStartup + "\t" + 2f + "\r\n");
+            sw.Close();
+            
         }
 
         r_last = dl.r;
@@ -112,73 +102,56 @@ public class PC_LEDCue_2Port : MonoBehaviour
     // save manipulation data to server
     void OnApplicationQuit()
     {
-        arduino.analogWrite(3, 0);
+        
 
     }
 
-    
-    
+
+
 
     IEnumerator DeliverReward(int r)
-    { // deliver 
+    { // deliver
+
         if (r == 1) // reward left
         {
-            arduino.digitalWrite(11, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(11, Arduino.LOW);
-            sp.numRewards += 1;
-            Debug.Log(sp.numRewards);
-            LickHistory.Add(0f);
 
+            LickHistory.Add(.25f); // .33f);
+            sp.numRewards += 1;
+            //Debug.Log(sp.numRewards);
+            // prevReward = 1;
         }
         else if (r == 2) // reward right
         {
-            arduino.digitalWrite(10, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(10, Arduino.LOW);
+            //prevReward = 1;
+            LickHistory.Add(.75f); // .66f);
             sp.numRewards += 1;
-            Debug.Log(sp.numRewards);
-            LickHistory.Add(1f);
-        }
-        
-        else if (r == 11)
-        {
-            arduino.digitalWrite(11, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(11, Arduino.LOW);
-            sp.numRewards_manual += 1;
+            // Debug.Log(sp.numRewards);
+
+
 
         }
-        else if (r == 12)
-        {
-            arduino.digitalWrite(10, Arduino.HIGH);
-            yield return new WaitForSeconds(0.05f);
-            arduino.digitalWrite(10, Arduino.LOW);
-            sp.numRewards_manual += 1;
 
-        }
-        else if (r == 21) // big reward
+        else if (r == 7)
         {
-            arduino.digitalWrite(10, Arduino.HIGH);
-            yield return new WaitForSeconds(0.5f);
-            arduino.digitalWrite(10, Arduino.LOW);
-            sp.numRewards_manual += 1;
-
+            cmd = 7;
+            yield return new WaitForSeconds(0.01f);
+            cmd = 0;
         }
-        else if (r == 22) // big reward
+        else if (r == 8)
         {
-            arduino.digitalWrite(11, Arduino.HIGH);
-            yield return new WaitForSeconds(0.5f);
-            arduino.digitalWrite(11, Arduino.LOW);
-            sp.numRewards_manual += 1;
-
+            cmd = 8;
+            yield return new WaitForSeconds(0.01f);
+            cmd = 0;
         }
-        else { yield return null; };
+        else
+        { }
+
 
         if (LickHistory.Count > 10)
         {
             LickHistory.RemoveAt(0);
         }
+
     }
 
 }

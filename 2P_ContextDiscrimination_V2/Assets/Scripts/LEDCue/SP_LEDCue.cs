@@ -7,7 +7,7 @@ using System.IO;
 public class SP_LEDCue : MonoBehaviour
 {
 
-    public bool saveData = true;
+    
     public string mouse;
     public string session;
 
@@ -25,7 +25,7 @@ public class SP_LEDCue : MonoBehaviour
     private string serverDirectory;
     private string localPrefix;
     private string serverPrefix;
-    private string sceneName;
+    public string sceneName;
 
     public string rewardFile;
     private string serverRewardFile;
@@ -108,13 +108,12 @@ public class SP_LEDCue : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        if (saveData)
-        {
+       
             File.Copy(rewardFile, serverRewardFile, true);
             File.Copy(lickFile, serverLickFile, true);
             File.Copy(manRewardFile, serverManRewardFile, true);
             File.Copy(timeSyncFile, serverTimeSyncFile, true);
-        }
+        
     }
 
 }

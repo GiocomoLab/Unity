@@ -11,6 +11,7 @@ public class GndColor_2AFC : MonoBehaviour
 
     private SP_2AFC sp;
     private float morph;
+    
 
     private Color color;
     //private Component playerScript;

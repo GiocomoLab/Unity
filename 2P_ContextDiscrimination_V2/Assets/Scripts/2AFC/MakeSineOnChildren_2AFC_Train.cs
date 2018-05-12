@@ -7,10 +7,10 @@ public class MakeSineOnChildren_2AFC_Train : MonoBehaviour
 
     private int dim1 = 3600;
     private int dim2 = 450;
-    private float f1 = 3;
-    private float f2 = .5f;
-    private float theta1 = 0;
-    private float theta2 = 60;
+    private float f1 = 2f; //3;
+    private float f2 = 1f; //.5f;
+    private float theta1 = 10f;
+    private float theta2 = 60f;
 
     private SP_2AFC sp;
     private float morph;
@@ -26,7 +26,7 @@ public class MakeSineOnChildren_2AFC_Train : MonoBehaviour
     private GameObject wWall;
 
     private RR_2AFC rr;
-    private TrialOrdering_2AFC_Train trialOrder;
+//  private TrialOrdering_Test trialOrder;
 
     private int numTraversalsLocal = -1;
 
@@ -37,7 +37,7 @@ public class MakeSineOnChildren_2AFC_Train : MonoBehaviour
         sp = player.GetComponent<SP_2AFC>();
         //blackCam = GameObject.Find("Black Camera");
         rr = player.GetComponent<RR_2AFC>();
-        trialOrder = player.GetComponent<TrialOrdering_2AFC_Train>();
+//       trialOrder = player.GetComponent<TrialOrdering_Test>();
 
         eWall = GameObject.Find("East Wall");
         eastRenderer = eWall.GetComponent<Renderer>();

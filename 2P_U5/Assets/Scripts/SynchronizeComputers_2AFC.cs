@@ -7,8 +7,8 @@ using System.IO;
 public class SynchronizeComputers_2AFC : MonoBehaviour {
 
 	public Arduino arduino;
-    private int ttl0 = 10;
-    private int ttl1 = 9;
+    private int ttl0 = 0;
+    private int ttl1 = 1;
 	public bool recordingStarted = true;
     public bool sync_pins = false;
 
@@ -19,7 +19,7 @@ public class SynchronizeComputers_2AFC : MonoBehaviour {
     // for saving data
     private string localDirectory;
 	private string serverDirectory;
-	private SessionParams_2AFC paramsScript;
+	private SP_2AFC paramsScript;
 	private string mouse;
 	private string session;
 	private bool saveData;
@@ -47,7 +47,7 @@ public class SynchronizeComputers_2AFC : MonoBehaviour {
 
         // for saving data
         GameObject player = GameObject.Find("Player");
-        paramsScript = player.GetComponent<SessionParams_2AFC>();
+        paramsScript = player.GetComponent<SP_2AFC>();
         playerScript = player.GetComponent<PC_2AFC>();
         Debug.Log(playerScript.numTraversals);
         

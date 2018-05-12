@@ -6,7 +6,7 @@ using System.IO;
 public class SP_FlashLED_2Port : MonoBehaviour
 {
 
-    public bool saveData = true;
+    
     public string mouse;
     public string session;
 
@@ -14,8 +14,7 @@ public class SP_FlashLED_2Port : MonoBehaviour
     public int numRewards_manual = 0;
     public int rewardFlag = 0;
 
-    public float rDur = 1.5f; // timeout duration between available rewards
-
+    public float rDur = 2f; 
 
     // for saving data
     public string localDirectory_pre = "C:/Users/2PRig/VR_Data/2AFC_V3/";
@@ -108,13 +107,12 @@ public class SP_FlashLED_2Port : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        if (saveData)
-        {
-            File.Copy(rewardFile, serverRewardFile, true);
-            File.Copy(lickFile, serverLickFile, true);
-            File.Copy(manRewardFile, serverManRewardFile, true);
-            File.Copy(timeSyncFile, serverTimeSyncFile, true);
-        }
+       
+        File.Copy(rewardFile, serverRewardFile, true);
+        File.Copy(lickFile, serverLickFile, true);
+        File.Copy(manRewardFile, serverManRewardFile, true);
+        File.Copy(timeSyncFile, serverTimeSyncFile, true);
+        
     }
 
 }

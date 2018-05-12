@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-using Uniduino;
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
 
 public class PC_LEDCue : MonoBehaviour {
 
-    public float rDur = 5.0f; // timeout duration between available rewards
-    public Arduino arduino;
+    public float rDur = 2.0f; // timeout duration between available rewards
 
     private static int numRewards = 0;
     private int numRewards_manual = 0;
@@ -27,8 +25,9 @@ public class PC_LEDCue : MonoBehaviour {
     private int r;
     private int r_last = 0;
 
-    public int cmd = 4;
+    public int cmd = 0;
 
+    
     public void Awake()
     {
         // get game objects 
@@ -37,27 +36,14 @@ public class PC_LEDCue : MonoBehaviour {
         dl = player.GetComponent<DetectLicks_1Port_LEDCue>();
     }
 
-    void Start()
+    private void Start()
     {
-        // initialize arduino
-        arduino = Arduino.global;
-        arduino.Setup(ConfigurePins);
-        cmd = 8;
+        cmd = 10;
     }
-
-    void ConfigurePins()
-    {   // lickports
-        arduino.pinMode(12, PinMode.OUTPUT); // single lickport solenoid
-        arduino.pinMode(3, PinMode.PWM); // LED
-
-        Debug.Log("Pins configured (player controller)");
-        pcntrl_pins = true;
-    }
-
     void Update()
     {
 
-        arduino.analogWrite(3, 20);
+        //cmd = 10;
         if (dl.r > 0) { StartCoroutine(DeliverReward(dl.r)); dl.r = 0; }; // deliver appropriate reward 
 
         // manual rewards and punishments
@@ -65,14 +51,12 @@ public class PC_LEDCue : MonoBehaviour {
         {
             numRewards_manual += 1;
             Debug.Log(numRewards_manual);
-            StartCoroutine(DeliverReward(11));
+            StartCoroutine(DeliverReward(4));
 
-            if (sp.saveData)
-            {
-                var sw = new StreamWriter(sp.manRewardFile, true);
-                sw.Write(Time.realtimeSinceStartup + "\r\n");
-                sw.Close();
-            }
+            var sw = new StreamWriter(sp.manRewardFile, true);
+            sw.Write(Time.realtimeSinceStartup + "\r\n");
+            sw.Close();
+            
         }
 
     }
@@ -80,28 +64,17 @@ public class PC_LEDCue : MonoBehaviour {
     // save manipulation data to server
     void OnApplicationQuit()
     {
-        arduino.analogWrite(3, 0);
-        
+       
     }
 
 
     IEnumerator DeliverReward(int r)
     { // deliver 
-        if (r == 1) // reward
+        if (r == 4) // reward
         {
-            arduino.digitalWrite(12, Arduino.HIGH);
-            yield return new WaitForSeconds(0.1f);
-            arduino.digitalWrite(12, Arduino.LOW);
-            numRewards += 1;
-            Debug.Log(numRewards);
-        }
-        if (r == 11) // reward
-        {
-            arduino.digitalWrite(12, Arduino.HIGH);
-            yield return new WaitForSeconds(0.1f);
-            arduino.digitalWrite(12, Arduino.LOW);
-            numRewards_manual += 1;
-            Debug.Log(numRewards);
+            cmd = 4;
+            yield return new WaitForSeconds(.05f);
+            cmd = 10;
         }
         else { yield return null; };
 

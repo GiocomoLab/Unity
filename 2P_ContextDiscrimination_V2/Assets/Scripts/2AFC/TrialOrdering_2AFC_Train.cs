@@ -49,7 +49,7 @@ public class TrialOrdering_2AFC_Train : MonoBehaviour
                 thresh = sum / (float)pc.LickHistory.Count;
 
             }
-            if (UnityEngine.Random.value <= thresh)
+            if (UnityEngine.Random.value < thresh)
             {
                 sp.morph = 0f;
             }

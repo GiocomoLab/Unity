@@ -6,7 +6,7 @@ using System.IO;
 public class SP_MovingWall : MonoBehaviour
 {
 
-    public bool saveData = true;
+    
     public string mouse;
     public string session;
 
@@ -131,14 +131,13 @@ public class SP_MovingWall : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        if (saveData)
-        {
-            File.Copy(rewardFile, serverRewardFile, true);
-            File.Copy(lickFile, serverLickFile, true);
-            File.Copy(posFile, serverPosFile, true);
-            File.Copy(manRewardFile, serverManRewardFile, true);
-            File.Copy(timeSyncFile, serverTimeSyncFile, true);
-        }
+       
+        File.Copy(rewardFile, serverRewardFile, true);
+        File.Copy(lickFile, serverLickFile, true);
+        File.Copy(posFile, serverPosFile, true);
+        File.Copy(manRewardFile, serverManRewardFile, true);
+        File.Copy(timeSyncFile, serverTimeSyncFile, true);
+       
     }
 
 }

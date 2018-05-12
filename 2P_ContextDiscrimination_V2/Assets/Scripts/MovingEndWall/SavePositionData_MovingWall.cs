@@ -7,6 +7,7 @@ public class SavePositionData_MovingWall : MonoBehaviour
 {
 
     private SP_MovingWall sp;
+    private RR_MovingWall rr;
     private static bool created = false;
 
     public void Awake()
@@ -28,18 +29,18 @@ public class SavePositionData_MovingWall : MonoBehaviour
     {
         GameObject player = GameObject.Find("Player");
         sp = player.GetComponent<SP_MovingWall>();
+        rr = player.GetComponent<RR_MovingWall>();
         
     }
 
     void Update()
     {
         // write position data to file every frame
-        if (sp.saveData)
-        {
-            var sw = new StreamWriter(sp.posFile, true);
-            sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\r\n");
-            sw.Close();
-        }
+        
+        var sw = new StreamWriter(sp.posFile, true);
+        sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\t" + rr.true_delta_z + "\r\n");
+        sw.Close();
+        
     }
 
    

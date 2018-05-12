@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-using Uniduino;
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
@@ -10,7 +9,7 @@ public class PC_FlashLED_1Port : MonoBehaviour
 {
 
     public float r_timeout = 5.0f; // timeout duration between available rewards
-    public Arduino arduino;
+   
 
     private static int numRewards = 0;
     private int numRewards_manual = 0;
@@ -30,7 +29,7 @@ public class PC_FlashLED_1Port : MonoBehaviour
     private int r_last = 0;
 
     public int cmd = 0;
-
+    
     public void Awake()
     {
         // get game objects 
@@ -39,21 +38,6 @@ public class PC_FlashLED_1Port : MonoBehaviour
         dl = player.GetComponent<DetectLicks_FlashLED_1Port>();
     }
 
-    void Start()
-    {
-        // initialize arduino
-        arduino = Arduino.global;
-        arduino.Setup(ConfigurePins);
-    }
-
-    void ConfigurePins()
-    {   // lickports
-        arduino.pinMode(12, PinMode.OUTPUT); // single lickport solenoid
-        arduino.pinMode(3, PinMode.PWM); // LED
-
-        Debug.Log("Pins configured (player controller)");
-        pcntrl_pins = true;
-    }
 
     void Update()
     {
@@ -67,14 +51,13 @@ public class PC_FlashLED_1Port : MonoBehaviour
         {
             numRewards_manual += 1;
             Debug.Log(numRewards_manual);
-            StartCoroutine(DeliverReward(1));
+            StartCoroutine(DeliverReward(4));
 
-            if (sp.saveData)
-            {
-                var sw = new StreamWriter(sp.manRewardFile, true);
-                sw.Write(Time.realtimeSinceStartup + "\r\n");
-                sw.Close();
-            }
+           
+            var sw = new StreamWriter(sp.manRewardFile, true);
+            sw.Write(Time.realtimeSinceStartup + "\r\n");
+            sw.Close();
+           
         }
 
     }
@@ -82,7 +65,7 @@ public class PC_FlashLED_1Port : MonoBehaviour
     // save manipulation data to server
     void OnApplicationQuit()
     {
-        arduino.analogWrite(3, 0);
+       
 
     }
 
@@ -91,12 +74,14 @@ public class PC_FlashLED_1Port : MonoBehaviour
         while (true)
         {
 
-            arduino.analogWrite(3, 20); // turn LED on
+            cmd = 7;
             yield return new WaitForSeconds(0.5f);
             cmd = 1;// tell DetectLicks to report first lick
             yield return new WaitForSeconds(sp.rDur);
+            cmd = 2;
+            yield return new WaitForSeconds(.5f);
             cmd = 0;
-            arduino.analogWrite(3, 0);
+            
             float timeout = 5.0f * UnityEngine.Random.value + 5.0f;
             yield return new WaitForSeconds(timeout);
 
@@ -107,14 +92,14 @@ public class PC_FlashLED_1Port : MonoBehaviour
     { // deliver 
         if (r == 1) // reward
         {
-            arduino.digitalWrite(12, Arduino.HIGH);
-            yield return new WaitForSeconds(0.1f);
-            arduino.digitalWrite(12, Arduino.LOW);
-            numRewards += 1;
-            Debug.Log("Reward!");
-            Debug.Log(numRewards);
+            sp.numRewards += 1;
+            
+        } else if (r==4)
+        {
+            cmd = 4;
+            yield return new WaitForSeconds(.05f);
+            cmd = 0;
         }
-
         else { yield return null; };
 
     }

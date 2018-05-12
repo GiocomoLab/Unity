@@ -10,7 +10,7 @@ public class DetectLicks_1Port_LEDCue : MonoBehaviour
 {
 
 
-    public string port = "COM8";
+    public string port = "COM3";
     private SerialPort _serialPort;
     private int delay;
     private string lick_raw;
@@ -18,7 +18,6 @@ public class DetectLicks_1Port_LEDCue : MonoBehaviour
 
     //public int pinValue;
     private int pinValue;
-    public int trash;
     public int c_1;
 
     // for saving data
@@ -43,7 +42,7 @@ public class DetectLicks_1Port_LEDCue : MonoBehaviour
     void Start()
     {
         // connect to Arduino uno serial port
-        connect(port, 9600, true, 4);
+        connect(port, 115200, true, 4);
         Debug.Log("Connected to lick detector serial port");
 
     }
@@ -53,15 +52,13 @@ public class DetectLicks_1Port_LEDCue : MonoBehaviour
     {
         rflag = 0;
 
-        _serialPort.Write(pc.cmd.ToString());
+        _serialPort.Write(pc.cmd.ToString() + ',');
         try
         {
             lick_raw = _serialPort.ReadLine();
             string[] lick_list = lick_raw.Split('\t');
-            trash = int.Parse(lick_list[0]);
-            trash = int.Parse(lick_list[1]);
-            c_1 = int.Parse(lick_list[2]);
-            r = int.Parse(lick_list[3]);
+            c_1 = int.Parse(lick_list[0]);
+            r = int.Parse(lick_list[1]);
 
 
         }
@@ -72,19 +69,18 @@ public class DetectLicks_1Port_LEDCue : MonoBehaviour
 
 
         //Debug.Log(pinValue);
-        if (sp.saveData)
-        {
-            var sw = new StreamWriter(sp.lickFile, true);
-            sw.Write(c_1 + "\t" + r + "\t" + Time.realtimeSinceStartup + "\r\n");
-            sw.Close();
+        
+        var sw = new StreamWriter(sp.lickFile, true);
+        sw.Write(c_1 + "\t" + r + "\t" + Time.realtimeSinceStartup + "\r\n");
+        sw.Close();
 
-        }
+        
 
     }
 
     void OnApplicationQuit()
     {
-
+        _serialPort.Write("8,");
     }
 
     private void connect(string serialPortName, Int32 baudRate, bool autoStart, int delay)

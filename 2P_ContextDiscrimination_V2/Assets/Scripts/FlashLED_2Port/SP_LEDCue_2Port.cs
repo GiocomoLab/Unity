@@ -6,7 +6,7 @@ using System.IO;
 public class SP_LEDCue_2Port : MonoBehaviour
 {
 
-    public bool saveData = true;
+    
     public string mouse;
     public string session;
 
@@ -14,7 +14,7 @@ public class SP_LEDCue_2Port : MonoBehaviour
     public int numRewards_manual = 0;
     public int rewardFlag = 0;
 
-    public float rDur = 1.5f; // timeout duration between available rewards
+    public float rDur = 2f; // timeout duration between available rewards
 
 
     // for saving data
@@ -108,13 +108,12 @@ public class SP_LEDCue_2Port : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        if (saveData)
-        {
-            File.Copy(rewardFile, serverRewardFile, true);
-            File.Copy(lickFile, serverLickFile, true);
-            File.Copy(manRewardFile, serverManRewardFile, true);
-            File.Copy(timeSyncFile, serverTimeSyncFile, true);
-        }
+        
+        File.Copy(rewardFile, serverRewardFile, true);
+        File.Copy(lickFile, serverLickFile, true);
+        File.Copy(manRewardFile, serverManRewardFile, true);
+        File.Copy(timeSyncFile, serverTimeSyncFile, true);
+        
     }
 
 }
