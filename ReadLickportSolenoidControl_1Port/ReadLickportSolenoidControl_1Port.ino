@@ -21,16 +21,19 @@ int incomingByte = 0;  // cmd coming in from Unity
 
 const int L_pin = 4;
 const int slider_pin = 7; // slide table
-const int led_pin = 9; 
+const int led_pin = 9;
+const int puff_pin = 8; 
 const int ttl0 = 5;  // frame syncing
 const int ttl1 = 12; // scan start
 
 const int slider_len = 2000; // length of reward availability in milliseconds
 const int led_len = 2500; // length of LED on
+const int puff_len = 500; // length of airpuff
 
 int L_pin_state = LOW;
 int slider_pin_state = LOW;
 int led_state = LOW;
+int puff_state = LOW;
 //int ttl1_state = LOW;
 
 
@@ -39,23 +42,28 @@ long L_reward_timer = 0;
 long slider_timer = 0;
 long led_timer = 0;
 long ttl1_timer = 0;
+long puff_timer = 0;
 
 int cmd = 0;
 int slider_flag = 0;
 int led_flag = 0;
 int scan_flag = 0;
+int puff_flag = 0;
 
 void setup() {
-  Serial.begin(115200);
+  //Serial.begin(115200);
+  Serial.begin(57600);
   pinMode(L_pin,OUTPUT);
   pinMode(slider_pin,OUTPUT);
   pinMode(led_pin,OUTPUT);
+  pinMode(puff_pin,OUTPUT);
   pinMode(ttl0,OUTPUT);
   pinMode(ttl1,OUTPUT);
   
   digitalWrite(L_pin,LOW);
   digitalWrite(slider_pin,LOW);
   analogWrite(led_pin,0);
+  digitalWrite(puff_pin,LOW);
   digitalWrite(ttl0,LOW);
   digitalWrite(ttl1,LOW);
   
@@ -87,6 +95,14 @@ void loop()
       analogWrite(led_pin,0);
       led_state = LOW;
       led_flag = 0;
+    }
+  }
+
+  if (puff_state==HIGH) {
+    if (millis() - puff_timer>puff_len) {
+      digitalWrite(puff_pin,LOW);
+      puff_state = LOW;
+      puff_flag = 0;
     }
   }
 
@@ -191,7 +207,12 @@ void loop()
 
       
    case 9: // start collecting ttl0's for syncing
-      scan_flag = 1;
+      if (scan_flag>0) {
+        scan_flag = 0;
+      } else {
+        scan_flag = 1;
+      }
+      
       break;
 
    case 10: // cmd 3 and 7 
@@ -223,6 +244,25 @@ void loop()
       
       break;
 
+    case 11: // air puff
+       if (slider_pin_state==LOW & slider_flag==0) { // slider is back
+        digitalWrite(slider_pin,HIGH); //  move it forward
+        slider_pin_state=HIGH;
+        slider_timer=millis();
+        slider_flag =1;
+      }
+      
+      if (puff_flag == 0)
+      { // if reward not dispensed
+        if (lc > 0)  { // if first lick is left
+          puff_flag = 1;
+          puff_state = HIGH;
+          digitalWrite(puff_pin,HIGH);
+          puff_timer = millis();
+          r=3; // puff
+        }
+      }    
+      break;
 
     
   }

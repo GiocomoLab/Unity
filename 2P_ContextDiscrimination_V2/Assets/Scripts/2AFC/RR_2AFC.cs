@@ -41,6 +41,7 @@ public class RR_2AFC : MonoBehaviour
     {
         // connect to Arduino uno serial port
         connect(port, 57600, true, 4);
+        //connect(port, 115200, true, 4);
         Debug.Log("Connected to rotary encoder serial port");
 
         

@@ -20,6 +20,7 @@
    pinMode (encoder0PinA,INPUT);
    pinMode (encoder0PinB,INPUT);
    Serial.begin (57600);
+   //Serial.begin(115200);
  } 
 
  void loop() { 

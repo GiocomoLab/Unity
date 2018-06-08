@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-using Uniduino;
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
@@ -90,7 +89,8 @@ public class PC_4Way : MonoBehaviour
         // end game after appropriate number of trials
         if ((sp.numTraversals >= sp.numTrialsTotal) | (sp.numRewards >= sp.maxRewards & transform.position.z < 0f))
         {
-            UnityEditor.EditorApplication.isPlaying = false;
+            //UnityEditor.EditorApplication.isPlaying = false;
+            Application.Quit();
         }
 
         if (dl.r > 0 & dl.rflag < 1) { StartCoroutine(DeliverReward(dl.r)); dl.rflag = 1; }; // deliver appropriate reward

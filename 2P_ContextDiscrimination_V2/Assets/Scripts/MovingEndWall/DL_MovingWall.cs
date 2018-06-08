@@ -2,12 +2,12 @@
 using System.Collections;
 using System;
 using System.IO;
-using Uniduino;
+//using Uniduino;
 
 public class DL_MovingWall : MonoBehaviour
 {
 
-    public Arduino arduino;
+  //  public Arduino arduino;
     public int pin = 0;
     private int pinValue;
 
@@ -28,15 +28,15 @@ public class DL_MovingWall : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        arduino = Arduino.global;
-        arduino.Setup(ConfigurePins);
+    //    arduino = Arduino.global;
+      //  arduino.Setup(ConfigurePins);
 
     }
 
     void ConfigurePins()
     {
-        arduino.pinMode(pin, PinMode.ANALOG);
-        arduino.reportAnalog(pin, 1);
+    //    arduino.pinMode(pin, PinMode.ANALOG);
+      //  arduino.reportAnalog(pin, 1);
         Debug.Log("Pins configured (detect licks)");
     }
 
@@ -45,7 +45,7 @@ public class DL_MovingWall : MonoBehaviour
     {
 
         // check for licks every frame
-        pinValue = arduino.analogRead(pin);
+        //pinValue = arduino.analogRead(pin);
         Debug.Log(pinValue);
         if (pinValue < 500)
         {

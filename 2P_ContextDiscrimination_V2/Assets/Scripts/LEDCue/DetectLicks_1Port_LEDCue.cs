@@ -42,7 +42,7 @@ public class DetectLicks_1Port_LEDCue : MonoBehaviour
     void Start()
     {
         // connect to Arduino uno serial port
-        connect(port, 115200, true, 4);
+        connect(port, 57600, true, 4);
         Debug.Log("Connected to lick detector serial port");
 
     }

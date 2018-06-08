@@ -73,7 +73,7 @@ public class SP_2AFC : MonoBehaviour
             // this must be a duplicate from a scene reload - DESTROY!
             Destroy(this);
         }
-
+       
         nc = GetComponent<NameCheck>();
         sceneName = SceneManager.GetActiveScene().name;
 

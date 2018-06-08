@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-using Uniduino;
 using System.IO;
 using System.IO.Ports;
 using System.Threading;

@@ -8,8 +8,8 @@
 
 
  int val; 
- int encoder0PinA = 12;
- int encoder0PinB = 13;
+ int encoder0PinA = 10;
+ int encoder0PinB = 11;
  int encoder0Pos = 0;
  int encoder0PinALast = LOW;
  int n = LOW;
@@ -19,6 +19,7 @@
    pinMode (encoder0PinA,INPUT);
    pinMode (encoder0PinB,INPUT);
    Serial.begin (57600);
+   //Serial.begin(74880);
  } 
 
  void loop() { 

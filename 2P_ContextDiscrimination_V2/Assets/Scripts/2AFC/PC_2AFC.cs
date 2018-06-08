@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-using Uniduino;
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
@@ -19,8 +18,8 @@ public class PC_2AFC : MonoBehaviour
     private GameObject panoCam;
 
     private Rigidbody rb;
-    private AudioSource sound;
-    private AudioSource errSound;
+    //private AudioSource sound;
+    //private AudioSource errSound;
 
     private SP_2AFC sp;
     private DL_2AFC dl;
@@ -49,6 +48,8 @@ public class PC_2AFC : MonoBehaviour
     {
 
         //
+        //Application.targetFrameRate = 100;
+        
         GameObject player = GameObject.Find("Player");
         sp = player.GetComponent<SP_2AFC>();
         rotary = player.GetComponent<RR_2AFC>();
@@ -60,8 +61,8 @@ public class PC_2AFC : MonoBehaviour
         reward = GameObject.Find("Reward");
         initialPosition = new Vector3(0f, 6f, -50.0f);
 
-        sound = player.GetComponent<AudioSource>();
-        errSound = GameObject.Find("basic_maze").GetComponent<AudioSource>();
+       // sound = player.GetComponent<AudioSource>();
+       // errSound = GameObject.Find("basic_maze").GetComponent<AudioSource>();
 
         LickHistory = new ArrayList();
         int j = 0;
@@ -91,7 +92,8 @@ public class PC_2AFC : MonoBehaviour
         // end game after appropriate number of trials
         if ((sp.numTraversals >= sp.numTrialsTotal) | (sp.numRewards >= sp.maxRewards & transform.position.z < 0f))
         {
-            UnityEditor.EditorApplication.isPlaying = false;
+            //UnityEditor.EditorApplication.isPlaying = false;
+            Application.Quit();
         }
 
         if (dl.r > 0 & dl.rflag < 1) { StartCoroutine(DeliverReward(dl.r)); dl.rflag = 1; }; // deliver appropriate reward
@@ -130,7 +132,7 @@ public class PC_2AFC : MonoBehaviour
         Debug.Log(other.tag);
         if (other.tag == "Start")
         {
-            sound.Play();
+            //sound.Play();
             StartCoroutine(LightsOn());
         }
 
@@ -168,7 +170,7 @@ public class PC_2AFC : MonoBehaviour
         {
             sp.numTraversals += 1;
 
-            sound.Stop();
+            //sound.Stop();
             transform.position = initialPosition;
             StartCoroutine(InterTrialTimeout());
             reward.transform.position = new Vector3(0.0f, 0.0f, sp.mrd + UnityEngine.Random.value * sp.ard);
@@ -244,10 +246,10 @@ public class PC_2AFC : MonoBehaviour
 
     IEnumerator LightsOn()
     {
-        if (sound.isPlaying != true)
-        {
-            sound.Play();
-        }
+       // if (sound.isPlaying != true)
+       // {
+       //     sound.Play();
+       // }
         // switch to pano cam to active and make sure lights are on
         panoCam.SetActive(true);
 
@@ -283,9 +285,9 @@ public class PC_2AFC : MonoBehaviour
             {
                 prevReward = 2;
                 LickHistory.Add(.33f); //.33f);
-                errSound.Play();
-                yield return new WaitForSeconds(0.5f);
-                errSound.Stop();
+               // errSound.Play();
+                //yield return new WaitForSeconds(0.5f);
+                //errSound.Stop();
             }  else
             {
                 prevReward = 1;
@@ -299,9 +301,9 @@ public class PC_2AFC : MonoBehaviour
             {
                 prevReward = 2;
                 LickHistory.Add(.67f); // 66f);
-                errSound.Play();
-                yield return new WaitForSeconds(0.5f);
-                errSound.Stop();
+                //errSound.Play();
+                //yield return new WaitForSeconds(0.5f);
+                //errSound.Stop();
             } else
             {
                 prevReward = 1;

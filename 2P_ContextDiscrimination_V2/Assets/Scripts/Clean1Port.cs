@@ -18,7 +18,7 @@ public class Clean1Port : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        connect(port, 115200, true, 4);
+        connect(port, 57600, true, 4);
     }
 
     // Update is called once per frame

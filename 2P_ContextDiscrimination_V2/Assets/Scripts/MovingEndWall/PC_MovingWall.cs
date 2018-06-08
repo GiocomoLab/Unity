@@ -67,6 +67,8 @@ public class PC_MovingWall : MonoBehaviour
         if (sp.numTraversals >= sp.numTrialsTotal | sp.numRewards>= sp.maxRewards)
         {
             UnityEditor.EditorApplication.isPlaying = false;
+            //Application.Quit();
+            
         }
 
         if (dl.r > 0 ) { StartCoroutine(DeliverReward(dl.r)); sp.numRewards++; dl.r = 0; }; // deliver appropriate reward

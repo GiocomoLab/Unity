@@ -6,6 +6,7 @@ public class TowerColor_2AFC : MonoBehaviour
 {
 
     private Color color;
+  
     private SP_2AFC sp;
     private Renderer[] renderers;
     private Texture2D texture;
@@ -35,12 +36,15 @@ public class TowerColor_2AFC : MonoBehaviour
         texture.SetPixel(1, 1, color);
         texture.filterMode = FilterMode.Point;
         texture.Apply();
+        
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        color = Color.Lerp(Color.green, Color.blue, sp.morph);
+       
         texture = new Texture2D(1, 1);
         renderers = GetComponentsInChildren<Renderer>();
 
@@ -50,12 +54,14 @@ public class TowerColor_2AFC : MonoBehaviour
             r.material.mainTexture = texture; // like disable it for example. 
         }
 
-        color = Color.Lerp(Color.green, Color.blue, sp.morph);
+
 
 
         texture.SetPixel(1, 1, color);
         texture.filterMode = FilterMode.Point;
         texture.Apply();
+        
+     
 
     }
 }
