@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/OneSidedCues.unity
+- path: Assets/Scenes/1PortTower_Timeout.unity
   isLoaded: 1
   isActive: 1

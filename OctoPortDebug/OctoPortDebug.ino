@@ -28,7 +28,7 @@ const int slider_len = 2000; // length of reward availability in milliseconds
 const int led_len = 2500; // length of LED on
 const int water_len = 500; // length of airpuff
 const int vac_len = 4000;
-const int reward_len = 50;
+const int reward_len = 25;
 
 int slider_pin_state = LOW;
 int led_pin_state = LOW;
@@ -299,7 +299,7 @@ void loop() {
       if (lflag == 0)
       { // if reward not dispensed
         if (lc > 0)  { // if any lick is left
-          lflag = 1;
+          lflag = 3;
           L_quin_pin_state = HIGH;
           digitalWrite(L_quin_pin,HIGH);
           L_quin_timer = millis();
@@ -373,6 +373,7 @@ void loop() {
         vac_timer = millis();
         vac_flag = 1;
       }
+      break;
   }
 
   if (Serial.available()>0) { // if new Unity frame

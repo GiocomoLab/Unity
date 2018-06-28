@@ -345,6 +345,8 @@ MonoBehaviour:
   r_timeout: 5
   pcntrl_pins: 0
   cmd: 0
+  gng: 0
+  noClick: 0
 --- !u!114 &977296913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,8 +398,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd912b84f3e447648a02840d3fff7721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: 4054016.1
-  session: 1
+  mouse: 4153990.619
+  session: 5
   numRewards: 0
   numRewards_manual: 0
   rewardFlag: 0

@@ -510,12 +510,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d6b99ce7767c1f4790fda9b2adfd12f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: 4054016.2
-  session: 24
-  mrd: 30
+  mouse: 4153990.617
+  session: 5
+  mrd: 100
   ard: 0
   fixedRewardSchedule: 0
-  MinTrainingDist: 10
+  MinTrainingDist: 150
   MaxTrainingDist: 330
   punish: 0
   numRewards: 0

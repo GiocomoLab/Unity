@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641263, b: 0.5748163, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2515,7 +2515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72f4608b36f43c74095003d45b822ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: COM4
+  port: COM5
   c_1: 0
   c_2: 0
   r: 0
@@ -2721,17 +2721,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75e8b0ea0dbb204cbb912a82e0a623c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: 4054010.4
-  session: test
-  dispenseBoth: 1
+  mouse: 4054010.5
+  session: 5
+  dispenseBoth: 0
   mrd: 175
-  ard: 150
+  ard: 125
   numRewards: 0
   numRewards_manual: 0
   rewardFlag: 0
   numTraversals: 0
-  numTrialsTotal: 200
-  maxRewards: 200
+  numTrialsTotal: 130
+  maxRewards: 130
   morph: 0
   rDur: 2
   localDirectory_pre: C:\Users\markp\VR_Data\2AFC_V3

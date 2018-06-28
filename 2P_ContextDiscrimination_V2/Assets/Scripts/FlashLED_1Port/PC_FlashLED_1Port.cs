@@ -29,6 +29,9 @@ public class PC_FlashLED_1Port : MonoBehaviour
     private int r_last = 0;
 
     public int cmd = 0;
+    public bool gng = false;
+    public bool noClick = false;
+    private float lastLick;
     
     public void Awake()
     {
@@ -75,15 +78,50 @@ public class PC_FlashLED_1Port : MonoBehaviour
         {
 
             cmd = 7;
-            yield return new WaitForSeconds(0.5f);
-            cmd = 1;// tell DetectLicks to report first lick
+            yield return new WaitForSeconds(0.01f);
+            if (noClick)
+            {
+                cmd = 12;
+            }
+            else
+            {
+                cmd = 1;
+            }
+                
             yield return new WaitForSeconds(sp.rDur);
             cmd = 2;
+            lastLick = Time.realtimeSinceStartup;
             yield return new WaitForSeconds(.5f);
             cmd = 0;
-            
+
             float timeout = 5.0f * UnityEngine.Random.value + 5.0f;
-            yield return new WaitForSeconds(timeout);
+            //yield return new WaitForSeconds(timeout);
+
+            if (gng)
+            {
+                while (true)
+                {
+                    if (dl.c_1 > 0)
+                    {
+                        lastLick = Time.realtimeSinceStartup;
+                        yield return null;
+                    }
+                    else
+                    {
+                        yield return null;
+                        if ((Time.realtimeSinceStartup - lastLick)>5.0f)
+                        {
+                            break;
+                        }
+                        
+                    }
+                }
+            }
+            else
+            {
+                yield return new WaitForSeconds(timeout);
+            }
+            
 
         }
     }

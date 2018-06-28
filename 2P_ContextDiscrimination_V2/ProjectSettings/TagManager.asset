@@ -9,6 +9,8 @@ TagManager:
   - Start
   - Teleport
   - Reward
+  - Timeout
+  - Delay
   layers:
   - Default
   - TransparentFX

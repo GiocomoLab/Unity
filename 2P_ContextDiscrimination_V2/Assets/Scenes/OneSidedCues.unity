@@ -1333,7 +1333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouse: 4054011.1
-  session: 24
+  session: 29
   mrd: 175
   ard: 125
   fixedRewardSchedule: 1
@@ -1341,8 +1341,8 @@ MonoBehaviour:
   numRewards_manual: 0
   rewardFlag: 0
   numTraversals: 0
-  numTrialsTotal: 200
-  maxRewards: 50
+  numTrialsTotal: 400
+  maxRewards: 125
   morph: 0
   rDur: 2
   localDirectory_pre: C:/Users/markp/VR_Data/2AFC_V3/

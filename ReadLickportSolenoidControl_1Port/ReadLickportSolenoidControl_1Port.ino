@@ -264,6 +264,18 @@ void loop()
       }    
       break;
 
+  case 12: // reward but don't click relay
+    if (rflag == 0)
+    { // if reward not dispensed
+      if (lc > 0)  { // if first lick is left
+        rflag = 1;
+        L_pin_state = HIGH;
+        digitalWrite(L_pin,HIGH);
+        L_reward_timer = millis();
+        r=1; // reward left
+      }
+    }    
+    break;
     
   }
 
