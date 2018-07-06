@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/TwoTower_Timeout.unity
+- path: Assets/Scenes/TwoTower_BlackWhite_Timeout.unity
   isLoaded: 1
   isActive: 1
