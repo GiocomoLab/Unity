@@ -47,7 +47,7 @@ public class PC_TwoTower : MonoBehaviour
     public float towerJitter;
     public float wallJitter;
     public float bckgndJitter;
-    private float nextMorph;
+   
 
     public void Awake()
     {
@@ -71,12 +71,20 @@ public class PC_TwoTower : MonoBehaviour
         bckgndJitter = .2f * (UnityEngine.Random.value - .5f);
 
         LickHistory = new ArrayList();
-        int j = 0;
-        while (j <  20)
-        {
-            LickHistory.Add(0.5f);
-            j++;
-        }
+        //int j = 0;
+        //while (j <  39)
+        //{
+        //    if (j % 2 == 0)
+        //    {
+        //        LickHistory.Add(-1f);
+         //   }
+        //    else
+        //    {
+        //        LickHistory.Add(1f);
+        //    }
+        //    j++;
+        //}
+        
        
 
     }
@@ -197,10 +205,10 @@ public class PC_TwoTower : MonoBehaviour
         {
             yield return new WaitForSeconds(.01f);
         }
-        
 
-        
-        while ((transform.position.z<= pos + 75) & (transform.position.z > 100))
+
+        bool counted = true;
+        while ((transform.position.z <= pos + 75) & (transform.position.z > 100))
         {
             if (sp.ClickOn)
             {
@@ -210,17 +218,18 @@ public class PC_TwoTower : MonoBehaviour
             {
                 cmd = 12;
             }
-
-            
+            if ((dl.c_1 > 0) & (counted))
+            {
+                LickHistory.Add(0f);
+                counted = false;
+            }
             yield return null;
-
-
-
         }
+        yield return null;
         cmd = 2;
         yield return new WaitForSeconds(.1f);
         cmd = 0;
-
+       
     }
 
     IEnumerator TimeoutSequence(float pos)
@@ -232,31 +241,23 @@ public class PC_TwoTower : MonoBehaviour
             {
                 if (sp.morph == 0)
                 {
-                    nextMorph = 0f;                    
+                                 
                     LickHistory.Add(1f); //.66f);
                 }
                 else if (sp.morph == 1)
                 {
-                    nextMorph = 1f;
-                    LickHistory.Add(0f); //.33f);
+                    
+                    LickHistory.Add(-1f); //.33f);
                 }
                 else // morph trials
                 {
 
-                    LickHistory.Add(.5f);
-                }
-                //to.trialOrder[sp.numTraversals + 1] = nextMorph;
-                if ((sp.morph == 0) | (sp.morph==1))
-                {
-                    sp.trueTraversals += 1;
-                }
-                else
-                {
-                    sp.numTraversals += 1;
-                    sp.trueTraversals += 1;
+                    LickHistory.Add(.0f);
                 }
                 
                 transform.position = initialPosition;
+                sp.numTraversals += 1;
+                cmd = 2;
                 bckgndOn = true;
                 rotary.toutBool = 0f;
                 yield return new WaitForSeconds(5f);
@@ -275,6 +276,7 @@ public class PC_TwoTower : MonoBehaviour
                 
             }
         }
+
     }
 
 

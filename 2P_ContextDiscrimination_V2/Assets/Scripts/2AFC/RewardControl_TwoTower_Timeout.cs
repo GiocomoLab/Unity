@@ -12,7 +12,7 @@ public class RewardControl_TwoTower_Timeout : MonoBehaviour {
     private GameObject player;
     private SP_TwoTower sp;
     private RR_TwoTower rr;
-    private TrialOrdering_TwoTower to;
+    private DebiasingAlg_TwoTower to;
 
     
 
@@ -25,7 +25,7 @@ public class RewardControl_TwoTower_Timeout : MonoBehaviour {
         sp = player.GetComponent<SP_TwoTower>();
         //blackCam = GameObject.Find("Black Camera");
         rr = player.GetComponent<RR_TwoTower>();
-        to = player.GetComponent<TrialOrdering_TwoTower>();
+        to = player.GetComponent<DebiasingAlg_TwoTower>();
 
         reward0 = GameObject.Find("Reward0");
         reward1 = GameObject.Find("Reward1");
