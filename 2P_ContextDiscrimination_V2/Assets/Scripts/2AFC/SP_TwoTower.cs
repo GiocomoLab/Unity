@@ -31,8 +31,8 @@ public class SP_TwoTower : MonoBehaviour
     public float rDur = 2;
 
     // for saving data
-    public string localDirectory_pre = "C:/Users/2PRig/VR_Data/2AFC_V3/";
-    public string serverDirectory_pre = "Z:/VR/2AFC_V3/";
+    public string localDirectory_pre = "C:/Users/2PRig/VR_Data/TwoTower/";
+    public string serverDirectory_pre = "Z:/VR/TwoTower/";
     public string localDirectory;
     public string serverDirectory;
     public string localPrefix;
