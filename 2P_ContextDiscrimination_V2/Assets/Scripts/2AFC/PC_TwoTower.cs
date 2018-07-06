@@ -71,22 +71,6 @@ public class PC_TwoTower : MonoBehaviour
         bckgndJitter = .2f * (UnityEngine.Random.value - .5f);
 
         LickHistory = new ArrayList();
-        //int j = 0;
-        //while (j <  39)
-        //{
-        //    if (j % 2 == 0)
-        //    {
-        //        LickHistory.Add(-1f);
-         //   }
-        //    else
-        //    {
-        //        LickHistory.Add(1f);
-        //    }
-        //    j++;
-        //}
-        
-       
-
     }
 
     void Start()
@@ -145,12 +129,20 @@ public class PC_TwoTower : MonoBehaviour
             bckgndJitter = .2f * (UnityEngine.Random.value - .5f);
 
             sp.numTraversals += 1;
-            sp.trueTraversals += 1;
             transform.position = initialPosition;
             bckgndOn = true;
 
             StartCoroutine(InterTrialTimeout());
+            var sw = new StreamWriter(sp.TEndFile, true);
+            sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\r\n"); //"\t" + sp.morph + "\t" + sp.ClickOn + "\t" + towerJitter + "\t" + wallJitter + "\t" + bckgndJitter + "\r\n");
+            sw.Close();
             LastRewardTime = Time.realtimeSinceStartup; // to avoid issues with teleports
+        }
+        else if (other.tag == "Start")
+        {
+            var sw = new StreamWriter(sp.TStartFile, true);
+            sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\t" + sp.morph + "\t" + sp.ClickOn + "\t" + towerJitter + "\t" + wallJitter + "\t" + bckgndJitter + "\r\n");
+            sw.Close();
         }
         else if (other.tag == "Timeout")
         {
@@ -220,7 +212,23 @@ public class PC_TwoTower : MonoBehaviour
             }
             if ((dl.c_1 > 0) & (counted))
             {
-                LickHistory.Add(0f);
+
+                if (sp.morph == 0)
+                {
+
+                    LickHistory.Add(-1f); //.66f);
+                }
+                else if (sp.morph == 1)
+                {
+
+                    LickHistory.Add(1f); //.33f);
+                }
+                else // morph trials
+                {
+
+                    LickHistory.Add(.0f);
+                }
+                //LickHistory.Add(0f);
                 counted = false;
             }
             yield return null;

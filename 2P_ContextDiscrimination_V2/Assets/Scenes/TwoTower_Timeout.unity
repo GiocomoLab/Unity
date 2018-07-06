@@ -1328,6 +1328,7 @@ GameObject:
   - component: {fileID: 1144418740}
   - component: {fileID: 1144418739}
   - component: {fileID: 1144418738}
+  - component: {fileID: 1144418754}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1364,7 +1365,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1144418737}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 067e99d82e1516f4fbe845d68ba87749, type: 3}
   m_Name: 
@@ -1561,7 +1562,6 @@ MonoBehaviour:
   numTraversals: 0
   numTrialsTotal: 0
   maxRewards: 200
-  trueTraversals: 0
   morph: 0
   rDur: 2
   localDirectory_pre: C:\Users\markp\VR_Data\2AFC_V3\
@@ -1585,6 +1585,10 @@ MonoBehaviour:
   serverTrialOrderFile: 
   TOFile: 
   serverTOFile: 
+  TStartFile: 
+  serverTStartFile: 
+  TEndFile: 
+  serverTEndFile: 
   dirCheck: 0
 --- !u!4 &1144418753
 Transform:
@@ -1601,6 +1605,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1144418754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1144418737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efcb6a2e23368474b87b162bf4928d61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numBaselineTrials: 20
+  numTrainingTrials: 100
+  numTestTrials: 0
+  morphExp: 2
 --- !u!1 &1183036851
 GameObject:
   m_ObjectHideFlags: 0

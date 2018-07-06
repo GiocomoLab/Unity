@@ -24,8 +24,6 @@ public class SP_TwoTower : MonoBehaviour
     public int numTrialsTotal;
     public int maxRewards = 200;
 
-    public int trueTraversals = 0;
-
 
     public float morph = 0;
     public float rDur = 2;
@@ -61,6 +59,12 @@ public class SP_TwoTower : MonoBehaviour
 
     public string TOFile;
     public string serverTOFile;
+
+    public string TStartFile;
+    public string serverTStartFile;
+
+    public string TEndFile;
+    public string serverTEndFile;
 
     private NameCheck nc;
 
@@ -140,6 +144,16 @@ public class SP_TwoTower : MonoBehaviour
         var TOF = new StreamWriter(TOFile, true);
         TOF.Write(""); TOF.Close();
 
+        TStartFile = nc.Recurse(localPrefix + "_TStart") + ".txt";
+        serverTStartFile = nc.Recurse(serverPrefix + "_TStart") + ".txt";
+        var tstart = new StreamWriter(TStartFile, true);
+        tstart.Write(""); tstart.Close();
+
+        TEndFile = nc.Recurse(localPrefix + "_TEnd") + ".txt";
+        serverTEndFile = nc.Recurse(serverPrefix + "_TEnd") + ".txt";
+        var tend = new StreamWriter(TEndFile, true);
+        tend.Write(""); tend.Close();
+
     }
 
     void OnApplicationQuit()
@@ -152,6 +166,8 @@ public class SP_TwoTower : MonoBehaviour
         File.Copy(timeSyncFile, serverTimeSyncFile, true);
         File.Copy(trialOrderFile, serverTrialOrderFile, true);
         File.Copy(TOFile, serverTOFile, true);
+        File.Copy(TStartFile, serverTStartFile, true);
+        File.Copy(TEndFile, serverTEndFile, true);
      
     }
 
