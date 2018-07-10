@@ -48,9 +48,6 @@ public class SbxTTLs_TwoTower : MonoBehaviour
         pc = player.GetComponent<PC_TwoTower>();
         Debug.Log(sp.numTraversals);
 
-
-
-
     }
 
 
@@ -111,7 +108,7 @@ public class SbxTTLs_TwoTower : MonoBehaviour
 
         //start first trial ttl1
 
-        scanning = true;
+        scanning = true; sp.scanning = 1;
         pc.cmd = 8;
         yield return new WaitForSeconds(.01f);
         pc.cmd = 0;

@@ -1593,8 +1593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e065447cfa46709418c7e265ca7f1abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: 4054011.2
-  session: 16
+  mouse: testyTest
   ClickOn: 1
   BlockWalls: 0
   mrd: 175
@@ -1632,7 +1631,8 @@ MonoBehaviour:
   serverTStartFile: 
   TEndFile: 
   serverTEndFile: 
-  dirCheck: 0
+  session: 16
+  scanning: 0
 --- !u!4 &1144418753
 Transform:
   m_ObjectHideFlags: 0

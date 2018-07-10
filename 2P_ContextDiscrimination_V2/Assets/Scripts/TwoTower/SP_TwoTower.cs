@@ -5,6 +5,7 @@ using System.IO;
 using System;
 using System.Data;
 using Mono.Data.Sqlite;
+//using Mono.Data.SqliteClient;
 
 public class SP_TwoTower : MonoBehaviour
 {
@@ -77,7 +78,9 @@ public class SP_TwoTower : MonoBehaviour
 
     private static bool created = false;
 
-    public int dirCheck = 0;
+
+
+    public int scanning = 0;
 
     public void Awake()
     {
@@ -191,7 +194,28 @@ public class SP_TwoTower : MonoBehaviour
         File.Copy(TOFile, serverTOFile, true);
         File.Copy(TStartFile, serverTStartFile, true);
         File.Copy(TEndFile, serverTEndFile, true);
-     
+
+        string connectionString = "Data Source=Z:\\VR\\TwoTower\\behavior.sqlite;Version=3;";
+        IDbConnection _connection;
+        _connection = (IDbConnection) new SqliteConnection(connectionString);
+        _connection.Open();
+        IDbCommand _command = _connection.CreateCommand();
+        string tmp_date = today.ToString("dd_MM_yyyy");
+        _command.CommandText = "insert into sessions (MouseName, DateFolder, SessionNumber, Track, RewardCount, Imaging) values ('" + mouse +  "', '" + tmp_date + "', "
+            + session + ",'"+ sceneName + "', " + numRewards + ", " + scanning + ")";
+
+        Debug.Log(_command.CommandText);
+
+        _command.ExecuteNonQuery();
+
+
+        _command.Dispose();
+        _command = null;
+
+        _connection.Close();
+        _connection = null;
+        
+        
     }
 
 }
