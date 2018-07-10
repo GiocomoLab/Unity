@@ -2,13 +2,16 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using System.IO;
+using System;
+using System.Data;
+using Mono.Data.Sqlite;
 
 public class SP_TwoTower : MonoBehaviour
 {
 
     //public bool saveData = true;
     public string mouse;
-    public string session;
+    
 
     public bool ClickOn = true;
     public bool BlockWalls = false;
@@ -67,7 +70,10 @@ public class SP_TwoTower : MonoBehaviour
     public string TEndFile;
     public string serverTEndFile;
 
+    public int session = 1;
+
     private NameCheck nc;
+    private DateTime today;
 
     private static bool created = false;
 
@@ -75,6 +81,8 @@ public class SP_TwoTower : MonoBehaviour
 
     public void Awake()
     {
+        today = DateTime.Today;
+        Debug.Log(today.ToString("dd_MM_yyyy"));
         if (!created)
         {
             // this is the first instance - make it persist
@@ -90,8 +98,8 @@ public class SP_TwoTower : MonoBehaviour
         nc = GetComponent<NameCheck>();
         sceneName = SceneManager.GetActiveScene().name;
 
-        localDirectory = localDirectory_pre + mouse;
-        serverDirectory = serverDirectory_pre + mouse;
+        localDirectory = localDirectory_pre + mouse + '/' + today.ToString("dd_MM_yyy") + '/';
+        serverDirectory = serverDirectory_pre + mouse + '/' + today.ToString("dd_MM_yyy") + '/';
 
         if (!Directory.Exists(localDirectory))
         {
@@ -103,55 +111,69 @@ public class SP_TwoTower : MonoBehaviour
         }
 
 
-        localPrefix = localDirectory + "/" + sceneName + "_" + session + "_";
-        serverPrefix = serverDirectory + "/" + sceneName + "_" + session + "_";
+        
 
-        rewardFile = nc.Recurse(localPrefix + "_Rewards") + ".txt";
-        serverRewardFile = nc.Recurse(serverPrefix + "_Rewards") + ".txt";
+        bool nameFlag = true;
+        while (nameFlag)
+        {
+            localPrefix = localDirectory + "/" + sceneName + "_" + session.ToString();
+            serverPrefix = serverDirectory + "/" + sceneName + "_" + session.ToString();
+            if (File.Exists(localPrefix + "_Rewards.txt"))
+            {
+                session++;
+            } else
+            {
+                
+                nameFlag = false;
+            }
+        }
+        
+        rewardFile = localPrefix + "_Rewards.txt";
+        serverRewardFile = serverPrefix + "_Rewards.txt";
         var rf = new StreamWriter(rewardFile, true);
         rf.Write(""); rf.Close();
 
 
-        lickFile = nc.Recurse(localPrefix + "_Licks") + ".txt";
-        serverLickFile = nc.Recurse(serverPrefix + "_Licks") + ".txt";
+        lickFile = localPrefix + "_Licks.txt";
+        serverLickFile = serverPrefix + "_Licks.txt";
         var lf = new StreamWriter(lickFile, true);
         lf.Write(""); lf.Close();
 
 
-        posFile = nc.Recurse(localPrefix + "_Pos") + ".txt";
-        serverPosFile = nc.Recurse(serverPrefix + "_Pos") + ".txt";
+        posFile = localPrefix + "_Pos.txt";
+        serverPosFile = serverPrefix + "_Pos.txt";
         var pf = new StreamWriter(posFile, true);
         pf.Write(""); pf.Close();
 
 
-        manRewardFile = nc.Recurse(localPrefix + "_ManRewards") + ".txt";
-        serverManRewardFile = nc.Recurse(serverPrefix + "ManRewards") + ".txt";
+        manRewardFile = localPrefix + "_ManRewards.txt";
+        serverManRewardFile = serverPrefix + "_ManRewards.txt";
         var mrf = new StreamWriter(manRewardFile, true);
         mrf.Write(""); mrf.Close();
 
 
-        timeSyncFile = nc.Recurse(localPrefix + "_TimeSync") + ".txt";
-        serverTimeSyncFile = nc.Recurse(serverPrefix + "_TimeSync") + ".txt";
+        timeSyncFile = localPrefix + "_TimeSync.txt";
+        serverTimeSyncFile = serverPrefix + "_TimeSync.txt";
         var tsf = new StreamWriter(timeSyncFile, true);
         tsf.Write(""); tsf.Close();
 
-        trialOrderFile = nc.Recurse(localPrefix + "_TrialOrder") + ".txt";
-        serverTrialOrderFile = nc.Recurse(serverPrefix + "_TrialOrder") + ".txt";
+        trialOrderFile = localPrefix + "_TrialOrder.txt";
+        serverTrialOrderFile = serverPrefix + "_TrialOrder.txt";
         var tof = new StreamWriter(trialOrderFile, true);
         tof.Write(""); tof.Close();
 
-        TOFile = nc.Recurse(localPrefix + "_Timeout") + ".txt";
-        serverTOFile = nc.Recurse(serverPrefix + "_Timeout") + ".txt";
+        TOFile = localPrefix + "_Timeout.txt";
+        serverTOFile = serverPrefix + "_Timeout.txt";
         var TOF = new StreamWriter(TOFile, true);
         TOF.Write(""); TOF.Close();
 
-        TStartFile = nc.Recurse(localPrefix + "_TStart") + ".txt";
-        serverTStartFile = nc.Recurse(serverPrefix + "_TStart") + ".txt";
+        TStartFile = localPrefix + "_TStart.txt";
+        serverTStartFile = serverPrefix + "_TStart.txt";
         var tstart = new StreamWriter(TStartFile, true);
         tstart.Write(""); tstart.Close();
 
-        TEndFile = nc.Recurse(localPrefix + "_TEnd") + ".txt";
-        serverTEndFile = nc.Recurse(serverPrefix + "_TEnd") + ".txt";
+        TEndFile = localPrefix + "_TEnd.txt";
+        serverTEndFile = serverPrefix + "_TEnd.txt";
         var tend = new StreamWriter(TEndFile, true);
         tend.Write(""); tend.Close();
 
