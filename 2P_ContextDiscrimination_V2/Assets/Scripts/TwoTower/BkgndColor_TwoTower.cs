@@ -30,7 +30,7 @@ public class BkgndColor_TwoTower : MonoBehaviour
         cameras = GetComponentsInChildren<Camera>();
         foreach (var cam in cameras)
         {
-
+            
             cam.clearFlags = CameraClearFlags.SolidColor;
             
         }
@@ -53,7 +53,7 @@ public class BkgndColor_TwoTower : MonoBehaviour
 
         }
 
-        if (pc.bckgndOn)
+        if (pc.bckgndOn & !sp.BlockWalls)
         {
 
             foreach (var cam in cameras)

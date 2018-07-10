@@ -5,12 +5,12 @@ using UnityEngine;
 public class MakeSineOnChildren_TwoTower : MonoBehaviour
 {
 
-    private int dim1 = 3600;
+    private int dim1 = 7200; //3600;
     private int dim2 = 450;
     private float f1 = 2f; //3;
     private float f2 = 1f; //.5f;
     private float theta1 = 10f;
-    private float theta2 = 60f;
+    private float theta2 = 70f;
 
     private SP_TwoTower sp;
     private PC_TwoTower pc;

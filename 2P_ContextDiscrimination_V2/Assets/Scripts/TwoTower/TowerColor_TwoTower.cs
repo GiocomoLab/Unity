@@ -14,6 +14,7 @@ public class TowerColor_TwoTower : MonoBehaviour
     //public float jitter;
     private int numTraversalsLocal = -1;
     private float morph = -1;
+    private bool bw = false;
 
 
     // Use this for initialization
@@ -35,14 +36,25 @@ public class TowerColor_TwoTower : MonoBehaviour
         }
 
        // jitter = .2f * (UnityEngine.Random.value - .5f);
-        float tmp_morph = pc.towerJitter + sp.morph;
-        color = Color.Lerp(Color.green, Color.blue, tmp_morph);
-        
-        
+
+        if (!sp.BlockWalls)
+        {
+            float tmp_morph = pc.towerJitter + sp.morph;
+            color = Color.Lerp(Color.green, Color.blue, tmp_morph);
+
+
+            
+            
+        } else
+        {
+            color = Color.Lerp(Color.green, Color.blue, .5f);
+            
+        }
         texture.SetPixel(1, 1, color);
         texture.filterMode = FilterMode.Point;
         texture.Apply();
-        
+
+
 
     }
 
@@ -50,17 +62,22 @@ public class TowerColor_TwoTower : MonoBehaviour
     void Update()
     {
 
-        if (numTraversalsLocal != sp.numTraversals | morph != sp.morph)
+        if (numTraversalsLocal != sp.numTraversals | morph != sp.morph | bw != sp.BlockWalls)
         {
             numTraversalsLocal = sp.numTraversals;
 
             morph = sp.morph;
-            //jitter = .2f * (UnityEngine.Random.value - .5f);
-            float tmp_morph = pc.towerJitter + morph;
+            bw = sp.BlockWalls;
+            if (!sp.BlockWalls)
+            {
+                float tmp_morph = pc.towerJitter + sp.morph;
+                color = Color.Lerp(Color.green, Color.blue, tmp_morph);
+            }
+            else
+            {
+                color = Color.Lerp(Color.green, Color.blue, .5f);
 
-
-
-            color = Color.Lerp(Color.green, Color.blue, tmp_morph);
+            }
             StartCoroutine(DrawTowers());
 
         }

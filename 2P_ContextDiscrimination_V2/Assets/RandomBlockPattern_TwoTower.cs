@@ -5,8 +5,8 @@ using UnityEngine;
 public class RandomBlockPattern_TwoTower : MonoBehaviour
 {
 
-    private int dim1 = 10;
-    private int dim2 = 5;
+    private int dim1 = 12;
+    private int dim2 = 30;
     private int nPixels;
 
     private Color color;
@@ -23,8 +23,8 @@ public class RandomBlockPattern_TwoTower : MonoBehaviour
 
     private int numTraversalsLocal = -1;
     private float morph = -1;
-    private float th1 = .1f;
-    private float th2 = .9f;
+    private float th1 = .95f;
+    private float th2 = .05f;
     private float thresh;
     // Use this for initialization
     void Start()
@@ -90,12 +90,13 @@ public class RandomBlockPattern_TwoTower : MonoBehaviour
             pixelValsScram = FisherYates(pixelValsScram);
             Texture2D texture = new Texture2D(dim1, dim2);
             r.material.mainTexture = texture; // like disable it for example. 
+            r.material.mainTextureScale = new Vector2(1,5);
             for (int y = 0; y < texture.height; y++)
             {
                 for (int x = 0; x < texture.width; x++)
                 {
                     //Debug.Log(y * dim2 + x);
-                    intensity = pixelValsScram[y * dim2 + x];
+                    intensity = pixelValsScram[y * dim1 + x];
                     color.r = intensity;
                     color.g = intensity;
                     color.b = intensity;

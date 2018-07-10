@@ -398,14 +398,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd912b84f3e447648a02840d3fff7721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: 4153990.619
-  session: 5
+  mouse: 41392011.1
+  session: 3
   numRewards: 0
   numRewards_manual: 0
   rewardFlag: 0
   rDur: 1.5
-  localDirectory_pre: C:\Users\markp\VR_Data\2AFC_V3
-  serverDirectory_pre: Z:/VR/2AFC_V3/
+  localDirectory_pre: C:\Users\markp\VR_Data\TwoTower\
+  serverDirectory_pre: Z:/VR/TwoTower/
   rewardFile: 
   manRewardFile: 
   lickFile: 

@@ -37,7 +37,7 @@ public class SavePositionData_TwoTower : MonoBehaviour
         // write position data to file every frame
         
         var sw = new StreamWriter(sp.posFile, true);
-        sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\t" + sp.morph + "\t" + rr.true_delta_z + "\r\n");
+        sw.Write(transform.position.z + "\t" + Time.realtimeSinceStartup + "\t" + sp.morph + "\t" + rr.true_delta_z + "\t" + sp.BlockWalls + "\r\n");
         sw.Close();
         
     }
