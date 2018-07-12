@@ -71,10 +71,7 @@ public class DL_TwoTower : MonoBehaviour
 
         //Debug.Log(pinValue);
         
-        var sw = new StreamWriter(sp.lickFile, true);
-        sw.Write(c_1 +  "\t" + r + "\t" + Time.realtimeSinceStartup + "\r\n");
-        sw.Close();
-
+        
         
 
     }

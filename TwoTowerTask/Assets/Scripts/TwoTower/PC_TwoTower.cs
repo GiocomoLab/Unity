@@ -161,7 +161,7 @@ public class PC_TwoTower : MonoBehaviour
 
     IEnumerator FlagCheck() {
       while (true) {
-        yield  return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
         tendFlag = 0;
         tstartFlag = 0;
       }
@@ -273,6 +273,7 @@ public class PC_TwoTower : MonoBehaviour
                 }
 
                 toutzoneFlag = 0;
+                tendFlag = 1;
                 transform.position = initialPosition;
                 sp.numTraversals += 1;
                 cmd = 2;

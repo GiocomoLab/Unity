@@ -51,9 +51,11 @@ public class SP_TwoTower : MonoBehaviour
     private RR_TwoTower rr;
     private DL_TwoTower dl;
     private PC_TwoTower pc;
+    private SbxTTLs_TwoTower ttls;
 
 
     private IDbConnection _connection;
+    private IDbCommand _command;
 
 
 
@@ -66,6 +68,7 @@ public class SP_TwoTower : MonoBehaviour
         rr = player.GetComponent<RR_TwoTower>();
         dl = player.GetComponent<DL_TwoTower>();
         pc = player.GetComponent<PC_TwoTower>();
+        ttls = player.GetComponent<SbxTTLs_TwoTower>();
 
         today = DateTime.Today;
         Debug.Log(today.ToString("dd_MM_yyyy"));
@@ -107,8 +110,8 @@ public class SP_TwoTower : MonoBehaviour
         _connection.Open();
         _command = _connection.CreateCommand();
         _command.CommandText = "create table data (time REAL, morph REAL, trialnum INT, pos REAL, dz REAL, lick INT, reward INT," +
-        "tstart INT, teleport INT, rzone INT, toutzone INT, clickOn INT, blockWalls INT, towerJitter REAL," +
-        " wallJitter REAL, bckgndJitter REAL, sanning INT, manrewards INT)";
+        "tstart INT, teleport INT, rzone INT, toutzone INT, clickOn NUMERIC, blockWalls NUMERIC, towerJitter REAL," +
+        " wallJitter REAL, bckgndJitter REAL, sanning NUMERIC, manrewards INT)";
         _command.ExecuteNonQuery();
 
         // make table for session information
@@ -117,7 +120,7 @@ public class SP_TwoTower : MonoBehaviour
         _command.CommandText = "create table trialInfo (baseline INT, training INT, test INT)";
         _command.ExecuteNonQuery();
 
-        _command.CommantTest = "insert into trialInfo (baseline, training, test) values (" + dbtt.numBaselineTrials  ", " + dbtt.numTrainingTrials + ", " + dbtt.numTestTrials + ")";
+        _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + dbtt.numBaselineTrials + ", " + dbtt.numTrainingTrials + ", " + dbtt.numTestTrials + ")";
         _command.ExecuteNonQuery();
     }
 
@@ -125,8 +128,10 @@ public class SP_TwoTower : MonoBehaviour
 
       _command.CommandText = "insert into data (time , morph , trialnum, pos, dz, lick, reward," +
       "tstart, teleport, rzone , toutzone, clickOn, blockWalls, towerJitter," +
-      " wallJitter , bckgndJitter , sanning) values (" + Time.RealTimeSinceStartup() + "," + morph + "," + numTraversals +
-      "," + transform.position.z + "," + rr.true_delta_z + "," + dl.c_1 + "," + dl.r + "," + pc.
+      " wallJitter , bckgndJitter , sanning, manrewards) values (" + Time.realtimeSinceStartup + "," + morph + "," + numTraversals +
+      "," + transform.position.z + "," + rr.true_delta_z + "," + dl.c_1 + "," + dl.r + "," + pc.tstartFlag + "," + pc.tendFlag + "," +
+      pc.rzoneFlag + "," + pc.toutzoneFlag + "," + ClickOn + "," + BlockWalls + "," + pc.towerJitter + "," + pc.wallJitter + "," +
+      pc.bckgndJitter + "," + ttls.scanning + "," + pc.mRewardFlag + ")";
       _command.ExecuteNonQuery();
 
 

@@ -167,7 +167,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 30
-  field of view: 132.07503
+  field of view: 120.9897
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -547,7 +547,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 350
-  field of view: 132.07503
+  field of view: 120.9897
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -1368,7 +1368,6 @@ GameObject:
   - component: {fileID: 1144418750}
   - component: {fileID: 1144418749}
   - component: {fileID: 1144418748}
-  - component: {fileID: 1144418747}
   - component: {fileID: 1144418746}
   - component: {fileID: 1144418745}
   - component: {fileID: 1144418743}
@@ -1455,6 +1454,11 @@ MonoBehaviour:
   towerJitter: 0
   wallJitter: 0
   bckgndJitter: 0
+  mRewardFlag: 0
+  rzoneFlag: 0
+  toutzoneFlag: 0
+  tendFlag: 0
+  tstartFlag: 0
 --- !u!114 &1144418745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1480,17 +1484,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaade52fd42dd344e8de058a62ad4d24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1144418747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1144418737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a77c3ca9d52c51644a2e064243ea25f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!54 &1144418748
@@ -1597,24 +1590,6 @@ MonoBehaviour:
   localPrefix: 
   serverPrefix: 
   sceneName: 
-  rewardFile: 
-  serverRewardFile: 
-  manRewardFile: 
-  serverManRewardFile: 
-  lickFile: 
-  serverLickFile: 
-  posFile: 
-  serverPosFile: 
-  timeSyncFile: 
-  serverTimeSyncFile: 
-  trialOrderFile: 
-  serverTrialOrderFile: 
-  TOFile: 
-  serverTOFile: 
-  TStartFile: 
-  serverTStartFile: 
-  TEndFile: 
-  serverTEndFile: 
   session: 16
   scanning: 0
 --- !u!4 &1144418753
@@ -2520,7 +2495,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 30
-  field of view: 132.07503
+  field of view: 120.9897
   orthographic: 0
   orthographic size: 5
   m_Depth: 0

@@ -140,11 +140,6 @@ public class TrialOrdering_TwoTower : MonoBehaviour {
             //Debug.Log(pc.LickHistory[0]);
             sp.morph = trialOrder[numTraversalsLocal];
             Debug.Log(sp.morph);
-            
-            var sw = new StreamWriter(sp.trialOrderFile, true);
-            sw.Write(sp.morph + "\t" + "0" + "\r\n");
-            sw.Close();
-
         }
 
     }
