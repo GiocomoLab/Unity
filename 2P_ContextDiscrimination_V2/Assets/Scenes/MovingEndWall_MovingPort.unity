@@ -511,11 +511,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouse: 4139211.1
-  session: 3
+  session: 5
   mrd: 30
   ard: 0
   fixedRewardSchedule: 0
-  MinTrainingDist: 15
+  MinTrainingDist: 30
   MaxTrainingDist: 330
   punish: 0
   numRewards: 0
@@ -523,7 +523,7 @@ MonoBehaviour:
   rewardFlag: 0
   numTraversals: 0
   numTrialsTotal: 200
-  maxRewards: 60
+  maxRewards: 100
   morph: 0
   rDur: 2
   localDirectory_pre: C:\Users\markp\VR_Data\TwoTower\

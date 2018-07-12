@@ -1390,6 +1390,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scanning: 0
+  p1_x: 0
+  p1_y: 0
+  p1_z: 0
+  p2_x: 0
+  p2_y: 0
+  p2_z: 0
 --- !u!114 &1144418739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1593,8 +1599,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e065447cfa46709418c7e265ca7f1abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: testyTest
-  ClickOn: 1
+  mouse: 4139190.3
+  ClickOn: 0
   BlockWalls: 0
   mrd: 175
   ard: 150
@@ -1603,7 +1609,7 @@ MonoBehaviour:
   rewardFlag: 0
   numTraversals: 0
   numTrialsTotal: 0
-  maxRewards: 90
+  maxRewards: 200
   morph: 0
   rDur: 2
   localDirectory_pre: C:\Users\markp\VR_Data\TwoTower\
@@ -1660,7 +1666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numBaselineTrials: 10
-  numTrainingTrials: 100
+  numTrainingTrials: 400
   numTestTrials: 0
   morphExp: 2
 --- !u!1 &1183036851

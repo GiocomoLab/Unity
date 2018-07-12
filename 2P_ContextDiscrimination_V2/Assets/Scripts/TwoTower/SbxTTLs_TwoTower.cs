@@ -31,12 +31,26 @@ public class SbxTTLs_TwoTower : MonoBehaviour
     private string serverTimesyncFile;
     public bool scanning = false;
 
+    public float p1_x = 0;
+    public float p1_y = 0;
+    public float p1_z = 0;
+
+    public float p2_x = 0;
+    public float p2_y = 0;
+    public float p2_z = 0;
+
+    private float dx;
+    private float dy;
+    private float dz;
+
     private static bool created = false;
 
     public void Awake()
     {
         remoteEndPoint = new IPEndPoint(IPAddress.Parse(IP), port);
         client = new UdpClient();
+
+        dx = p1_x - p2_x; dy = p1_y - p2_y; dz = p1_z - p2_z;
     }
 
     void Start()
@@ -74,8 +88,14 @@ public class SbxTTLs_TwoTower : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.N) & !scanning)
+        {
+            StartCoroutine(set_filenames());
+        }
+
         if (Input.GetKeyDown(KeyCode.S) & !scanning)
         {
+            
             StartCoroutine(ScannerStart());
             Debug.Log("start");
         };
@@ -88,6 +108,26 @@ public class SbxTTLs_TwoTower : MonoBehaviour
             Debug.Log("toggle");
 
         };
+
+        if (numTraversals_local != sp.numTraversals)
+        {
+            numTraversals_local++;
+            if ((dx != 0) | (dy!=0) | (dz!=0))
+            {
+                if (numTraversals_local > 0)
+                {
+                    if (numTraversals_local % 2 == 1)
+                    {
+                        move_laser(dx, dy, dz);
+                    }
+                    else
+                    {
+                        move_laser(-dx, -dy, -dz);
+                    }
+                }
+            }
+
+        }
 
     }
 
@@ -109,10 +149,11 @@ public class SbxTTLs_TwoTower : MonoBehaviour
         //start first trial ttl1
 
         scanning = true; sp.scanning = 1;
+        
+        yield return new WaitForSeconds(2f);
         pc.cmd = 8;
         yield return new WaitForSeconds(.01f);
         pc.cmd = 0;
-        set_filenames();
         yield return new WaitForSeconds(10f);
         pc.cmd = 9;
         yield return new WaitForSeconds(.01f);
@@ -122,17 +163,18 @@ public class SbxTTLs_TwoTower : MonoBehaviour
 
     }
 
-    void set_filenames()
+    IEnumerator set_filenames()
     {
         DateTime today = DateTime.Today;
         // set base directory
         sendString("D" + "D:/mplitt/" + sp.mouse + "/" + today.ToString("dd_MM_yyyy") + '/');
-
+        yield return new WaitForSeconds(1.5f);
         // set first field/final directory
         sendString("A" + sp.sceneName);
-
+        yield return new WaitForSeconds(1.5f);
         // set second field
-        sendString("E" + sp.session.ToString());
+        sendString("U" + sp.session.ToString());
+        yield return null;
 
 
     }

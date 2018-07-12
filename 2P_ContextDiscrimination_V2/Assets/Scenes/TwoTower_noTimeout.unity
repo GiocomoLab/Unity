@@ -656,7 +656,6 @@ GameObject:
   - component: {fileID: 439616910}
   - component: {fileID: 439616909}
   - component: {fileID: 439616908}
-  - component: {fileID: 439616907}
   - component: {fileID: 439616906}
   - component: {fileID: 439616919}
   - component: {fileID: 439616920}
@@ -684,17 +683,6 @@ MonoBehaviour:
   numTestTrials: 0
   morphPcnt: 0.5
   trialOrder: []
---- !u!114 &439616907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 439616905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb9a3169cda150241994995ef43342ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &439616908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -815,7 +803,7 @@ MonoBehaviour:
   TEndFile: 
   serverTEndFile: 
   session: 1
-  dirCheck: 0
+  scanning: 0
 --- !u!114 &439616914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -949,6 +937,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scanning: 0
+  p1_x: 0
+  p1_y: 0
+  p1_z: 0
+  p2_x: 0
+  p2_y: 0
+  p2_z: 0
 --- !u!1 &453909333
 GameObject:
   m_ObjectHideFlags: 0
