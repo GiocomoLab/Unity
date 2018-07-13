@@ -17,10 +17,6 @@ public class SP_TwoTower : MonoBehaviour
     public bool ClickOn = true;
     public bool BlockWalls = false;
 
-    public float mrd = 175.0f; // minimum reward distance
-    public float ard = 150.0f; // additional reward distance
-
-
     public int numRewards = 0;
     public int numRewards_manual = 0;
     public int rewardFlag = 0;

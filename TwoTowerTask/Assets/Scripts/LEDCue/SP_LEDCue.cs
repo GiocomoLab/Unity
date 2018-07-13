@@ -1,22 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.SceneManagement;
 using System.IO;
+using System;
+using System.Data;
+using Mono.Data.Sqlite;
 
 public class SP_LEDCue : MonoBehaviour
 {
 
-    
+
     public string mouse;
-    public string session;
 
     public int numRewards = 0;
     public int numRewards_manual = 0;
     public int rewardFlag = 0;
+   
+    public float rDur = 2f; // timeout duration between available rewards
 
-    //public float rDur = 1.5f; // timeout duration between available rewards
-    public float r_timeout = 5f;
 
     // for saving data
     public string localDirectory_pre = "C:/Users/2PRig/VR_Data/2AFC_V3/";
@@ -27,44 +28,35 @@ public class SP_LEDCue : MonoBehaviour
     private string serverPrefix;
     public string sceneName;
 
-    public string rewardFile;
-    private string serverRewardFile;
+    private GameObject player;
+    private RR_FlashLED rr;
+    private DL_LEDCue dl;
+    private PC_LEDCue pc;
 
-    public string manRewardFile;
-    private string serverManRewardFile;
+    public int session;
+    private DateTime today;
+    private IDbConnection _connection;
+    private IDbCommand _command;
 
-    public string lickFile;
-    private string serverLickFile;
+    public int scanning = 0;
 
-    public string timeSyncFile;
-    private string serverTimeSyncFile;
 
-    private NameCheck nc;
-
-    private static bool created = false;
-
-    private int dirCheck = 0;
+    public int dirCheck = 0;
 
     public void Awake()
     {
-        if (!created)
-        {
-            // this is the first instance - make it persist
-            DontDestroyOnLoad(this);
-            created = true;
-        }
-        else
-        {
-            // this must be a duplicate from a scene reload - DESTROY!
-            Destroy(this);
-        }
 
-        nc = GetComponent<NameCheck>();
+        player = GameObject.Find("Player");
+        rr = player.GetComponent<RR_FlashLED>();
+        dl = player.GetComponent<DL_LEDCue>();
+        pc = player.GetComponent<PC_LEDCue>();
+        
+
+        today = DateTime.Today;
+        Debug.Log(today.ToString("dd_MM_yyyy"));
         sceneName = SceneManager.GetActiveScene().name;
-
-        localDirectory = localDirectory_pre + mouse;
-        serverDirectory = serverDirectory_pre + mouse;
-
+        localDirectory = localDirectory_pre + mouse + '/' + today.ToString("dd_MM_yyy") + '/';
+        serverDirectory = serverDirectory_pre + mouse + '/' + today.ToString("dd_MM_yyy") + '/';
         if (!Directory.Exists(localDirectory))
         {
             Directory.CreateDirectory(localDirectory);
@@ -75,45 +67,74 @@ public class SP_LEDCue : MonoBehaviour
         }
 
 
-        localPrefix = localDirectory + "/" + sceneName + "_" + session + "_";
-        serverPrefix = serverDirectory + "/" + sceneName + "_" + session + "_";
-
-        rewardFile = nc.Recurse(localPrefix + "_Rewards") + ".txt";
-        serverRewardFile = nc.Recurse(serverPrefix + "_Rewards") + ".txt";
-        var rf = new StreamWriter(rewardFile, true);
-        rf.Write(""); rf.Close();
 
 
-        lickFile = nc.Recurse(localPrefix + "_Licks") + ".txt";
-        serverLickFile = nc.Recurse(serverPrefix + "_Licks") + ".txt";
-        var lf = new StreamWriter(lickFile, true);
-        lf.Write(""); lf.Close();
 
+        bool nameFlag = true;
+        session = 1;
+        while (nameFlag)
+        {
+            localPrefix = localDirectory + "/" + sceneName + "_" + session.ToString();
+            serverPrefix = serverDirectory + "/" + sceneName + "_" + session.ToString();
+            if (File.Exists(localPrefix + ".sqlite"))
+            {
+                session++;
+            }
+            else
+            {
+                nameFlag = false;
+                SqliteConnection.CreateFile(localPrefix + ".sqlite");
+            }
+        }
 
-        manRewardFile = nc.Recurse(localPrefix + "_ManRewards") + ".txt";
-        serverManRewardFile = nc.Recurse(serverPrefix + "ManRewards") + ".txt";
-        var mrf = new StreamWriter(manRewardFile, true);
-        mrf.Write(""); mrf.Close();
+        string connectionString = "Data Source=" + localPrefix + ".sqlite;Version=3;";
+        _connection = (IDbConnection)new SqliteConnection(connectionString);
+        _connection.Open();
+        _command = _connection.CreateCommand();
+        _command.CommandText = "create table data (time REAL, dz REAL, lick INT, reward INT, manrewards INT)";
+        _command.ExecuteNonQuery();
+    }
 
+    void LateUpdate()
+    {
 
-        timeSyncFile = nc.Recurse(localPrefix + "_TimeSync") + ".txt";
-        serverTimeSyncFile = nc.Recurse(serverPrefix + "_TimeSync") + ".txt";
-        var tsf = new StreamWriter(timeSyncFile, true);
-        tsf.Write(""); tsf.Close();
+        _command.CommandText = "insert into data (time , dz, lick, reward, manrewards) values (" + Time.realtimeSinceStartup + "," + 
+            rr.true_delta_z + "," + dl.c_1 + "," + dl.r + "," +  pc.mRewardFlag + ")";
+        _command.ExecuteNonQuery();
+
 
 
     }
-
-    
 
     void OnApplicationQuit()
     {
-       
-            File.Copy(rewardFile, serverRewardFile, true);
-            File.Copy(lickFile, serverLickFile, true);
-            File.Copy(manRewardFile, serverManRewardFile, true);
-            File.Copy(timeSyncFile, serverTimeSyncFile, true);
-        
-    }
+        _command.Dispose();
+        _command = null;
 
+        _connection.Close();
+        _connection = null;
+
+
+        string sess_connectionString = "Data Source=Z:\\VR\\TwoTower\\behavior.sqlite;Version=3;";
+        IDbConnection db_connection;
+        db_connection = (IDbConnection)new SqliteConnection(sess_connectionString);
+        db_connection.Open();
+        IDbCommand db_command = db_connection.CreateCommand();
+        string tmp_date = today.ToString("dd_MM_yyyy");
+        db_command.CommandText = "insert into sessions (MouseName, DateFolder, SessionNumber, Track, RewardCount, Imaging) values ('" + mouse + "', '" + tmp_date + "', "
+            + session + ",'" + sceneName + "', " + numRewards + ", " + scanning + ")";
+
+        Debug.Log(db_command.CommandText);
+
+        db_command.ExecuteNonQuery();
+
+
+        db_command.Dispose();
+        db_command = null;
+
+        db_connection.Close();
+        db_connection = null;
+
+
+    }
 }

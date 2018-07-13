@@ -16,7 +16,7 @@ public class PC_LEDCue : MonoBehaviour {
     // for saving data
     private SP_LEDCue sp;
     private GameObject player;
-    private DetectLicks_1Port_LEDCue dl;
+    private DL_LEDCue dl;
  
     public bool pcntrl_pins = false;
     private bool reward_dir;
@@ -26,6 +26,7 @@ public class PC_LEDCue : MonoBehaviour {
     private int r_last = 0;
 
     public int cmd = 0;
+    public int mRewardFlag = 0;
 
     
     public void Awake()
@@ -33,7 +34,7 @@ public class PC_LEDCue : MonoBehaviour {
         // get game objects 
         GameObject player = GameObject.Find("Player");
         sp = player.GetComponent<SP_LEDCue>();
-        dl = player.GetComponent<DetectLicks_1Port_LEDCue>();
+        dl = player.GetComponent<DL_LEDCue>();
     }
 
     private void Start()
@@ -47,15 +48,15 @@ public class PC_LEDCue : MonoBehaviour {
         if (dl.r > 0) { StartCoroutine(DeliverReward(dl.r)); dl.r = 0; }; // deliver appropriate reward 
 
         // manual rewards and punishments
+        mRewardFlag = 0;
         if (Input.GetKeyDown(KeyCode.Q) | Input.GetMouseButtonDown(0)) // reward left
         {
+            mRewardFlag = 1;
             numRewards_manual += 1;
             Debug.Log(numRewards_manual);
             StartCoroutine(DeliverReward(4));
 
-            var sw = new StreamWriter(sp.manRewardFile, true);
-            sw.Write(Time.realtimeSinceStartup + "\r\n");
-            sw.Close();
+            
             
         }
 
@@ -71,7 +72,7 @@ public class PC_LEDCue : MonoBehaviour {
     IEnumerator DeliverReward(int r)
     { // deliver 
         if (r == 4) // reward
-        {
+        { 
             cmd = 4;
             yield return new WaitForSeconds(.05f);
             cmd = 10;

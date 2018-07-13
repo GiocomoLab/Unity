@@ -27,8 +27,6 @@ public class SbxTTLs_TwoTower : MonoBehaviour
     //private int numTraversals;
 
     private SP_TwoTower sp;
-    private string timesyncFile;
-    private string serverTimesyncFile;
     public bool scanning = false;
 
     public float p1_x = 0;
@@ -42,8 +40,6 @@ public class SbxTTLs_TwoTower : MonoBehaviour
     private float dx;
     private float dy;
     private float dz;
-
-    private static bool created = false;
 
     public void Awake()
     {
@@ -149,8 +145,6 @@ public class SbxTTLs_TwoTower : MonoBehaviour
         //start first trial ttl1
 
         scanning = true; sp.scanning = 1;
-        
-        yield return new WaitForSeconds(2f);
         pc.cmd = 8;
         yield return new WaitForSeconds(.01f);
         pc.cmd = 0;

@@ -22,9 +22,6 @@ public class PC_TwoTower : MonoBehaviour
     private SP_TwoTower sp;
     private DL_TwoTower dl;
     private RR_TwoTower rotary;
-    private NameCheck nc;
-    private TrialOrdering_TwoTower to;
-
 
     private bool reward_dir;
 
@@ -65,7 +62,6 @@ public class PC_TwoTower : MonoBehaviour
         sp = player.GetComponent<SP_TwoTower>();
         rotary = player.GetComponent<RR_TwoTower>();
         dl = player.GetComponent<DL_TwoTower>();
-        to = player.GetComponent<TrialOrdering_TwoTower>();
 
 
 
