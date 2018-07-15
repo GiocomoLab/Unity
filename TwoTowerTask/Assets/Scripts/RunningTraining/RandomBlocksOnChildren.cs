@@ -5,8 +5,8 @@ using UnityEngine;
 public class RandomBlocksOnChildren : MonoBehaviour
 {
 
-    private int dim1 = 50;
-    private int dim2 = 5;
+    private int dim1 = 5;
+    private int dim2 = 50;
 
     private Color color;
 

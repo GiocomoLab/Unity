@@ -2006,14 +2006,12 @@ GameObject:
   - component: {fileID: 1601822172}
   - component: {fileID: 1601822171}
   - component: {fileID: 1601822170}
-  - component: {fileID: 1601822169}
   - component: {fileID: 1601822168}
   - component: {fileID: 1601822167}
-  - component: {fileID: 1601822166}
-  - component: {fileID: 1601822165}
   - component: {fileID: 1601822164}
   - component: {fileID: 1601822163}
   - component: {fileID: 1601822162}
+  - component: {fileID: 1601822165}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2045,7 +2043,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1601822161}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41ca1488ea9d21d43b9397bc342d874f, type: 3}
   m_Name: 
@@ -2069,25 +2067,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1601822161}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 067e99d82e1516f4fbe845d68ba87749, type: 3}
+  m_Script: {fileID: 11500000, guid: efcb6a2e23368474b87b162bf4928d61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numBaselineTrials: 20
-  numTrainingTrials: 40
-  numTestTrials: 0
-  morphPcnt: 0.5
-  trialOrder: []
---- !u!114 &1601822166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1601822161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb9a3169cda150241994995ef43342ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  numBaselineTrials: 4
+  numTrainingTrials: 6
+  numTestTrials: 50
+  morphExp: 0.75
 --- !u!114 &1601822167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2120,17 +2106,11 @@ MonoBehaviour:
   towerJitter: 0
   wallJitter: 0
   bckgndJitter: 0
---- !u!114 &1601822169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1601822161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a77c3ca9d52c51644a2e064243ea25f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  mRewardFlag: 0
+  rzoneFlag: 0
+  toutzoneFlag: 0
+  tendFlag: 0
+  tstartFlag: 0
 --- !u!114 &1601822170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2253,17 +2233,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e065447cfa46709418c7e265ca7f1abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: 4139190.1
+  mouse: 4139190.3
   ClickOn: 1
   BlockWalls: 0
-  mrd: 175
-  ard: 150
   numRewards: 0
   numRewards_manual: 0
   rewardFlag: 0
   numTraversals: 0
   numTrialsTotal: 0
-  maxRewards: 200
+  maxRewards: 100
   morph: 0
   rDur: 2
   localDirectory_pre: C:\Users\markp\VR_Data\TwoTower\
@@ -2273,24 +2251,6 @@ MonoBehaviour:
   localPrefix: 
   serverPrefix: 
   sceneName: 
-  rewardFile: 
-  serverRewardFile: 
-  manRewardFile: 
-  serverManRewardFile: 
-  lickFile: 
-  serverLickFile: 
-  posFile: 
-  serverPosFile: 
-  timeSyncFile: 
-  serverTimeSyncFile: 
-  trialOrderFile: 
-  serverTrialOrderFile: 
-  TOFile: 
-  serverTOFile: 
-  TStartFile: 
-  serverTStartFile: 
-  TEndFile: 
-  serverTEndFile: 
   session: 1
   scanning: 0
 --- !u!4 &1601822178

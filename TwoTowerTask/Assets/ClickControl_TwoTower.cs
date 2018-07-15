@@ -7,7 +7,7 @@ public class ClickControl_TwoTower : MonoBehaviour {
     
     private SP_TwoTower sp;
     private PC_TwoTower pc;
-    private TrialOrdering_TwoTower to;
+    private DebiasingAlg_TwoTower to;
     private GameObject player;
 
 
@@ -22,7 +22,7 @@ public class ClickControl_TwoTower : MonoBehaviour {
         player = GameObject.Find("Player");
         sp = player.GetComponent<SP_TwoTower>();
         pc = player.GetComponent<PC_TwoTower>();
-        to = player.GetComponent<TrialOrdering_TwoTower>();
+        to = player.GetComponent<DebiasingAlg_TwoTower>();
 
         baseline_half = (int) to.numBaselineTrials/2 ;
         baseline_quart = (int)Mathf.Min(to.numBaselineTrials / 4, 10f);

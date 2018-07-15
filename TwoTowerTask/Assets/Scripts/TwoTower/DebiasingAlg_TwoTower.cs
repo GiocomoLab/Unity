@@ -109,7 +109,8 @@ public class DebiasingAlg_TwoTower : MonoBehaviour {
             if (numTraversalsLocal>=(numBaselineTrials+numTrainingTrials)) {
                 if (nextMorphTrial < 0)
                 {
-                    nextMorphTrial = numTraversalsLocal + (int)RandomFromDistribution.RandomRangeExponential(0f, 8f, morphExp, RandomFromDistribution.Direction_e.Right);
+                    nextMorphTrial = numTraversalsLocal + (int) UnityEngine.Mathf.Round(RandomFromDistribution.RandomRangeLinear(-.5f, 3f, 0f));
+                    Debug.Log("next morph" + nextMorphTrial.ToString());
                 }
                 if (numTraversalsLocal == nextMorphTrial)
                 {
@@ -214,7 +215,7 @@ public class DebiasingAlg_TwoTower : MonoBehaviour {
         }
 
 
-        if (UnityEngine.Random.value<p1)
+        if (RandomFromDistribution.RandomRangeLinear(0f, 1f,0f) < p1)
         {
             return 1f;
         } else

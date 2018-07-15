@@ -48,7 +48,7 @@ public class PC_FlashLED : MonoBehaviour
 
     void Update()
     {
-        if (!flashFlag) { StartCoroutine(FlashLED()); flashFlag = true; };
+        if ((Input.GetKeyDown(KeyCode.F)) & (!flashFlag)) { StartCoroutine(FlashLED()); flashFlag = true; };
 
         
         if (dl.r > 0) { StartCoroutine(DeliverReward(dl.r)); dl.r = 0; }; // deliver appropriate reward 
