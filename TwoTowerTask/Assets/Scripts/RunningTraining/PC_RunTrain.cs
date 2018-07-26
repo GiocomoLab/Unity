@@ -145,6 +145,7 @@ public class PC_RunTrain : MonoBehaviour
                 sp.mrd = 300;
             }
         }
+        float zpos = (reward.transform.position.z + sp.mrd) % 400f;
         reward.transform.position = reward.transform.position + new Vector3(0f, 0f, sp.mrd);
         LastRewardTime = CurrRewardTime;
         yield return null;

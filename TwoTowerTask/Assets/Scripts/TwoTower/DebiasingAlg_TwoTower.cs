@@ -66,8 +66,8 @@ public class DebiasingAlg_TwoTower : MonoBehaviour {
         baselineTrials = new float[numBaselineTrials];
         for (int i = 0; i < numBaselineTrials / 2; i++)
         {
-            baselineTrials[i] = 1.0f;
-            baselineTrials[i + numBaselineTrials / 2] = 0f;
+            baselineTrials[i] = 0.0f;
+            baselineTrials[i + numBaselineTrials / 2] = 1f;
         }
 
         //  make and array of morph values

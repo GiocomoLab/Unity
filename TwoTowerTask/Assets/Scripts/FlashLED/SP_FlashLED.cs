@@ -117,6 +117,7 @@ public class SP_FlashLED : MonoBehaviour
         _connection.Close();
         _connection = null;
 
+        File.Copy(localPrefix + ".sqlite", serverPrefix + ".sqlite", true);
 
         string sess_connectionString = "Data Source=Z:\\VR\\TwoTower\\behavior.sqlite;Version=3;";
         IDbConnection db_connection;

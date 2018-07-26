@@ -11,8 +11,8 @@ public class SP_TwoTower : MonoBehaviour
 {
 
     //public bool saveData = true;
-    public string mouse;
-
+    private string mouse;
+    
 
     public bool ClickOn = true;
     public bool BlockWalls = false;
@@ -31,7 +31,7 @@ public class SP_TwoTower : MonoBehaviour
 
     // for saving data
     public string localDirectory_pre = "C:/Users/markp/VR_Data/TwoTower/";
-    public string serverDirectory_pre = "Z:/VR/TwoTower/";
+    public string serverDirectory_pre = "G:\\My Drive\\VR_Data\\TwoTower";
     public string localDirectory;
     public string serverDirectory;
     public string localPrefix;
@@ -44,10 +44,13 @@ public class SP_TwoTower : MonoBehaviour
     private DateTime today;
     private GameObject player;
     private DebiasingAlg_TwoTower dbtt;
+    private DebiasingAlg_TwoTower_4Way dbtt_4way;
     private RR_TwoTower rr;
     private DL_TwoTower dl;
     private PC_TwoTower pc;
     private SbxTTLs_TwoTower ttls;
+    private Notes notes;
+  
 
 
     private IDbConnection _connection;
@@ -59,18 +62,31 @@ public class SP_TwoTower : MonoBehaviour
 
     public void Awake()
     {
+       
         player = GameObject.Find("Player");
-        dbtt = player.GetComponent<DebiasingAlg_TwoTower>();
+        sceneName = SceneManager.GetActiveScene().name;
+
+        if (sceneName=="TwoTower_4Way")
+        {
+            dbtt_4way = player.GetComponent<DebiasingAlg_TwoTower_4Way>();
+        } else
+        {
+            dbtt = player.GetComponent<DebiasingAlg_TwoTower>();
+        }
+        
         rr = player.GetComponent<RR_TwoTower>();
         dl = player.GetComponent<DL_TwoTower>();
         pc = player.GetComponent<PC_TwoTower>();
         ttls = player.GetComponent<SbxTTLs_TwoTower>();
+        notes = player.GetComponent<Notes>();
+        mouse = notes.mouse;
+
 
         today = DateTime.Today;
         Debug.Log(today.ToString("dd_MM_yyyy"));
 
 
-        sceneName = SceneManager.GetActiveScene().name;
+        
         localDirectory = localDirectory_pre + mouse + '/' + today.ToString("dd_MM_yyy") + '/';
         serverDirectory = serverDirectory_pre + mouse + '/' + today.ToString("dd_MM_yyy") + '/';
         if (!Directory.Exists(localDirectory))
@@ -116,7 +132,14 @@ public class SP_TwoTower : MonoBehaviour
         _command.CommandText = "create table trialInfo (baseline INT, training INT, test INT)";
         _command.ExecuteNonQuery();
 
-        _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + dbtt.numBaselineTrials + ", " + dbtt.numTrainingTrials + ", " + dbtt.numTestTrials + ")";
+        if (sceneName == "TwoTower_4Way")
+        {
+            _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + dbtt_4way.numBaselineTrials + ", " + dbtt_4way.numTrainingTrials + ", " + dbtt_4way.numTestTrials + ")";
+        }
+        else
+        {
+            _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + dbtt.numBaselineTrials + ", " + dbtt.numTrainingTrials + ", " + dbtt.numTestTrials + ")";
+        }
         _command.ExecuteNonQuery();
     }
 
@@ -142,15 +165,16 @@ public class SP_TwoTower : MonoBehaviour
         _connection.Close();
         _connection = null;
 
+        File.Copy(localPrefix + ".sqlite", serverPrefix + ".sqlite",true);
 
-        string sess_connectionString = "Data Source=Z:\\VR\\TwoTower\\behavior.sqlite;Version=3;";
+        string sess_connectionString = "Data Source=G:\\My Drive\\VR_Data\\TwoTower\\behavior.sqlite;Version=3;";
         IDbConnection db_connection;
         db_connection = (IDbConnection) new SqliteConnection(sess_connectionString);
         db_connection.Open();
         IDbCommand db_command = db_connection.CreateCommand();
         string tmp_date = today.ToString("dd_MM_yyyy");
-        db_command.CommandText = "insert into sessions (MouseName, DateFolder, SessionNumber, Track, RewardCount, Imaging) values ('" + mouse +  "', '" + tmp_date + "', "
-            + session + ",'"+ sceneName + "', " + numRewards + ", " + scanning + ")";
+        db_command.CommandText = "insert into sessions (MouseName, DateFolder, SessionNumber, Track, RewardCount, Imaging, ImagingRegion, Notes) values ('" + mouse +  "', '" + tmp_date + "', "
+            + session + ",'"+ sceneName + "', " + numRewards + ", " + scanning + ",'" + notes.imaging_region + "','" + notes.notes + "')";
 
         Debug.Log(db_command.CommandText);
 

@@ -1998,6 +1998,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1601822178}
+  - component: {fileID: 1601822166}
   - component: {fileID: 1601822177}
   - component: {fileID: 1601822176}
   - component: {fileID: 1601822175}
@@ -2070,10 +2071,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efcb6a2e23368474b87b162bf4928d61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numBaselineTrials: 4
-  numTrainingTrials: 6
-  numTestTrials: 50
+  numBaselineTrials: 30
+  numTrainingTrials: 200
+  numTestTrials: 0
   morphExp: 0.75
+--- !u!114 &1601822166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1601822161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d235ebba95fb38a4e84d47b08a48ab6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouse: 4139202.2
+  notes: inter-imaging day training
+  imaging_region: Null
 --- !u!114 &1601822167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2233,7 +2248,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e065447cfa46709418c7e265ca7f1abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: 4139190.3
   ClickOn: 1
   BlockWalls: 0
   numRewards: 0

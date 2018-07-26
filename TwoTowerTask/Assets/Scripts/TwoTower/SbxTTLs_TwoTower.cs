@@ -27,6 +27,7 @@ public class SbxTTLs_TwoTower : MonoBehaviour
     //private int numTraversals;
 
     private SP_TwoTower sp;
+    private Notes notes;
     public bool scanning = false;
 
     public float p1_x = 0;
@@ -56,6 +57,7 @@ public class SbxTTLs_TwoTower : MonoBehaviour
         GameObject player = GameObject.Find("Player");
         sp = player.GetComponent<SP_TwoTower>();
         pc = player.GetComponent<PC_TwoTower>();
+        notes = player.GetComponent<Notes>();
         Debug.Log(sp.numTraversals);
 
     }
@@ -161,7 +163,7 @@ public class SbxTTLs_TwoTower : MonoBehaviour
     {
         DateTime today = DateTime.Today;
         // set base directory
-        sendString("D" + "D:/mplitt/" + sp.mouse + "/" + today.ToString("dd_MM_yyyy") + '/');
+        sendString("D" + "D:/mplitt/" + notes.mouse + "/" + today.ToString("dd_MM_yyyy") + '/');
         yield return new WaitForSeconds(1.5f);
         // set first field/final directory
         sendString("A" + sp.sceneName);

@@ -857,20 +857,15 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1027184753}
+  - component: {fileID: 1027184738}
   - component: {fileID: 1027184752}
   - component: {fileID: 1027184751}
   - component: {fileID: 1027184750}
   - component: {fileID: 1027184749}
   - component: {fileID: 1027184748}
-  - component: {fileID: 1027184747}
-  - component: {fileID: 1027184746}
   - component: {fileID: 1027184745}
-  - component: {fileID: 1027184744}
   - component: {fileID: 1027184743}
   - component: {fileID: 1027184742}
-  - component: {fileID: 1027184741}
-  - component: {fileID: 1027184740}
-  - component: {fileID: 1027184738}
   - component: {fileID: 1027184737}
   - component: {fileID: 1027184754}
   - component: {fileID: 1027184739}
@@ -893,17 +888,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scanning: 0
+  p1_x: 0
+  p1_y: 0
+  p1_z: 0
+  p2_x: 0
+  p2_y: 0
+  p2_z: 0
 --- !u!114 &1027184738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1027184736}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41ca1488ea9d21d43b9397bc342d874f, type: 3}
+  m_Script: {fileID: 11500000, guid: d235ebba95fb38a4e84d47b08a48ab6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouse: 4139190.1
+  notes: 
+  imaging_region: CA1
 --- !u!114 &1027184739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,33 +917,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69dce05c5c8537f48a8ef9a118e191d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1027184740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1027184736}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 067e99d82e1516f4fbe845d68ba87749, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  numBaselineTrials: 0
-  numTrainingTrials: 10
-  numTestTrials: 0
-  morphPcnt: 0.5
-  trialOrder: []
---- !u!114 &1027184741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1027184736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb9a3169cda150241994995ef43342ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1027184742
@@ -974,17 +951,11 @@ MonoBehaviour:
   towerJitter: 0
   wallJitter: 0
   bckgndJitter: 0
---- !u!114 &1027184744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1027184736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a77c3ca9d52c51644a2e064243ea25f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  mRewardFlag: 0
+  rzoneFlag: 0
+  toutzoneFlag: 0
+  tendFlag: 0
+  tstartFlag: 0
 --- !u!114 &1027184745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1001,28 +972,6 @@ MonoBehaviour:
   c_1: 0
   r: 0
   rflag: 1
---- !u!114 &1027184746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1027184736}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaade52fd42dd344e8de058a62ad4d24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1027184747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1027184736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a77c3ca9d52c51644a2e064243ea25f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &1027184748
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1107,46 +1056,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e065447cfa46709418c7e265ca7f1abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: test
-  session: 1
-  ClickOn: 1
+  ClickOn: 0
   BlockWalls: 0
-  mrd: 175
-  ard: 150
   numRewards: 0
   numRewards_manual: 0
   rewardFlag: 0
   numTraversals: 0
-  numTrialsTotal: 0
-  maxRewards: 200
+  numTrialsTotal: 10
+  maxRewards: 150
   morph: 0
   rDur: 2
-  localDirectory_pre: C:/Users/2PRig/VR_Data/TwoTower/
+  localDirectory_pre: C:\Users\markp\VR_Data\TwoTower\
   serverDirectory_pre: Z:/VR/TwoTower/
   localDirectory: 
   serverDirectory: 
   localPrefix: 
   serverPrefix: 
   sceneName: 
-  rewardFile: 
-  serverRewardFile: 
-  manRewardFile: 
-  serverManRewardFile: 
-  lickFile: 
-  serverLickFile: 
-  posFile: 
-  serverPosFile: 
-  timeSyncFile: 
-  serverTimeSyncFile: 
-  trialOrderFile: 
-  serverTrialOrderFile: 
-  TOFile: 
-  serverTOFile: 
-  TStartFile: 
-  serverTStartFile: 
-  TEndFile: 
-  serverTEndFile: 
-  dirCheck: 0
+  session: 1
+  scanning: 0
 --- !u!4 &1027184753
 Transform:
   m_ObjectHideFlags: 0
@@ -1173,9 +1101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efcb6a2e23368474b87b162bf4928d61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numBaselineTrials: 20
-  numTrainingTrials: 100
-  numTestTrials: 0
+  numBaselineTrials: 0
+  numTrainingTrials: 10
+  numTestTrials: 100
   morphExp: 3
 --- !u!1 &1038239626
 GameObject:

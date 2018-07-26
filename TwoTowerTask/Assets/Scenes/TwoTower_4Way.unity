@@ -3299,6 +3299,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2138137337}
+  - component: {fileID: 2138137325}
   - component: {fileID: 2138137336}
   - component: {fileID: 2138137335}
   - component: {fileID: 2138137334}
@@ -3310,7 +3311,6 @@ GameObject:
   - component: {fileID: 2138137328}
   - component: {fileID: 2138137327}
   - component: {fileID: 2138137326}
-  - component: {fileID: 2138137325}
   - component: {fileID: 2138137324}
   - component: {fileID: 2138137322}
   - component: {fileID: 2138137338}
@@ -3350,6 +3350,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scanning: 0
+  p1_x: 0
+  p1_y: 0
+  p1_z: 0
+  p2_x: 0
+  p2_y: 0
+  p2_z: 0
 --- !u!114 &2138137323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3385,9 +3391,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2138137320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb9a3169cda150241994995ef43342ed, type: 3}
+  m_Script: {fileID: 11500000, guid: d235ebba95fb38a4e84d47b08a48ab6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouse: 4139190.3
+  notes: pre imaging training
+  imaging_region: Null
 --- !u!114 &2138137326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3420,6 +3429,11 @@ MonoBehaviour:
   towerJitter: 0
   wallJitter: 0
   bckgndJitter: 0
+  mRewardFlag: 0
+  rzoneFlag: 0
+  toutzoneFlag: 0
+  tendFlag: 0
+  tstartFlag: 0
 --- !u!114 &2138137328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3553,18 +3567,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e065447cfa46709418c7e265ca7f1abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: test
-  session: 2_postdelay
   ClickOn: 1
   BlockWalls: 0
-  mrd: 175
-  ard: 150
   numRewards: 0
   numRewards_manual: 0
   rewardFlag: 0
   numTraversals: 0
   numTrialsTotal: 0
-  maxRewards: 200
+  maxRewards: 125
   morph: 0
   rDur: 2
   localDirectory_pre: C:\Users\markp\VR_Data\TwoTower\
@@ -3574,25 +3584,8 @@ MonoBehaviour:
   localPrefix: 
   serverPrefix: 
   sceneName: 
-  rewardFile: 
-  serverRewardFile: 
-  manRewardFile: 
-  serverManRewardFile: 
-  lickFile: 
-  serverLickFile: 
-  posFile: 
-  serverPosFile: 
-  timeSyncFile: 
-  serverTimeSyncFile: 
-  trialOrderFile: 
-  serverTrialOrderFile: 
-  TOFile: 
-  serverTOFile: 
-  TStartFile: 
-  serverTStartFile: 
-  TEndFile: 
-  serverTEndFile: 
-  dirCheck: 0
+  session: 0
+  scanning: 0
 --- !u!4 &2138137337
 Transform:
   m_ObjectHideFlags: 0

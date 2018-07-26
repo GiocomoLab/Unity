@@ -3378,6 +3378,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2085917988}
+  - component: {fileID: 2085917990}
   - component: {fileID: 2085917987}
   - component: {fileID: 2085917986}
   - component: {fileID: 2085917985}
@@ -3470,6 +3471,11 @@ MonoBehaviour:
   towerJitter: 0
   wallJitter: 0
   bckgndJitter: 0
+  mRewardFlag: 0
+  rzoneFlag: 0
+  toutzoneFlag: 0
+  tendFlag: 0
+  tstartFlag: 0
 --- !u!114 &2085917979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3603,11 +3609,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e065447cfa46709418c7e265ca7f1abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: 4054011.2
-  session: 1
   ClickOn: 0
-  mrd: 175
-  ard: 150
+  BlockWalls: 0
   numRewards: 0
   numRewards_manual: 0
   rewardFlag: 0
@@ -3623,21 +3626,8 @@ MonoBehaviour:
   localPrefix: 
   serverPrefix: 
   sceneName: 
-  rewardFile: 
-  serverRewardFile: 
-  manRewardFile: 
-  serverManRewardFile: 
-  lickFile: 
-  serverLickFile: 
-  posFile: 
-  serverPosFile: 
-  timeSyncFile: 
-  serverTimeSyncFile: 
-  trialOrderFile: 
-  serverTrialOrderFile: 
-  TOFile: 
-  serverTOFile: 
-  dirCheck: 0
+  session: 1
+  scanning: 0
 --- !u!4 &2085917988
 Transform:
   m_ObjectHideFlags: 0
@@ -3665,3 +3655,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scanning: 0
+  p1_x: 0
+  p1_y: 0
+  p1_z: 0
+  p2_x: 0
+  p2_y: 0
+  p2_z: 0
+--- !u!114 &2085917990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2085917973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d235ebba95fb38a4e84d47b08a48ab6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouse: 
+  notes: 
+  imaging_region: Null
