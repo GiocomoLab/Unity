@@ -19,7 +19,7 @@ public class RR_TwoTower : MonoBehaviour
     public float delta_z;
     public float true_delta_z;
     private float realSpeed = 0.0447f;
-    public float speedBool = 0;
+    public float speedBool = 0; 
     private float startBool = 0;
     //public float servoBool = 0;
     private bool firstFlag = true;
@@ -52,13 +52,13 @@ public class RR_TwoTower : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G)) { startBool = 1; };
 
         // read quadrature encoder
-        _serialPort.Write("\n");
+        _serialPort.Write("\n"); // write a blank line to indicate new frame
         try
         {
-            pulses = int.Parse(_serialPort.ReadLine());
+            pulses = int.Parse(_serialPort.ReadLine()); // read number of clicks from rotary encoder
             //Debug.Log (pulses);
-            true_delta_z = -1f*pulses * realSpeed;
-            delta_z = -1f * speedBool * startBool  * toutBool * pulses * realSpeed;
+            true_delta_z = -1f*pulses * realSpeed; 
+            delta_z = -1f * speedBool * startBool  * toutBool * pulses * realSpeed; // convert to cm
             Vector3 movement = new Vector3(0.0f, 0.0f, delta_z);
             transform.position = transform.position + movement;
 
