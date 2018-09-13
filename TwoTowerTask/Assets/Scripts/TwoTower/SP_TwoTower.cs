@@ -15,6 +15,7 @@ public class SP_TwoTower : MonoBehaviour
     
 
     public bool ClickOn = true;
+    public bool AutoReward = false;
     public bool BlockWalls = false;
 
     public int numRewards = 0;

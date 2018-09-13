@@ -11,8 +11,8 @@ public class SP_RunTrain : MonoBehaviour
 
     
     public string mouse;
-    
 
+    public bool AutoReward = true;
     public float mrd = 30.0f; // minimum reward distance
     public float ard = 10.0f; // additional reward distance
     public bool fixedRewardSchedule = false; // proportion of trials with towers on both sides

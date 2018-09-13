@@ -96,8 +96,8 @@ public class PC_RunTrain : MonoBehaviour
         else if (other.tag == "Reward")
         {
            
-            StartCoroutine(RewardSequence());
-            StartCoroutine(MoveReward());
+            StartCoroutine(RewardSequence(transform.position.z));
+           // StartCoroutine(MoveReward());
 
         }
         else if (other.tag == "Teleport")
@@ -126,7 +126,7 @@ public class PC_RunTrain : MonoBehaviour
     IEnumerator MoveReward()
     {
         float CurrRewardTime = Time.realtimeSinceStartup;
-
+        yield return new WaitForSeconds(.5f);
         if (!sp.fixedRewardSchedule)
         {
 
@@ -145,7 +145,7 @@ public class PC_RunTrain : MonoBehaviour
                 sp.mrd = 300;
             }
         }
-        float zpos = (reward.transform.position.z + sp.mrd) % 400f;
+        float zpos = (reward.transform.position.z + sp.mrd) % 330f;
         reward.transform.position = reward.transform.position + new Vector3(0f, 0f, sp.mrd);
         LastRewardTime = CurrRewardTime;
         yield return null;
@@ -156,18 +156,55 @@ public class PC_RunTrain : MonoBehaviour
         
     }
 
-    IEnumerator RewardSequence()
-    {   // water reward
+   // IEnumerator RewardSequence()
+    //{   // water reward
 
-        cmd = 7; // turn LED on
-        yield return new WaitForSeconds(.5f);
-        cmd = 1;
-        yield return new WaitForSeconds(sp.rDur);
+//        cmd = 7; // turn LED on
+ //       yield return new WaitForSeconds(.5f);
+  //      cmd = 1;
+   //     yield return new WaitForSeconds(sp.rDur);
+    //    cmd = 2;
+     //   yield return new WaitForSeconds(.5f);
+      //  cmd = 0;
+
+//    }
+    IEnumerator RewardSequence(float pos)
+    {   // water reward
+        
+
+        bool counted = true;
+        while ((transform.position.z <= pos + 75))
+        {
+            
+            cmd = 12;
+            if (sp.AutoReward)
+            {
+                if (transform.position.z > pos + 30)
+                {
+                    cmd = 4;
+                    StartCoroutine(MoveReward());
+                    break;
+                   
+                }
+            } else
+            {
+                cmd = 12;
+            }
+
+            if (dl.c_1 > 0)
+            {
+                StartCoroutine(MoveReward());
+                break;
+            }
+            yield return null;
+        }
+        yield return null;
         cmd = 2;
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.1f);
         cmd = 0;
 
     }
+
 
 
     IEnumerator DeliverReward(int r)

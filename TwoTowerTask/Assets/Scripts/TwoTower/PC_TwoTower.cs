@@ -191,28 +191,42 @@ public class PC_TwoTower : MonoBehaviour
     IEnumerator RewardSequence(float pos)
     {   // water reward
         rzoneFlag = 1;
-        if (sp.ClickOn)
-        {
-            cmd = 7;
-            yield return new WaitForSeconds(.01f);
-        }
-        else
-        {
-            yield return new WaitForSeconds(.01f);
-        }
+       // if (sp.ClickOn)
+        //{
+        //    cmd = 7;
+        //    yield return new WaitForSeconds(.01f);
+        //}
+        //else
+        //{
+        //    yield return new WaitForSeconds(.01f);
+        //}
 
 
         bool counted = true;
         while ((transform.position.z <= pos + 75) & (transform.position.z > 100))
         {
-            if (sp.ClickOn)
+            //if (sp.ClickOn)
+            //{
+            //    cmd = 1;
+            //}
+            //else
+            //{
+            //    cmd = 12;
+            //}
+            cmd = 12;
+            if ((sp.AutoReward) & (counted))
             {
-                cmd = 1;
-            }
-            else
+                if (transform.position.z > pos + 50)
+                {
+                    cmd = 4;
+                    counted = false;
+                    LickHistory.Add(.0f);
+                }
+            } else
             {
                 cmd = 12;
             }
+
             if ((dl.c_1 > 0) & (counted))
             {
 
