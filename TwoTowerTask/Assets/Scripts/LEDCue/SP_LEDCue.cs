@@ -20,8 +20,8 @@ public class SP_LEDCue : MonoBehaviour
 
 
     // for saving data
-    public string localDirectory_pre = "C:/Users/2PRig/VR_Data/2AFC_V3/";
-    public string serverDirectory_pre = "Z:/VR/2AFC_V3/";
+    public string localDirectory_pre = "C:/Users/markp/VR_Data/TwoTower/";
+    public string serverDirectory_pre = "G:/My Drive/VR_Data/TwoTower/";
     private string localDirectory;
     private string serverDirectory;
     private string localPrefix;
@@ -115,8 +115,8 @@ public class SP_LEDCue : MonoBehaviour
         _connection = null;
 
         File.Copy(localPrefix + ".sqlite", serverPrefix + ".sqlite", true);
-
-        string sess_connectionString = "Data Source=Z:\\VR\\TwoTower\\behavior.sqlite;Version=3;";
+        
+        string sess_connectionString = "Data Source=G:\\My Drive\\VR_Data\\TwoTower\\behavior.sqlite;Version=3;";
         IDbConnection db_connection;
         db_connection = (IDbConnection)new SqliteConnection(sess_connectionString);
         db_connection.Open();

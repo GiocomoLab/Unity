@@ -2048,22 +2048,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c20f3006146555f4ba5fc6b468d105fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: test
+  mouse: 4139219.4
   AutoReward: 1
-  mrd: 30
+  mrd: 300
   ard: 0
   fixedRewardSchedule: 0
-  MinTrainingDist: 150
+  MinTrainingDist: 300
   MaxTrainingDist: 300
   numRewards: 0
   numRewards_manual: 0
   rewardFlag: 0
   numTraversals: 0
-  numTrialsTotal: 400
-  maxRewards: 10
+  numTrialsTotal: 200
+  maxRewards: 175
   rDur: 2
+  MultiReward: 1
   localDirectory_pre: C:/Users/markp/VR_Data/TwoTower/
-  serverDirectory_pre: Z:/VR/TwoTower/
+  serverDirectory_pre: G:\My Drive\VR_Data\TwoTower\
   localDirectory: 
   serverDirectory: 
   localPrefix: 

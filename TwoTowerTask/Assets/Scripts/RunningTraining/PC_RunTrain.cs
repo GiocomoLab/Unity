@@ -54,7 +54,7 @@ public class PC_RunTrain : MonoBehaviour
 
         StartCoroutine(FlagCheck());
         // put the mouse in the dark tunnel
-        reward.transform.position = reward.transform.position + new Vector3(0.0f, 0.0f, sp.mrd ); ;
+        reward.transform.position = reward.transform.position + new Vector3(0.0f, 0.0f, sp.mrd + UnityEngine.Random.value*sp.ard ); ;
         LastRewardTime = Time.realtimeSinceStartup;
     }
 
@@ -105,7 +105,7 @@ public class PC_RunTrain : MonoBehaviour
             sp.numTraversals += 1;
             tendFlag = 1;
             transform.position = initialPosition;
-            reward.transform.position = new Vector3(0.0f, 0f, sp.mrd);
+            reward.transform.position = new Vector3(0.0f, 0f, sp.mrd +  UnityEngine.Random.value*sp.ard);
             LastRewardTime = Time.realtimeSinceStartup; // to avoid issues with teleports
         }
 
@@ -132,12 +132,12 @@ public class PC_RunTrain : MonoBehaviour
 
             if (CurrRewardTime - LastRewardTime > 20.0f)
             {
-                sp.mrd = Mathf.Max(sp.MinTrainingDist, sp.mrd - 10f);
+                sp.mrd = Mathf.Max(sp.MinTrainingDist, sp.mrd + UnityEngine.Random.value*sp.ard - 10f);
 
             }
             else
             {
-                sp.mrd = Mathf.Min(sp.MaxTrainingDist, sp.mrd + 10f);
+                sp.mrd = Mathf.Min(sp.MaxTrainingDist, sp.mrd + UnityEngine.Random.value*sp.ard + 10f);
             }
 
             if ((sp.mrd > 170f) & (sp.mrd<310))
@@ -145,8 +145,8 @@ public class PC_RunTrain : MonoBehaviour
                 sp.mrd = 300;
             }
         }
-        float zpos = (reward.transform.position.z + sp.mrd) % 330f;
-        reward.transform.position = reward.transform.position + new Vector3(0f, 0f, sp.mrd);
+        //float zpos = (reward.transform.position.z + sp.mrd +sp.ard) % 330f;
+        reward.transform.position = reward.transform.position + new Vector3(0f, 0f, sp.mrd + UnityEngine.Random.value*sp.ard);
         LastRewardTime = CurrRewardTime;
         yield return null;
     }
@@ -173,17 +173,23 @@ public class PC_RunTrain : MonoBehaviour
         
 
         bool counted = true;
-        while ((transform.position.z <= pos + 75))
+        while ((transform.position.z <= pos + 75) & (transform.position.z > 0))
         {
             
             cmd = 12;
-            if (sp.AutoReward)
+            if ((sp.AutoReward) & (counted))
             {
                 if (transform.position.z > pos + 30)
                 {
                     cmd = 4;
-                    StartCoroutine(MoveReward());
-                    break;
+                    if (sp.MultiReward)
+                    {
+                        StartCoroutine(MoveReward());
+                    }
+                    sp.numRewards++;
+                    counted = false;
+                    if (sp.MultiReward) { break;  };
+                    //break;
                    
                 }
             } else
@@ -191,10 +197,16 @@ public class PC_RunTrain : MonoBehaviour
                 cmd = 12;
             }
 
-            if (dl.c_1 > 0)
+            if ((dl.c_1 > 0) & (counted))
             {
-                StartCoroutine(MoveReward());
-                break;
+                if (sp.MultiReward)
+                {
+
+                    StartCoroutine(MoveReward());
+                }
+                counted = false;
+                if (sp.MultiReward) { break; };
+                //break;
             }
             yield return null;
         }

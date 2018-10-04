@@ -29,7 +29,7 @@ public class SP_RunTrain : MonoBehaviour
 
     public float rDur = 2f; // timeout duration between available rewards
 
-
+    public bool MultiReward = true;
     // for saving data
     public string localDirectory_pre = "C:/Users/markp/VR_Data/TwoTower/";
     public string serverDirectory_pre = "Z:/VR/TwoTower/";
@@ -132,7 +132,7 @@ public class SP_RunTrain : MonoBehaviour
 
         File.Copy(localPrefix + ".sqlite", serverPrefix + ".sqlite", true);
 
-        string sess_connectionString = "Data Source=Z:\\VR\\TwoTower\\behavior.sqlite;Version=3;";
+        string sess_connectionString = "Data Source=G:\\My Drive\\VR_Data\\TwoTower\\behavior.sqlite;Version=3;";
         IDbConnection db_connection;
         db_connection = (IDbConnection)new SqliteConnection(sess_connectionString);
         db_connection.Open();

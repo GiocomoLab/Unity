@@ -221,6 +221,7 @@ public class PC_TwoTower : MonoBehaviour
                     cmd = 4;
                     counted = false;
                     LickHistory.Add(.0f);
+                    StartCoroutine(DeliverReward(1));
                 }
             } else
             {

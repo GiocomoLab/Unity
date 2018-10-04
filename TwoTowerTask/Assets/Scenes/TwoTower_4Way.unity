@@ -3568,6 +3568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ClickOn: 1
+  AutoReward: 0
   BlockWalls: 0
   numRewards: 0
   numRewards_manual: 0
@@ -3578,7 +3579,7 @@ MonoBehaviour:
   morph: 0
   rDur: 2
   localDirectory_pre: C:\Users\markp\VR_Data\TwoTower\
-  serverDirectory_pre: Z:/VR/TwoTower/
+  serverDirectory_pre: G:\My Drive\VR_Data\TwoTower\
   localDirectory: 
   serverDirectory: 
   localPrefix: 
