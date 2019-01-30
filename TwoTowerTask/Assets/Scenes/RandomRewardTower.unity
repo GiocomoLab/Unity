@@ -1977,7 +1977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c20f3006146555f4ba5fc6b468d105fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: 4139219.3
+  mouse: 4139224.3
   AutoReward: 0
   mrd: 200
   ard: 170
@@ -1989,7 +1989,7 @@ MonoBehaviour:
   rewardFlag: 0
   numTraversals: 0
   numTrialsTotal: 400
-  maxRewards: 200
+  maxRewards: 10
   rDur: 2
   MultiReward: 0
   localDirectory_pre: C:/Users/markp/VR_Data/TwoTower/

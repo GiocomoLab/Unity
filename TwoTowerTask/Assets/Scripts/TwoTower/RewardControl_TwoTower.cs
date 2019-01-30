@@ -9,6 +9,7 @@ public class RewardControl_TwoTower : MonoBehaviour {
     private GameObject reward1;
     private GameObject player;
     private SP_TwoTower sp;
+    private PC_TwoTower pc;
     
 
     
@@ -20,6 +21,7 @@ public class RewardControl_TwoTower : MonoBehaviour {
     void Start () {
         player = GameObject.Find("Player");
         sp = player.GetComponent<SP_TwoTower>();
+        pc = player.GetComponent<PC_TwoTower>();
         
 
         reward0 = GameObject.Find("Reward0");
@@ -48,7 +50,8 @@ public class RewardControl_TwoTower : MonoBehaviour {
             }
             else
             {
-                if (UnityEngine.Random.value <=.5)
+                if (pc.wallJitter + pc.bckgndJitter < 0)
+                //if (UnityEngine.Random.value <=.5)
                 {
                     reward0.SetActive(true);
                     reward1.SetActive(false);

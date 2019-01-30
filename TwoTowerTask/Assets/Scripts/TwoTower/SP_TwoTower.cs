@@ -46,13 +46,14 @@ public class SP_TwoTower : MonoBehaviour
     private GameObject player;
     private DebiasingAlg_TwoTower dbtt;
     private DebiasingAlg_TwoTower_4Way dbtt_4way;
+    private TrialOrdering_TwoTower tott;
     private RR_TwoTower rr;
     private DL_TwoTower dl;
     private PC_TwoTower pc;
     private SbxTTLs_TwoTower ttls;
     private Notes notes;
-  
 
+    private bool orderBool;
 
     private IDbConnection _connection;
     private IDbCommand _command;
@@ -72,7 +73,17 @@ public class SP_TwoTower : MonoBehaviour
             dbtt_4way = player.GetComponent<DebiasingAlg_TwoTower_4Way>();
         } else
         {
-            dbtt = player.GetComponent<DebiasingAlg_TwoTower>();
+            if (player.GetComponent<TrialOrdering_TwoTower>() != null)
+            {
+                tott = player.GetComponent<TrialOrdering_TwoTower>();
+                orderBool = false;
+            } else
+            {
+                dbtt = player.GetComponent<DebiasingAlg_TwoTower>();
+                
+                orderBool = true;
+            }
+            
         }
         
         rr = player.GetComponent<RR_TwoTower>();
@@ -124,7 +135,7 @@ public class SP_TwoTower : MonoBehaviour
         _command = _connection.CreateCommand();
         _command.CommandText = "create table data (time REAL, morph REAL, trialnum INT, pos REAL, dz REAL, lick INT, reward INT," +
         "tstart INT, teleport INT, rzone INT, toutzone INT, clickOn NUMERIC, blockWalls NUMERIC, towerJitter REAL," +
-        " wallJitter REAL, bckgndJitter REAL, sanning NUMERIC, manrewards INT)";
+        " wallJitter REAL, bckgndJitter REAL, scanning NUMERIC, manrewards INT, cmd INT)";
         _command.ExecuteNonQuery();
 
         // make table for session information
@@ -139,7 +150,15 @@ public class SP_TwoTower : MonoBehaviour
         }
         else
         {
-            _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + dbtt.numBaselineTrials + ", " + dbtt.numTrainingTrials + ", " + dbtt.numTestTrials + ")";
+            if (orderBool)
+            {
+                _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + dbtt.numBaselineTrials + ", " + dbtt.numTrainingTrials + ", " + dbtt.numTestTrials + ")";
+            }
+            else
+            {
+                _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + tott.numBaselineTrials + ", " + tott.numTrainingTrials + ", " + tott.numTestTrials + ")";
+            }
+            
         }
         _command.ExecuteNonQuery();
     }
@@ -148,10 +167,10 @@ public class SP_TwoTower : MonoBehaviour
 
       _command.CommandText = "insert into data (time , morph , trialnum, pos, dz, lick, reward," +
       "tstart, teleport, rzone , toutzone, clickOn, blockWalls, towerJitter," +
-      " wallJitter , bckgndJitter , sanning, manrewards) values (" + Time.realtimeSinceStartup + "," + morph + "," + numTraversals +
+      " wallJitter , bckgndJitter , scanning, manrewards, cmd) values (" + Time.realtimeSinceStartup + "," + morph + "," + numTraversals +
       "," + transform.position.z + "," + rr.true_delta_z + "," + dl.c_1 + "," + dl.r + "," + pc.tstartFlag + "," + pc.tendFlag + "," +
       pc.rzoneFlag + "," + pc.toutzoneFlag + "," + ClickOn + "," + BlockWalls + "," + pc.towerJitter + "," + pc.wallJitter + "," +
-      pc.bckgndJitter + "," + ttls.scanning + "," + pc.mRewardFlag + ")";
+      pc.bckgndJitter + "," + ttls.scanning + "," + pc.mRewardFlag + "," + pc.cmd + ")";
       _command.ExecuteNonQuery();
 
 

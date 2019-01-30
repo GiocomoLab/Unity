@@ -7,7 +7,8 @@ public class ClickControl_TwoTower : MonoBehaviour {
     
     private SP_TwoTower sp;
     private PC_TwoTower pc;
-    private DebiasingAlg_TwoTower to;
+    //private DebiasingAlg_TwoTower to;
+    private TrialOrdering_TwoTower to;
     private GameObject player;
 
 
@@ -22,7 +23,8 @@ public class ClickControl_TwoTower : MonoBehaviour {
         player = GameObject.Find("Player");
         sp = player.GetComponent<SP_TwoTower>();
         pc = player.GetComponent<PC_TwoTower>();
-        to = player.GetComponent<DebiasingAlg_TwoTower>();
+        //to = player.GetComponent<DebiasingAlg_TwoTower>();
+        to = player.GetComponent<TrialOrdering_TwoTower>();
 
         baseline_half = (int) to.numBaselineTrials/2 ;
         baseline_quart = (int)Mathf.Min(to.numBaselineTrials / 4, 10f);
@@ -45,16 +47,19 @@ public class ClickControl_TwoTower : MonoBehaviour {
                 
                 if ((numTraversalsLocal<baseline_quart) | ((numTraversalsLocal>=baseline_half) & (numTraversalsLocal<(baseline_half+baseline_quart))))
                 {
-                    sp.ClickOn = true;
+                    //sp.ClickOn = true;
+                    sp.AutoReward = true;
                 }
                 else if (((numTraversalsLocal>=baseline_quart) & (numTraversalsLocal<baseline_half)) |  (numTraversalsLocal>= (baseline_half+baseline_quart)))
                 {
                     if (numTraversalsLocal % 2 == 0)
                     {
-                        sp.ClickOn = true;
+                        //sp.ClickOn = true;
+                        sp.AutoReward = true;
                     } else
                     {
-                        sp.ClickOn = false;
+                        //sp.ClickOn = false;
+                        sp.AutoReward = false;
                     }
                     
                 }
@@ -63,11 +68,13 @@ public class ClickControl_TwoTower : MonoBehaviour {
             {
                 if (numTraversalsLocal % 2 == 0)
                 {
-                    sp.ClickOn = true;
+                    //sp.ClickOn = true;
+                    sp.AutoReward = true;
                 }
                 else
                 {
-                    sp.ClickOn = false;
+                    //sp.ClickOn = false;
+                    sp.AutoReward = false;
                 }
             }
             else
@@ -75,11 +82,13 @@ public class ClickControl_TwoTower : MonoBehaviour {
 
                 if (numTraversalsLocal % 5 == 0)
                 {
-                    sp.ClickOn = true;
+                    //sp.ClickOn = true;
+                    sp.AutoReward = true;
                 }
                 else
                 {
-                    sp.ClickOn = false;
+                    //sp.ClickOn = false;
+                    sp.AutoReward = false;
                 }
                // sp.ClickOn = false;
             }

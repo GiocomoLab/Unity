@@ -12,6 +12,7 @@ public class RewardControl_TwoTower_Timeout : MonoBehaviour {
     private GameObject player;
     private SP_TwoTower sp;
     private RR_TwoTower rr;
+    private PC_TwoTower pc;
     private DebiasingAlg_TwoTower to;
 
     
@@ -26,6 +27,7 @@ public class RewardControl_TwoTower_Timeout : MonoBehaviour {
         //blackCam = GameObject.Find("Black Camera");
         rr = player.GetComponent<RR_TwoTower>();
         to = player.GetComponent<DebiasingAlg_TwoTower>();
+        pc = player.GetComponent<PC_TwoTower>();
 
         reward0 = GameObject.Find("Reward0");
         reward1 = GameObject.Find("Reward1");
@@ -68,12 +70,13 @@ public class RewardControl_TwoTower_Timeout : MonoBehaviour {
             }
             else
             {
-                if (UnityEngine.Random.value <=.5)
+                if (pc.wallJitter + pc.bckgndJitter < 0)
+                //if (UnityEngine.Random.value <=.5)
                 {
                     reward0.SetActive(true);
                     reward1.SetActive(false);
 
-                    timeout0.SetActive(false);
+                    timeout0.SetActive(true);
                     timeout1.SetActive(false);
                 }
                 else
@@ -82,7 +85,7 @@ public class RewardControl_TwoTower_Timeout : MonoBehaviour {
                     reward1.SetActive(true);
 
                     timeout0.SetActive(false);
-                    timeout1.SetActive(false);
+                    timeout1.SetActive(true);
                 }
             }
             

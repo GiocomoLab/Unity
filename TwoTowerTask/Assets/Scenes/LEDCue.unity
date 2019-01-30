@@ -568,7 +568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaddf878a1eda3a47bc73f578e14dc34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: tets
+  mouse: test
   numRewards: 10
   numRewards_manual: 0
   rewardFlag: 0

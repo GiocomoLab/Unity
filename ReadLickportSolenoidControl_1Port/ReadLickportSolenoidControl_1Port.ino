@@ -76,7 +76,7 @@ void loop()
 {
   
   if ((L_pin_state == HIGH)){
-     if (millis()-L_reward_timer>50) {
+     if (millis()-L_reward_timer>100) {
       digitalWrite(L_pin, LOW);
       L_pin_state = LOW;
      }   
