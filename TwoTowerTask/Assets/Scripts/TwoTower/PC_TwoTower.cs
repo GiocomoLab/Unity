@@ -16,6 +16,9 @@ public class PC_TwoTower : MonoBehaviour
     private GameObject reward;
     private GameObject blackCam;
     private GameObject panoCam;
+    private GameObject reward0;
+    private GameObject reward1;
+
 
     private Rigidbody rb;
 
@@ -32,7 +35,7 @@ public class PC_TwoTower : MonoBehaviour
     private static bool created = false;
     private int r;
     private int r_last = 0;
-    private bool rflag = true;
+    //private bool rflag = true;
 
     public int cmd = 2;
     private bool flashFlag = false;
@@ -64,6 +67,8 @@ public class PC_TwoTower : MonoBehaviour
         sp = player.GetComponent<SP_TwoTower>();
         rotary = player.GetComponent<RR_TwoTower>();
         dl = player.GetComponent<DL_TwoTower>();
+        reward0 = GameObject.Find("Reward0");
+        reward1 = GameObject.Find("Reward1");
 
 
 
@@ -120,15 +125,15 @@ public class PC_TwoTower : MonoBehaviour
 
         if (other.tag == "Reward")
         {
-            if (rflag)
-            {
-                StartCoroutine(RewardSequence(transform.position.z));
-            }
+           // if (rflag)
+           // {
+           StartCoroutine(RewardSequence(transform.position.z));
+            //}
             
         }
         else if (other.tag == "Teleport")
         {
-            rflag = true;
+            //rflag = true;
             towerJitter = .2f * (UnityEngine.Random.value - .5f);
             wallJitter = .2f * (UnityEngine.Random.value - .5f);
             bckgndJitter = .2f * (UnityEngine.Random.value - .5f);
@@ -146,13 +151,13 @@ public class PC_TwoTower : MonoBehaviour
         else if (other.tag == "Start")
         {
             tstartFlag = 1;
-            rflag = true;
+            //rflag = true;
         }
         else if (other.tag == "Timeout")
         {
             //if (sp.morph != .5f)
             //{
-                StartCoroutine(TimeoutSequence(transform.position.z));
+            StartCoroutine(TimeoutSequence(transform.position.z));
             //}
         }
         else if (other.tag == "Delay")
@@ -205,23 +210,24 @@ public class PC_TwoTower : MonoBehaviour
         //    StartCoroutine(DeliverReward(5));
         //}
 
-        bool counted = true;
-        while ((transform.position.z <= pos + 75) & (transform.position.z > 100) & (counted) & (rflag))
+        //bool counted = true;
+        while ((transform.position.z <= pos + 75) & (transform.position.z > 100)) // & (rflag))  //& (counted)
         {
             
             
-            if ((sp.AutoReward) & (counted) )
+            if ((sp.AutoReward)) // & (counted) )
             {
      
                 if (transform.position.z > pos + 50)
                 {
                     cmd = 4;
-                    counted = false;
-                    rflag = false;
+                    //counted = false;
+                    //rflag = false;
                     yield return new WaitForSeconds(.01f);
                     cmd = 0;
                     LickHistory.Add(.0f);
                     StartCoroutine(DeliverReward(1));
+                    break;
                    
                 }
                 else
@@ -233,10 +239,10 @@ public class PC_TwoTower : MonoBehaviour
                 cmd = 12;
             }
 
-            if ((dl.c_1 > 0) & (counted))
+            if ((dl.c_1 > 0))// & (counted))
             {
-                counted = false;
-                rflag = false;
+                //counted = false;
+                //rflag = false;
 
                 if (sp.morph == 0)
                 {
@@ -254,11 +260,12 @@ public class PC_TwoTower : MonoBehaviour
                     LickHistory.Add(.0f);
                 }
                 //LickHistory.Add(0f);
-                
+                break;
             }
             yield return null;
         }
         yield return null;
+        reward0.SetActive(false); reward1.SetActive(false);
         cmd = 2;
         rzoneFlag = 0;
         yield return new WaitForSeconds(.1f);
@@ -308,7 +315,7 @@ public class PC_TwoTower : MonoBehaviour
                 towerJitter = .2f * (UnityEngine.Random.value - .5f);
                 wallJitter = .2f * (UnityEngine.Random.value - .5f);
                 bckgndJitter = .2f * (UnityEngine.Random.value - .5f);
-                rflag = true;
+               // rflag = true;
                 // avoid .5 timeout just end trial
                 if (NoSkipTO)
                 {

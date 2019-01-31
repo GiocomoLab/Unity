@@ -68,11 +68,11 @@ public class PC_RunTrain : MonoBehaviour
         if (sp.numTraversals >= sp.numTrialsTotal | sp.numRewards>= sp.maxRewards)
         {
             UnityEditor.EditorApplication.isPlaying = false;
-            //Application.Quit();
+            
             
         }
 
-        if (dl.r > 0 ) { StartCoroutine(DeliverReward(dl.r)); sp.numRewards++; dl.r = 0; }; // deliver appropriate reward
+        //if (dl.r > 0 ) { StartCoroutine(DeliverReward(dl.r)); sp.numRewards++; dl.r = 0; }; // deliver appropriate reward
 
         // manual rewards and punishments
         mRewardFlag = 0;
@@ -102,6 +102,7 @@ public class PC_RunTrain : MonoBehaviour
         }
         else if (other.tag == "Teleport")
         {
+            reward.SetActive(true);
             sp.numTraversals += 1;
             tendFlag = 1;
             transform.position = initialPosition;
@@ -156,28 +157,17 @@ public class PC_RunTrain : MonoBehaviour
         
     }
 
-   // IEnumerator RewardSequence()
-    //{   // water reward
-
-//        cmd = 7; // turn LED on
- //       yield return new WaitForSeconds(.5f);
-  //      cmd = 1;
-   //     yield return new WaitForSeconds(sp.rDur);
-    //    cmd = 2;
-     //   yield return new WaitForSeconds(.5f);
-      //  cmd = 0;
-
-//    }
+  
     IEnumerator RewardSequence(float pos)
     {   // water reward
-        
 
-        bool counted = true;
+       // Debug.Log("Reward");
+       // bool counted = true;
         while ((transform.position.z <= pos + 75) & (transform.position.z > 0))
         {
-            
+            Debug.Log(cmd);
             cmd = 12;
-            if ((sp.AutoReward) & (counted))
+            if ((sp.AutoReward))// & (counted))
             {
                 if (transform.position.z > pos + 30)
                 {
@@ -187,8 +177,8 @@ public class PC_RunTrain : MonoBehaviour
                         StartCoroutine(MoveReward());
                     }
                     sp.numRewards++;
-                    counted = false;
-                    if (sp.MultiReward) { break;  };
+                    //counted = false;
+                    break; // if (sp.MultiReward) { break;  };
                     //break;
                    
                 }
@@ -197,20 +187,24 @@ public class PC_RunTrain : MonoBehaviour
                 cmd = 12;
             }
 
-            if ((dl.c_1 > 0) & (counted))
+            if ((dl.c_1 > 0))// & (counted))
             {
                 if (sp.MultiReward)
                 {
 
                     StartCoroutine(MoveReward());
                 }
-                counted = false;
-                if (sp.MultiReward) { break; };
-                //break;
+                else
+                {
+                    reward.SetActive(false);
+                }
+                //counted = false;
+                //if (sp.MultiReward) { break; };
+                break;
             }
             yield return null;
         }
-        yield return null;
+        yield return new WaitForSeconds(.1f);
         cmd = 2;
         yield return new WaitForSeconds(.1f);
         cmd = 0;
