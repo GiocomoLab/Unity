@@ -59,6 +59,7 @@ public class DL_TwoTower : MonoBehaviour
             lick_raw = _serialPort.ReadLine();
             string[] lick_list = lick_raw.Split('\t');
             c_1 = int.Parse(lick_list[0]);
+            
             r = int.Parse(lick_list[1]);
 
 

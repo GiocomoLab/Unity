@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Clean.unity
+- path: Assets/Scenes/TwoTower_foraging.unity
   isLoaded: 1
   isActive: 1

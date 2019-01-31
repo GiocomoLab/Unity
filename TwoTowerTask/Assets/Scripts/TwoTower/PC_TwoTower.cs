@@ -146,6 +146,7 @@ public class PC_TwoTower : MonoBehaviour
         else if (other.tag == "Start")
         {
             tstartFlag = 1;
+            rflag = true;
         }
         else if (other.tag == "Timeout")
         {

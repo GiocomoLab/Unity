@@ -12,9 +12,9 @@ public class SP_TwoTower : MonoBehaviour
 
     //public bool saveData = true;
     private string mouse;
-    
 
-    public bool ClickOn = true;
+    public float ForagingSkipTrialPcnt = 0.0f;
+    public bool ClickOn = false;
     public bool AutoReward = false;
     public bool BlockWalls = false;
 

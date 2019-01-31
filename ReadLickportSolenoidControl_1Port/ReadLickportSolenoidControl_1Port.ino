@@ -19,7 +19,7 @@ long start = 0;
 
 int incomingByte = 0;  // cmd coming in from Unity
 
-const int L_pin = 4;
+const int L_pin = 5;
 const int slider_pin = 7; // slide table
 const int led_pin = 9;
 const int puff_pin = 8; 
