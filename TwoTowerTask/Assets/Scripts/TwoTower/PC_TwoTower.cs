@@ -13,11 +13,14 @@ public class PC_TwoTower : MonoBehaviour
 
 
     private GameObject player;
-    private GameObject reward;
+    
     private GameObject blackCam;
     private GameObject panoCam;
     private GameObject reward0;
     private GameObject reward1;
+    private GameObject reward;
+    
+    
 
 
     private Rigidbody rb;
@@ -67,8 +70,19 @@ public class PC_TwoTower : MonoBehaviour
         sp = player.GetComponent<SP_TwoTower>();
         rotary = player.GetComponent<RR_TwoTower>();
         dl = player.GetComponent<DL_TwoTower>();
-        reward0 = GameObject.Find("Reward0");
-        reward1 = GameObject.Find("Reward1");
+        Debug.Log(sp.sceneName);
+        if (sp.sceneName == "TwoTower_foraging")
+        {
+           
+            reward = GameObject.Find("Reward");
+        }
+        else
+        {
+            
+            reward0 = GameObject.Find("Reward0");
+            reward1 = GameObject.Find("Reward1");
+        }
+        
 
 
 
@@ -134,6 +148,7 @@ public class PC_TwoTower : MonoBehaviour
         else if (other.tag == "Teleport")
         {
             //rflag = true;
+           
             towerJitter = .2f * (UnityEngine.Random.value - .5f);
             wallJitter = .2f * (UnityEngine.Random.value - .5f);
             bckgndJitter = .2f * (UnityEngine.Random.value - .5f);
@@ -150,7 +165,9 @@ public class PC_TwoTower : MonoBehaviour
         }
         else if (other.tag == "Start")
         {
+            cmd = 0;
             tstartFlag = 1;
+            
             //rflag = true;
         }
         else if (other.tag == "Timeout")
@@ -158,6 +175,7 @@ public class PC_TwoTower : MonoBehaviour
             //if (sp.morph != .5f)
             //{
             StartCoroutine(TimeoutSequence(transform.position.z));
+
             //}
         }
         else if (other.tag == "Delay")
@@ -265,11 +283,24 @@ public class PC_TwoTower : MonoBehaviour
             yield return null;
         }
         yield return null;
-        reward0.SetActive(false); reward1.SetActive(false);
-        cmd = 2;
+        if (sp.sceneName == "TwoTower_foraging")
+        {
+            
+            reward.SetActive(false);
+        }
+        else
+        {
+           
+            reward0.SetActive(false); reward1.SetActive(false);
+        }
+        
+        
+        
+        
+        //cmd = 2;
         rzoneFlag = 0;
         yield return new WaitForSeconds(.1f);
-        cmd = 0;
+        cmd = 2;
 
     }
 
