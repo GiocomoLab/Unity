@@ -72,7 +72,7 @@ public class PC_RunTrain : MonoBehaviour
             
         }
 
-        //if (dl.r > 0 ) { StartCoroutine(DeliverReward(dl.r)); sp.numRewards++; dl.r = 0; }; // deliver appropriate reward
+        if (dl.r > 0 ) { StartCoroutine(DeliverReward(dl.r)); sp.numRewards++; dl.r = 0; }; // deliver appropriate reward
 
         // manual rewards and punishments
         mRewardFlag = 0;

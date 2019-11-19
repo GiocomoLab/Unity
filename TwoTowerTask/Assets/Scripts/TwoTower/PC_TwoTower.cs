@@ -8,6 +8,7 @@ using System.Threading;
 
 
 
+
 public class PC_TwoTower : MonoBehaviour
 {
 
@@ -125,6 +126,7 @@ public class PC_TwoTower : MonoBehaviour
         {
             mRewardFlag = 1;
             StartCoroutine(DeliverReward(4));
+            sp.numRewards += 1;
 
         }
 
@@ -152,6 +154,8 @@ public class PC_TwoTower : MonoBehaviour
             towerJitter = .2f * (UnityEngine.Random.value - .5f);
             wallJitter = .2f * (UnityEngine.Random.value - .5f);
             bckgndJitter = .2f * (UnityEngine.Random.value - .5f);
+            
+
 
 
             sp.numTraversals += 1;
@@ -233,41 +237,45 @@ public class PC_TwoTower : MonoBehaviour
         {
             
             
-            if ((sp.AutoReward)) // & (counted) )
+            if ((sp.AutoReward) & (transform.position.z > pos + 50)) // & (counted) )
             {
      
-                if (transform.position.z > pos + 50)
-                {
-                    cmd = 4;
-                    //counted = false;
-                    //rflag = false;
-                    yield return new WaitForSeconds(.01f);
-                    cmd = 0;
-                    LickHistory.Add(.0f);
-                    StartCoroutine(DeliverReward(1));
-                    break;
+               // if (transform.position.z > pos + 50)
+                //{
+                cmd = 4;
+                //counted = false;
+                //rflag = false;
+                    
+                // yield return new WaitForSeconds(.01f);
+                //cmd = 0;
+                LickHistory.Add(.0f);
+                StartCoroutine(DeliverReward(1));
+                sp.numRewards += 1;
+                yield return new WaitForEndOfFrame();
+                break;
                    
-                }
-                else
-                {
-                    cmd = 12;
-                }
-            } else
-            {
-                cmd = 12;
+                //}
+               // else
+                //{
+                //    cmd = 12;
+                //}
+           // } else
+            //{
+             //   cmd = 12;
             }
 
             if ((dl.c_1 > 0))// & (counted))
             {
-                //counted = false;
-                //rflag = false;
-
-                if (sp.morph == 0)
+                    //counted = false;
+                    //rflag = false;
+                cmd = 4;
+                sp.numRewards += 1;
+                if (sp.morph + wallJitter + bckgndJitter<=.5) //(sp.morph == 0)
                 {
 
                     LickHistory.Add(-1f); //.66f);
                 }
-                else if (sp.morph == 1)
+                else if (sp.morph + wallJitter + bckgndJitter>.5) //(sp.morph == 1)
                 {
 
                     LickHistory.Add(1f); //.33f);
@@ -278,11 +286,17 @@ public class PC_TwoTower : MonoBehaviour
                     LickHistory.Add(.0f);
                 }
                 //LickHistory.Add(0f);
+                yield return new WaitForEndOfFrame();
                 break;
             }
-            yield return null;
+            yield return new WaitForEndOfFrame();
+           // yield return null;
         }
-        yield return null;
+        //yield return new WaitForEndOfFrame();
+        //cmd = 2;
+        //yield return new WaitForSeconds(.1f);
+
+        //yield return null;
         if (sp.sceneName == "TwoTower_foraging")
         {
             
@@ -299,7 +313,8 @@ public class PC_TwoTower : MonoBehaviour
         
         //cmd = 2;
         rzoneFlag = 0;
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForEndOfFrame();
+        //yield return new WaitForSeconds(.1f);
         cmd = 2;
 
     }
@@ -343,10 +358,13 @@ public class PC_TwoTower : MonoBehaviour
                 sp.numTraversals += 1;
                 cmd = 2;
                 bckgndOn = true;
+                
+
                 towerJitter = .2f * (UnityEngine.Random.value - .5f);
                 wallJitter = .2f * (UnityEngine.Random.value - .5f);
                 bckgndJitter = .2f * (UnityEngine.Random.value - .5f);
-               // rflag = true;
+                
+                // rflag = true;
                 // avoid .5 timeout just end trial
                 if (NoSkipTO)
                 {
@@ -396,13 +414,13 @@ public class PC_TwoTower : MonoBehaviour
         if (r == 1) // reward left
         {
             prevReward = 1;
-            sp.numRewards += 1;
+            //sp.numRewards += 1;
             yield return null;
         }
         else if (r ==4)
         {
             cmd = 4;
-            sp.numRewards += 1;
+            //sp.numRewards += 1;
             yield return new WaitForSeconds(0.01f);
             cmd = 0;
         }

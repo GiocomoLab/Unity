@@ -19,7 +19,7 @@ long start = 0;
 
 int incomingByte = 0;  // cmd coming in from Unity
 
-const int L_pin = 5;
+const int L_pin = 2;
 const int slider_pin = 7; // slide table
 const int led_pin = 9;
 const int puff_pin = 8; 
@@ -124,6 +124,7 @@ void loop()
           
       digitalWrite(ttl1,HIGH);
       digitalWrite(ttl1,LOW);
+      scan_flag=0;
           //ttl1_state = HIGH;
          // ttl1_timer = millis();
       break;
@@ -182,9 +183,12 @@ void loop()
       break;
 
    case 4: // auto reward 
-      L_pin_state = HIGH;
-      digitalWrite(L_pin,HIGH);
-      L_reward_timer = millis();
+      if (L_pin_state==LOW){
+        L_pin_state = HIGH;
+        digitalWrite(L_pin,HIGH);
+        L_reward_timer = millis();
+        r=1;
+      }
       break;
 
    
@@ -207,11 +211,11 @@ void loop()
 
       
    case 9: // start collecting ttl0's for syncing
-      if (scan_flag>0) {
-        scan_flag = 0;
-      } else {
+      //if (scan_flag>0) {
+      //  scan_flag = 0;
+      //} else {
         scan_flag = 1;
-      }
+      //}
       
       break;
 

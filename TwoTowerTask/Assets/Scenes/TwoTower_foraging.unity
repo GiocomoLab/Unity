@@ -2745,6 +2745,7 @@ GameObject:
   - component: {fileID: 1842636318}
   - component: {fileID: 1842636317}
   - component: {fileID: 1842636304}
+  - component: {fileID: 1842636305}
   - component: {fileID: 1842636315}
   - component: {fileID: 1842636314}
   - component: {fileID: 1842636313}
@@ -2755,7 +2756,6 @@ GameObject:
   - component: {fileID: 1842636308}
   - component: {fileID: 1842636307}
   - component: {fileID: 1842636306}
-  - component: {fileID: 1842636305}
   - component: {fileID: 1842636302}
   - component: {fileID: 1842636301}
   - component: {fileID: 1842636303}
@@ -2801,7 +2801,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1842636300}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41ca1488ea9d21d43b9397bc342d874f, type: 3}
   m_Name: 
@@ -2817,20 +2817,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e065447cfa46709418c7e265ca7f1abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForagingSkipTrialPcnt: 0
+  ForagingSkipTrialPcnt: 0.2
   ClickOn: 0
-  AutoReward: 0
+  AutoReward: 1
   BlockWalls: 0
   numRewards: 0
   numRewards_manual: 0
   rewardFlag: 0
   numTraversals: 0
-  numTrialsTotal: 0
-  maxRewards: 70
+  numTrialsTotal: 100
+  maxRewards: 50
   morph: 0
   rDur: 2
   localDirectory_pre: C:/Users/markp/VR_Data/TwoTower/
-  serverDirectory_pre: G:\My Drive\VR_Data\TwoTower
+  serverDirectory_pre: G:\My Drive\VR_Data\TwoTower\
   localDirectory: 
   serverDirectory: 
   localPrefix: 
@@ -3024,9 +3024,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d235ebba95fb38a4e84d47b08a48ab6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: 4139260.2
-  notes: 
-  imaging_region: CA1
+  mouse: 4343701.4
+  notes: rare morph
+  imaging_region: RSC
 --- !u!4 &1842636318
 Transform:
   m_ObjectHideFlags: 0

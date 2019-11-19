@@ -148,11 +148,15 @@ public class SbxTTLs_TwoTower : MonoBehaviour
 
         scanning = true; sp.scanning = 1;
         pc.cmd = 8;
+        yield return new WaitForEndOfFrame();
         yield return new WaitForSeconds(.01f);
+        //yield return new WaitForSeconds(.01f);
         pc.cmd = 0;
         yield return new WaitForSeconds(10f);
         pc.cmd = 9;
-        yield return new WaitForSeconds(.01f);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        //yield return new WaitForSeconds(.01f);
         pc.cmd = 0;
         Debug.Log("Press G to Start!");
 

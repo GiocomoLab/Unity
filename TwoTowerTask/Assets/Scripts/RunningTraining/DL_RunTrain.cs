@@ -10,7 +10,7 @@ public class DL_RunTrain : MonoBehaviour
 {
 
 
-    public string port = "COM3";
+    public string port = "COM7";
     private SerialPort _serialPort;
     private int delay;
     private string lick_raw;

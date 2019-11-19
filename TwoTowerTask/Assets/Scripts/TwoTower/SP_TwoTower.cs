@@ -46,6 +46,7 @@ public class SP_TwoTower : MonoBehaviour
     private GameObject player;
     private DebiasingAlg_TwoTower dbtt;
     private DebiasingAlg_TwoTower_4Way dbtt_4way;
+    private DebiasingAlg_FreqMorph dbfm;
     private TrialOrdering_TwoTower tott;
     private RR_TwoTower rr;
     private DL_TwoTower dl;
@@ -71,6 +72,9 @@ public class SP_TwoTower : MonoBehaviour
         if (sceneName=="TwoTower_4Way")
         {
             dbtt_4way = player.GetComponent<DebiasingAlg_TwoTower_4Way>();
+        } else if (sceneName == "FreqMorph_Decision")
+        {
+            dbfm = player.GetComponent<DebiasingAlg_FreqMorph>();
         } else
         {
             if (player.GetComponent<TrialOrdering_TwoTower>() != null)
@@ -144,23 +148,26 @@ public class SP_TwoTower : MonoBehaviour
         _command.CommandText = "create table trialInfo (baseline INT, training INT, test INT)";
         _command.ExecuteNonQuery();
 
-        if (sceneName == "TwoTower_4Way")
-        {
-            _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + dbtt_4way.numBaselineTrials + ", " + dbtt_4way.numTrainingTrials + ", " + dbtt_4way.numTestTrials + ")";
-        }
-        else
-        {
-            if (orderBool)
-            {
-                _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + dbtt.numBaselineTrials + ", " + dbtt.numTrainingTrials + ", " + dbtt.numTestTrials + ")";
-            }
-            else
-            {
-                _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + tott.numBaselineTrials + ", " + tott.numTrainingTrials + ", " + tott.numTestTrials + ")";
-            }
+       // if (sceneName == "TwoTower_4Way")
+        //{
+        //    _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + dbtt_4way.numBaselineTrials + ", " + dbtt_4way.numTrainingTrials + ", " + dbtt_4way.numTestTrials + ")";
+        //}
+        //else if (sceneName == "FreqMorph_Decision")
+       // {
+        //    _command.CommandText = "insert into trialInfo (baseline, training, test) values ( 0 , " + dbfm.numTrainingTrials + ", " + db.numTestTrials + ")";
+        //} else 
+        //{
+         //   if (orderBool)
+           // {
+            //    _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + dbtt.numBaselineTrials + ", " + dbtt.numTrainingTrials + ", " + dbtt.numTestTrials + ")";
+           // }
+            //else
+            //{
+             //   _command.CommandText = "insert into trialInfo (baseline, training, test) values (" + tott.numBaselineTrials + ", " + tott.numTrainingTrials + ", " + tott.numTestTrials + ")";
+           // }
             
-        }
-        _command.ExecuteNonQuery();
+       // }
+        //_command.ExecuteNonQuery();
     }
 
     void LateUpdate() {

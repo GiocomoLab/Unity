@@ -486,7 +486,7 @@ MonoBehaviour:
   repetitions: 100000
   min: -250
   max: 250
-  slope: -1
+  slope: 0
 --- !u!4 &1040609315
 Transform:
   m_ObjectHideFlags: 0
@@ -531,7 +531,7 @@ MonoBehaviour:
   repetitions: 100000
   min: -250
   max: 250
-  slope: 0.3
+  slope: 0
 --- !u!4 &1092893275
 Transform:
   m_ObjectHideFlags: 0
@@ -761,7 +761,7 @@ MonoBehaviour:
   repetitions: 100000
   min: -250
   max: 250
-  slope: -3.2
+  slope: 0
 --- !u!4 &1681986712
 Transform:
   m_ObjectHideFlags: 0

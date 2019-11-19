@@ -1110,6 +1110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e065447cfa46709418c7e265ca7f1abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForagingSkipTrialPcnt: 0
   ClickOn: 0
   AutoReward: 0
   BlockWalls: 0
@@ -1118,7 +1119,7 @@ MonoBehaviour:
   rewardFlag: 0
   numTraversals: 0
   numTrialsTotal: 0
-  maxRewards: 90
+  maxRewards: 30
   morph: 0
   rDur: 2
   localDirectory_pre: C:\Users\markp\VR_Data\TwoTower\
@@ -1142,7 +1143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouse: 4139261.1
-  notes: morph session
+  notes: 
   imaging_region: CA1
 --- !u!4 &603428500
 Transform:
@@ -1170,8 +1171,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numBaselineTrials: 0
-  numTrainingTrials: 0
-  numTestTrials: 90
+  numTrainingTrials: 60
+  numTestTrials: 0
   morphPcnt: 0.5
   trialOrder: []
 --- !u!114 &603428502

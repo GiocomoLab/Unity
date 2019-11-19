@@ -9,7 +9,7 @@ using System.Threading;
 public class Clean1Port : MonoBehaviour
 {
 
-    public string port = "COM3";
+    public string port = "COM9";
     private SerialPort _serialPort;
     private int delay;
     private int cmd = 5;
@@ -30,6 +30,7 @@ public class Clean1Port : MonoBehaviour
         try
         {
             tmp = _serialPort.ReadLine();
+           
         }
         catch (TimeoutException)
         {

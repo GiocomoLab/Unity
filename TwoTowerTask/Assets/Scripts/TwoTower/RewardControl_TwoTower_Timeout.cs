@@ -26,7 +26,7 @@ public class RewardControl_TwoTower_Timeout : MonoBehaviour {
         sp = player.GetComponent<SP_TwoTower>();
         //blackCam = GameObject.Find("Black Camera");
         rr = player.GetComponent<RR_TwoTower>();
-        to = player.GetComponent<DebiasingAlg_TwoTower>();
+       // to = player.GetComponent<DebiasingAlg_TwoTower>();
         pc = player.GetComponent<PC_TwoTower>();
 
         reward0 = GameObject.Find("Reward0");
@@ -45,27 +45,27 @@ public class RewardControl_TwoTower_Timeout : MonoBehaviour {
 
             
 
-            if (morph<.5)
+            if (morph + pc.wallJitter + pc.bckgndJitter < .5)
             {
                 reward0.SetActive(true);
                 reward1.SetActive(false);
 
-                if (numTraversalsLocal >= to.numBaselineTrials)
-                {
-                    timeout0.SetActive(true);
-                }
+                //if (numTraversalsLocal >= to.numBaselineTrials)
+                //{
+                timeout0.SetActive(true);
+                //}
                 timeout1.SetActive(false);
             }
-            else if (morph > .5)
+            else if (morph + pc.wallJitter + pc.bckgndJitter >= .5)
             {
                 reward0.SetActive(false);
                 reward1.SetActive(true);
 
                 timeout0.SetActive(false);
-                if (numTraversalsLocal >= to.numBaselineTrials)
-                {
-                    timeout1.SetActive(true);
-                }
+                //if (numTraversalsLocal >= to.numBaselineTrials)
+                //{
+                timeout1.SetActive(true);
+                //}
                     
             }
             else
