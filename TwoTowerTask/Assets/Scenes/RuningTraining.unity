@@ -1918,11 +1918,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c20f3006146555f4ba5fc6b468d105fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: 4343701.4
-  AutoReward: 1
+  mouse: 4343707
+  AutoReward: 0
   mrd: 300
   ard: 0
-  fixedRewardSchedule: 0
+  fixedRewardSchedule: 1
   MinTrainingDist: 30
   MaxTrainingDist: 300
   numRewards: 0
@@ -1930,7 +1930,7 @@ MonoBehaviour:
   rewardFlag: 0
   numTraversals: 0
   numTrialsTotal: 400
-  maxRewards: 200
+  maxRewards: 50
   rDur: 2
   MultiReward: 1
   localDirectory_pre: C:\Users\markp\VR_Data\TwoTower\

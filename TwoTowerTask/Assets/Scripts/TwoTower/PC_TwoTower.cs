@@ -205,12 +205,12 @@ public class PC_TwoTower : MonoBehaviour
         rotary.toutBool = 0f;
         if (prevReward == 0) // omission
         {
-            yield return new WaitForSeconds(10f); // 7f);
+            yield return new WaitForSeconds(5f + UnityEngine.Random.value * 5f); // 10f); // 7f);
 
         }
         else
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f + UnityEngine.Random.value*4f);
         }
 
         rotary.toutBool = 1f;

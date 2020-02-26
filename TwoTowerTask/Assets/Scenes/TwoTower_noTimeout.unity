@@ -696,7 +696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d235ebba95fb38a4e84d47b08a48ab6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: 4222169.4
+  mouse: 4343707
   notes: 
   imaging_region: CA1
 --- !u!114 &439616908
@@ -785,7 +785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e065447cfa46709418c7e265ca7f1abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForagingSkipTrialPcnt: 0
+  ForagingSkipTrialPcnt: 0.1
   ClickOn: 1
   AutoReward: 0
   BlockWalls: 0
@@ -793,9 +793,9 @@ MonoBehaviour:
   numRewards_manual: 0
   rewardFlag: 0
   numTraversals: 0
-  numTrialsTotal: 50
-  maxRewards: 120
-  morph: 1
+  numTrialsTotal: 20
+  maxRewards: 100
+  morph: 0
   rDur: 2
   localDirectory_pre: C:\Users\markp\VR_Data\TwoTower\
   serverDirectory_pre: G:\My Drive\VR_Data\TwoTower\

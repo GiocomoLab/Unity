@@ -37,31 +37,40 @@ public class RewardControl_TwoTower : MonoBehaviour {
             morph = sp.morph;
 
             
-
-            if (morph<.5)
-            {
-                reward0.SetActive(true);
-                reward1.SetActive(false);
-            }
-            else if (morph > .5)
+            if (UnityEngine.Random.value <= sp.ForagingSkipTrialPcnt)
             {
                 reward0.SetActive(false);
-                reward1.SetActive(true);
+                reward1.SetActive(false);
             }
             else
             {
-                if (pc.wallJitter + pc.bckgndJitter < 0)
-                //if (UnityEngine.Random.value <=.5)
+
+                if (morph < .5)
                 {
                     reward0.SetActive(true);
                     reward1.SetActive(false);
                 }
-                else
+                else if (morph > .5)
                 {
                     reward0.SetActive(false);
                     reward1.SetActive(true);
                 }
+                else
+                {
+                    if (pc.wallJitter + pc.bckgndJitter < 0)
+                    //if (UnityEngine.Random.value <=.5)
+                    {
+                        reward0.SetActive(true);
+                        reward1.SetActive(false);
+                    }
+                    else
+                    {
+                        reward0.SetActive(false);
+                        reward1.SetActive(true);
+                    }
+                }
             }
+            
             
 
         }
